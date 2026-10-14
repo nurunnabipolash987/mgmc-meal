@@ -5,4 +5,4 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "mgmc-db"
-database_id = "PLACEHOLDER"
+database_id = "d39e1bf1-b267-49b4-b727-e93e6794fb1e"
