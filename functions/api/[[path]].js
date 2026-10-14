@@ -5,6 +5,7 @@ export async function onRequest(context) {
   const path = url.pathname.replace('/api', '');
 
   const headers = {
+    'X-Worker-Version': 'v2-token-check',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, X-App-Token',
