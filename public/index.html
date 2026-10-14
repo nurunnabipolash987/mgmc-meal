@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6366f1">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3E%3Cstop%20offset='0%25'%20stop-color='%236366f1'/%3E%3Cstop%20offset='100%25'%20stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='100'%20height='100'%20rx='22'%20fill='url(%23g)'/%3E%3Ctext%20x='50'%20y='55'%20font-size='62'%20text-anchor='middle'%20dominant-baseline='middle'%20font-family='Apple%20Color%20Emoji,Segoe%20UI%20Emoji,sans-serif'%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3E%3Cstop%20offset='0%25'%20stop-color='%236366f1'/%3E%3Cstop%20offset='100%25'%20stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='100'%20height='100'%20rx='22'%20fill='url(%23g)'/%3E%3Ctext%20x='50'%20y='55'%20font-size='62'%20text-anchor='middle'%20dominant-baseline='middle'%20font-family='Apple%20Color%20Emoji,Segoe%20UI%20Emoji,sans-serif'%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <title>MGMC Meal Management</title>
 <style>
 :root{
@@ -47,6 +49,19 @@ button,input,select,textarea{font-family:inherit;font-size:15px}
   border:1.5px solid rgba(255,255,255,.3)}
 .brand h1{font-size:22px;margin-top:14px;font-weight:700}
 .brand p{opacity:.9;font-size:13.5px;margin-top:4px}
+.brand .version-tag{
+  display:inline-block;margin-top:10px;
+  padding:3px 10px;border-radius:999px;
+  font-size:10.5px;font-weight:600;letter-spacing:.6px;
+  color:rgba(255,255,255,.75);
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15);
+}
+.auth-bottom-note{
+  text-align:center;margin-top:14px;
+  font-size:11.5px;color:rgba(255,255,255,.7);
+  letter-spacing:.3px;font-weight:500;
+}
 .card{background:rgba(255,255,255,.9);backdrop-filter:blur(20px);
   border:1px solid rgba(255,255,255,.85);border-radius:20px;padding:22px;
   box-shadow:0 30px 70px -22px rgba(15,23,42,.5)}
@@ -687,11 +702,12 @@ input[type=checkbox]{width:auto;padding:0}
 
 <script>
 /* ============================================================
-   MGMC Meal Management — Cloudflare Edition
+   MGMC Meal Management — v1.29.0
    Developed by: Md. Nurunnabi | Assistant Professor, Dept. of Bangla.
    ============================================================ */
 
 const DEVELOPER = 'Md. Nurunnabi | Assistant Professor, Dept. of Bangla.';
+const APP_VERSION = '1.29.0';
 const MAX_ADVANCE_DAYS = 10;
 const ANNOUNCE_DEFAULT_DAYS = 7;
 const APP_LOGO = '🍽️';
@@ -775,7 +791,7 @@ function toast(text, ok = false) {
   t.textContent = text;
   document.body.appendChild(t);
   requestAnimationFrame(() => t.classList.add('show'));
-  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2800);
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3200);
 }
 function footerHTML() {
   return `<footer class="app-footer">Developed by: <strong class="dev-name">${esc(DEVELOPER)}</strong></footer>`;
@@ -835,19 +851,28 @@ function blankDB() {
 }
 
 /* ============================================================
-   CLOUDFLARE-COMPATIBLE DATABASE LOADING & PERSISTING
+   DATABASE LOADING & PERSISTING (Cloudflare D1 backend)
    ============================================================ */
-
 let db = null;
 let isLoaded = false;
 
 async function loadDatabase() {
+  let localSession = null;
   try {
-    const response = await fetch('/api/db');
+    const local = localStorage.getItem(DB_KEY);
+    if (local) {
+      const localData = JSON.parse(local);
+      if (localData && localData.session) localSession = localData.session;
+    }
+  } catch(e) {}
+
+  try {
+    const response = await fetch('/api/db', { cache: 'no-store' });
     if (response.ok) {
       const serverData = await response.json();
       if (serverData && serverData.users && serverData.users.length > 0) {
         db = serverData;
+        if (localSession) db.session = localSession;
       } else {
         db = blankDB();
         const now = Date.now();
@@ -862,19 +887,10 @@ async function loadDatabase() {
         await persist();
       }
     } else {
-      db = blankDB();
-      const now = Date.now();
-      db.users.push({
-        id: db.nextIds.users++, name: 'Super Admin',
-        email: DEFAULT_ADMIN.email, phone: DEFAULT_ADMIN.phone,
-        password: hashPassword(DEFAULT_ADMIN.password),
-        role: 'superadmin', active: 1, created_at: now,
-        created_by: null, created_by_name: null, created_by_role: null,
-        approved_at: now, approved_by: 'system', approval_note: 'System seed account'
-      });
+      throw new Error('Server returned ' + response.status);
     }
   } catch (error) {
-    console.error('Error loading database:', error);
+    console.error('Load error:', error);
     db = blankDB();
     const now = Date.now();
     db.users.push({
@@ -887,7 +903,6 @@ async function loadDatabase() {
     });
   }
 
-  // Migration for old data
   for (const [k, v] of Object.entries(DEFAULT_SETTINGS)) if (db.settings[k] == null) db.settings[k] = v;
   db.day_settings = db.day_settings || {};
   db.invites = db.invites || [];
@@ -909,17 +924,26 @@ async function loadDatabase() {
 }
 
 async function persist() {
-  // Local cache (fast, useful for offline view)
   try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e){}
-  // Send to server
+
   try {
-    await fetch('/api/db', {
+    const response = await fetch('/api/db', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(db)
     });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('❌ Server save failed:', response.status, errText);
+      toast('⚠️ ডেটা সেভ হয়নি (Error ' + response.status + ')', false);
+    } else {
+      const result = await response.json();
+      console.log('✅ Saved:', result.log ? result.log.join(', ') : 'ok');
+    }
   } catch (error) {
-    console.error('Error saving to server:', error);
+    console.error('❌ Save error:', error);
+    toast('⚠️ সার্ভারে সংযোগ হচ্ছে না', false);
   }
 }
 
@@ -1074,6 +1098,7 @@ function renderAuth() {
             <div class="logo">${APP_LOGO}</div>
             <h1>${esc(db.settings.app_name)}</h1>
             <p>সহজে খাবার বুক করুন</p>
+            <div class="version-tag">Version ${APP_VERSION}</div>
           </div>
 
           <div class="card">
@@ -1120,6 +1145,10 @@ function renderAuth() {
                 <div class="msg" id="regMsg"></div>
               </form>` : ''}
           </div>
+
+          <div class="auth-bottom-note">
+            🔒 For MGMC Employees only.
+          </div>
         </div>
       </div>
       ${footerHTML()}
@@ -1128,7 +1157,7 @@ function renderAuth() {
   $$('.tab').forEach(t => t.onclick = () => { state.authTab = t.dataset.tab; renderAuth(); });
 
   const lf = $('#loginForm');
-  if (lf) lf.onsubmit = e => {
+  if (lf) lf.onsubmit = async e => {
     e.preventDefault();
     const email = $('#lgEmail').value.toLowerCase().trim();
     const pass = $('#lgPass').value;
@@ -1136,7 +1165,7 @@ function renderAuth() {
     if (!user || user.password !== hashPassword(pass)) return setMsg('loginMsg', 'ভুল ইমেইল বা পাসওয়ার্ড');
     if (!user.active) return setMsg('loginMsg', '⛔ আপনার অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে।');
     db.session = user.id;
-    persist();
+    await persist();
     state.teacherDate = todayStr();
     state.managerDate = todayStr();
     state.showAnnounceForm = false;
@@ -1145,7 +1174,7 @@ function renderAuth() {
   };
 
   const rf = $('#registerForm');
-  if (rf) rf.onsubmit = e => {
+  if (rf) rf.onsubmit = async e => {
     e.preventDefault();
     const name = $('#rgName').value.trim();
     const phone = $('#rgPhone').value.trim();
@@ -1164,13 +1193,13 @@ function renderAuth() {
       approved_at: null, approved_by: null,
       approval_note: 'স্ব-রেজিস্ট্রেশন — অনুমোদনের অপেক্ষায়'
     });
-    persist();
+    await persist();
     setMsg('regMsg', '✅ রেজিস্ট্রেশন সফল! সুপার এডমিন অ্যাপ্রুভ করার পর লগইন করতে পারেন।', true);
     rf.reset();
   };
 
   const ivf = $('#inviteForm');
-  if (ivf) ivf.onsubmit = e => {
+  if (ivf) ivf.onsubmit = async e => {
     e.preventDefault();
     const inv = db.invites.find(i => i.token === state.inviteToken);
     if (!inv) return setMsg('invMsg', 'লিংক ভুল');
@@ -1199,7 +1228,7 @@ function renderAuth() {
     db.users.push(user);
     inv.used_by = user.id; inv.used_at = now;
     db.session = user.id;
-    persist();
+    await persist();
     location.hash = '';
     toast('সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!', true);
     render();
@@ -1262,8 +1291,8 @@ function renderDash(u) {
     iconType: 'warning',
     yesLabel: 'হ্যাঁ, লগ আউট',
     noLabel: 'বাতিল',
-    onYes: () => {
-      db.session = null; persist();
+    onYes: async () => {
+      db.session = null; await persist();
       location.hash = '';
       state.modal = null;
       render();
@@ -1338,7 +1367,7 @@ function renderAnnouncements(u) {
       state.showAnnounceForm = !state.showAnnounceForm;
       renderAnnouncements(u);
     });
-    $('#postAnn')?.addEventListener('click', () => {
+    $('#postAnn')?.addEventListener('click', async () => {
       const title = $('#anTitle').value.trim();
       const body = $('#anBody').value.trim();
       const days = Number($('#anDays').value) || ANNOUNCE_DEFAULT_DAYS;
@@ -1347,17 +1376,17 @@ function renderAnnouncements(u) {
         id: db.nextIds.announcements++, title, body, visible_days: days,
         created_by: u.id, created_at: Date.now()
       });
-      persist();
+      await persist();
       state.showAnnounceForm = false;
       toast('✅ অ্যানাউন্সমেন্ট পোস্ট হয়েছে', true);
       renderAnnouncements(u);
     });
   }
-  $$('[data-ann-del]').forEach(b => b.onclick = () => {
+  $$('[data-ann-del]').forEach(b => b.onclick = async () => {
     const id = Number(b.dataset.annDel);
     if (!confirm('এই অ্যানাউন্সমেন্ট মুছে ফেলবেন?')) return;
     db.announcements = db.announcements.filter(x => x.id !== id);
-    persist();
+    await persist();
     toast('মুছে ফেলা হয়েছে', true);
     renderAnnouncements(u);
   });
@@ -1716,7 +1745,7 @@ function renderModal() {
       state.modal.showPw = !state.modal.showPw;
       renderModal();
     };
-    $('#saveProfileBtn').onclick = () => {
+    $('#saveProfileBtn').onclick = async () => {
       const me = currentUser();
       if (!me) return;
       const name = $('#pfName').value.trim();
@@ -1741,7 +1770,7 @@ function renderModal() {
         changedPw = true;
       }
       me.name = name; me.phone = phone; me.email = email;
-      persist();
+      await persist();
       toast(changedPw ? '✅ Profile ও পাসওয়ার্ড আপডেট হয়েছে' : '✅ Profile আপডেট হয়েছে', true);
       closeModal();
       render();
@@ -1760,7 +1789,7 @@ function renderModal() {
   }
 
   if (state.modal.type === 'userEdit') {
-    $('#saveUserBtn').onclick = () => {
+    $('#saveUserBtn').onclick = async () => {
       const usr = db.users.find(x => x.id === state.modal.userId);
       if (!usr) return;
       const name = $('#ueName').value.trim();
@@ -1783,7 +1812,7 @@ function renderModal() {
         if (pass.length < 6) return setMsg('ueMsg', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর');
         usr.password = hashPassword(pass);
       }
-      persist();
+      await persist();
       toast('✅ ইউজার আপডেট হয়েছে', true);
       closeModal();
       renderAdmin();
@@ -2027,9 +2056,9 @@ function renderTeacher() {
         danger: true,
         yesLabel: 'হ্যাঁ, ডিলিট',
         noLabel: 'বাতিল',
-        onYes: () => {
+        onYes: async () => {
           db.meals = db.meals.filter(x => x.id !== mealId);
-          persist();
+          await persist();
           toast('✅ অর্ডারটি ডিলিট করা হয়েছে', true);
           renderTeacher();
         }
@@ -2049,10 +2078,10 @@ function renderTeacher() {
       title: 'Confirm Order?',
       message: 'আপনি কি এই তারিখের জন্য খাবার চূড়ান্ত করতে চান?',
       dateLabel: dateText,
-      onYes: () => {
+      onYes: async () => {
         const m = rawMealFor(u.id, date);
         if (m) m.confirmed = 1;
-        persist();
+        await persist();
         toast(`✅ ${dateText} — খাবার কনফার্ম হয়েছে`, true);
         renderTeacher();
       }
@@ -2065,9 +2094,9 @@ function renderTeacher() {
       title: 'Cancel Order?',
       message: 'আপনি কি এই তারিখের অর্ডারটি বাতিল করতে চান?',
       dateLabel: dateText, danger: true,
-      onYes: () => {
+      onYes: async () => {
         db.meals = db.meals.filter(m => !(m.user_id === u.id && m.date === date && m.meal_type === 'lunch'));
-        persist();
+        await persist();
         toast(`${dateText} — বাতিল হয়েছে`, true);
         renderTeacher();
       }
@@ -2103,17 +2132,17 @@ function renderTeacher() {
             id: db.nextIds.meals++, user_id: me.id, date: d, meal_type: 'lunch',
             confirmed: 0, served: 0, served_at: null, created_at: Date.now()
           });
-          persist();
+          await persist();
           renderTeacher();
         }
         openConfirmModal({
           title: 'Confirm Order?',
           message: 'আপনি কি এই দিনের জন্য খাবার অর্ডার করতে চান?',
           dateLabel: label,
-          onYes: () => {
+          onYes: async () => {
             const existing = rawMealFor(me.id, d);
             if (existing) existing.confirmed = 1;
-            persist();
+            await persist();
             toast(`✅ ${label} — খাবার কনফার্ম হয়েছে`, true);
             renderTeacher();
           }
@@ -2124,9 +2153,9 @@ function renderTeacher() {
           title: 'Cancel Order?',
           message: 'আপনি কি এই অর্ডারটি বাতিল করতে চান?',
           dateLabel: label, danger: true,
-          onYes: () => {
+          onYes: async () => {
             db.meals = db.meals.filter(m => !(m.user_id === me.id && m.date === d && m.meal_type === 'lunch'));
-            persist();
+            await persist();
             toast(`${label} — বাতিল হয়েছে`, true);
             renderTeacher();
           }
@@ -2288,12 +2317,12 @@ function renderMatron() {
     `আগামী ${bnNum(MAX_ADVANCE_DAYS)} দিনের রিকোয়েস্ট`, upcoming);
 
   $$('.mm-toggle').forEach(t => {
-    t.onchange = () => {
+    t.onchange = async () => {
       const id = Number(t.dataset.id);
       const mgr = db.users.find(x => x.id === id);
       if (!mgr) return;
       mgr.active = t.checked ? 1 : 0;
-      persist();
+      await persist();
       const wrap = t.closest('.ua-toggle-wrap');
       const label = wrap.querySelector('.ua-toggle-label');
       label.textContent = mgr.active ? 'চালু' : 'বন্ধ';
@@ -2303,7 +2332,7 @@ function renderMatron() {
     };
   });
 
-  $('#createManager').onclick = () => {
+  $('#createManager').onclick = async () => {
     const name = $('#mmName').value.trim();
     const phone = $('#mmPhone').value.trim();
     const email = $('#mmEmail').value.toLowerCase().trim();
@@ -2322,19 +2351,19 @@ function renderMatron() {
       approved_at: now, approved_by: 'matron',
       approval_note: `মেট্রন ${u.name} কর্তৃক অনুমোদিত (সরাসরি অ্যাকাউন্ট তৈরি)`
     });
-    persist();
+    await persist();
     toast('✅ Mess Manager তৈরি হয়েছে!', true);
     renderMatron();
   };
 
-  $('#genInvite').onclick = () => {
+  $('#genInvite').onclick = async () => {
     const token = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
     db.invites.push({
       token, created_by: u.id,
       expires_at: Date.now() + 7 * 24 * 3600 * 1000,
       used_by: null, used_at: null, created_at: Date.now()
     });
-    persist();
+    await persist();
     const url = location.href.split('#')[0] + '#invite=' + token;
     $('#linkInput').value = url;
     const cb = $('#copyBtn');
@@ -2549,14 +2578,14 @@ function wireManagerEvents() {
 
   $$('[data-serve]').forEach(li => {
     if (!li.dataset.serve) return;
-    li.onclick = (e) => {
+    li.onclick = async (e) => {
       if (e.target.closest('.phone-action')) return;
       const uid = Number(li.dataset.serve);
       const m = db.meals.find(x => x.user_id === uid && x.date === date && x.meal_type === 'lunch' && x.confirmed === 1);
       if (!m) return toast('এই ইউজারের কোনো মিল নেই');
       m.served = m.served ? 0 : 1;
       m.served_at = m.served ? Date.now() : null;
-      persist();
+      await persist();
       renderManager();
     };
   });
@@ -2810,20 +2839,20 @@ function renderAdmin() {
   if (uc) uc.onclick = () => openUpcomingDaysModal(
     `আগামী ${bnNum(MAX_ADVANCE_DAYS)} দিনের রিকোয়েস্ট`, upcoming);
 
-  $('#saveSettings').onclick = () => {
+  $('#saveSettings').onclick = async () => {
     db.settings.app_name = $('#s_app_name').value;
     db.settings.mess_name = $('#s_mess_name').value;
     db.settings.cutoff_time = $('#s_cutoff_time').value;
     db.settings.meal_capacity = $('#s_meal_capacity').value;
     db.settings.meal_price = $('#s_meal_price').value;
     db.settings.lunch_enabled = $('#s_lunch_enabled').checked ? '1' : '0';
-    persist();
+    await persist();
     setMsg('sMsg', 'সেটিংস সেভ হয়েছে ✅', true);
     const titleEl = document.querySelector('.app-title');
     if (titleEl) titleEl.textContent = db.settings.app_name;
   };
 
-  $('#addUser').onclick = () => {
+  $('#addUser').onclick = async () => {
     const name = $('#nName').value.trim();
     const phone = $('#nPhone').value.trim();
     const email = $('#nEmail').value.toLowerCase().trim();
@@ -2843,30 +2872,30 @@ function renderAdmin() {
       approved_at: now, approved_by: 'superadmin',
       approval_note: 'সুপার এডমিন কর্তৃক সরাসরি তৈরি'
     });
-    persist();
+    await persist();
     toast('ইউজার যোগ হয়েছে ✅', true);
     renderAdmin();
   };
 
-  $$('[data-approve]').forEach(b => b.onclick = () => {
+  $$('[data-approve]').forEach(b => b.onclick = async () => {
     const usr = db.users.find(x => x.id === Number(b.dataset.approve));
     if (usr) {
       usr.active = 1;
       usr.approved_at = Date.now();
       usr.approved_by = 'superadmin';
       usr.approval_note = `সুপার এডমিন ${u.name} কর্তৃক অনুমোদিত`;
-      persist(); renderAdmin();
+      await persist(); renderAdmin();
     }
   });
-  $$('[data-reject]').forEach(b => b.onclick = () => {
+  $$('[data-reject]').forEach(b => b.onclick = async () => {
     if (!confirm('এই রেজিস্ট্রেশন বাতিল করবেন?')) return;
     const id = Number(b.dataset.reject);
     db.users = db.users.filter(x => x.id !== id);
-    persist(); renderAdmin();
+    await persist(); renderAdmin();
   });
 
   $$('.ua-toggle').forEach(t => {
-    t.onchange = () => {
+    t.onchange = async () => {
       const id = Number(t.dataset.id);
       const usr = db.users.find(x => x.id === id);
       if (!usr) return;
@@ -2882,7 +2911,7 @@ function renderAdmin() {
         }
       }
       usr.active = t.checked ? 1 : 0;
-      persist();
+      await persist();
       const wrap = t.closest('.ua-toggle-wrap');
       const label = wrap.querySelector('.ua-toggle-label');
       label.textContent = usr.active ? 'চালু' : 'বন্ধ';
@@ -2894,7 +2923,7 @@ function renderAdmin() {
 
   $$('[data-edit]').forEach(b => b.onclick = () => openUserEditModal(Number(b.dataset.edit)));
 
-  $$('[data-del]').forEach(b => b.onclick = () => {
+  $$('[data-del]').forEach(b => b.onclick = async () => {
     const id = Number(b.dataset.del);
     if (id === u.id) return toast('নিজেকে মুছবেন না');
     const usr = db.users.find(x => x.id === id);
@@ -2904,7 +2933,7 @@ function renderAdmin() {
     if (!confirm(`"${usr.name}" কে মুছে ফেলবেন?`)) return;
     db.users = db.users.filter(x => x.id !== id);
     db.meals = db.meals.filter(m => m.user_id !== id);
-    persist(); renderAdmin();
+    await persist(); renderAdmin();
   });
 
   const dateEl = $('#ds_date');
@@ -2933,20 +2962,20 @@ function renderAdmin() {
   loadOne(); loadList();
   dateEl.onchange = loadOne;
 
-  $('#ds_save').onclick = () => {
+  $('#ds_save').onclick = async () => {
     if (!dateEl.value) return setMsg('dsMsg', 'তারিখ দিন');
     db.day_settings[dateEl.value] = {
       cutoff_time: cutEl.value || null,
       lunch_enabled: enEl.checked ? 1 : 0
     };
-    persist();
+    await persist();
     setMsg('dsMsg', 'সেভ হয়েছে ✅', true);
     loadList();
   };
-  $('#ds_remove').onclick = () => {
+  $('#ds_remove').onclick = async () => {
     if (!db.day_settings[dateEl.value]) return setMsg('dsMsg', 'এই দিনে কোনো override নেই');
     delete db.day_settings[dateEl.value];
-    persist();
+    await persist();
     setMsg('dsMsg', 'Override মুছে ফেলা হয়েছে', true);
     loadOne(); loadList();
   };
