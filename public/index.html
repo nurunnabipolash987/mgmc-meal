@@ -702,12 +702,12 @@ input[type=checkbox]{width:auto;padding:0}
 
 <script>
 /* ============================================================
-   MGMC Meal Management — v1.29.0
+   MGMC Meal Management — v1.29.1 (session-safe)
    Developed by: Md. Nurunnabi | Assistant Professor, Dept. of Bangla.
    ============================================================ */
 
 const DEVELOPER = 'Md. Nurunnabi | Assistant Professor, Dept. of Bangla.';
-const APP_VERSION = '1.29.0';
+const APP_VERSION = '1.29.1';
 const MAX_ADVANCE_DAYS = 10;
 const ANNOUNCE_DEFAULT_DAYS = 7;
 const APP_LOGO = '🍽️';
@@ -830,6 +830,21 @@ function fallbackCopy(text) {
 }
 
 const DB_KEY = 'mgmc_db_v18';
+const SESSION_KEY = 'mgmc_session_v1';   // device-local only — NEVER sent to server
+
+function getStoredSession() {
+  try {
+    const v = localStorage.getItem(SESSION_KEY);
+    return v ? Number(v) : null;
+  } catch (e) { return null; }
+}
+function setStoredSession(userId) {
+  try {
+    if (userId == null) localStorage.removeItem(SESSION_KEY);
+    else localStorage.setItem(SESSION_KEY, String(userId));
+  } catch (e) {}
+}
+
 const DEFAULT_SETTINGS = {
   app_name: 'MGMC Meal Management',
   mess_name: 'MGMC Central Mess',
@@ -852,19 +867,13 @@ function blankDB() {
 
 /* ============================================================
    DATABASE LOADING & PERSISTING (Cloudflare D1 backend)
+   Session is device-local only and NEVER sent to / read from server.
    ============================================================ */
 let db = null;
 let isLoaded = false;
 
 async function loadDatabase() {
-  let localSession = null;
-  try {
-    const local = localStorage.getItem(DB_KEY);
-    if (local) {
-      const localData = JSON.parse(local);
-      if (localData && localData.session) localSession = localData.session;
-    }
-  } catch(e) {}
+  const storedSession = getStoredSession();
 
   try {
     const response = await fetch('/api/db', { cache: 'no-store' });
@@ -872,7 +881,6 @@ async function loadDatabase() {
       const serverData = await response.json();
       if (serverData && serverData.users && serverData.users.length > 0) {
         db = serverData;
-        if (localSession) db.session = localSession;
       } else {
         db = blankDB();
         const now = Date.now();
@@ -919,18 +927,32 @@ async function loadDatabase() {
     if (!('approval_note' in u)) u.approval_note = u.role === 'superadmin' ? 'System seed account' : null;
   });
 
+  // Restore session from THIS device only — never from the server.
+  db.session = null;
+  if (storedSession != null) {
+    const owner = db.users.find(x => x.id === storedSession);
+    if (owner && owner.active) {
+      db.session = owner.id;
+    } else {
+      setStoredSession(null); // stale or deactivated — clean up
+    }
+  }
+
   isLoaded = true;
   render();
 }
 
 async function persist() {
-  try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e){}
+  // Session must never be persisted (local or remote).
+  const snapshot = { ...db, session: null };
+
+  try { localStorage.setItem(DB_KEY, JSON.stringify(snapshot)); } catch(e){}
 
   try {
     const response = await fetch('/api/db', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(db)
+      body: JSON.stringify(snapshot)
     });
 
     if (!response.ok) {
@@ -949,6 +971,7 @@ async function persist() {
 
 function resetAllData() {
   try { localStorage.removeItem(DB_KEY); } catch(e){}
+  try { localStorage.removeItem(SESSION_KEY); } catch(e){}
   fetch('/api/db', { method: 'DELETE' }).finally(() => {
     location.hash = '';
     location.reload();
@@ -980,7 +1003,9 @@ function isPastCutoffFor(date) {
 function maxAdvanceDate() { return addDays(todayStr(), MAX_ADVANCE_DAYS); }
 function currentUser() {
   if (!db.session) return null;
-  return db.users.find(u => u.id === db.session) || null;
+  const u = db.users.find(x => x.id === db.session);
+  if (!u || !u.active) return null;
+  return u;
 }
 function rawMealFor(userId, date) {
   return db.meals.find(m => m.user_id === userId && m.date === date && m.meal_type === 'lunch');
@@ -1165,6 +1190,7 @@ function renderAuth() {
     if (!user || user.password !== hashPassword(pass)) return setMsg('loginMsg', 'ভুল ইমেইল বা পাসওয়ার্ড');
     if (!user.active) return setMsg('loginMsg', '⛔ আপনার অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে।');
     db.session = user.id;
+    setStoredSession(user.id);
     await persist();
     state.teacherDate = todayStr();
     state.managerDate = todayStr();
@@ -1228,6 +1254,7 @@ function renderAuth() {
     db.users.push(user);
     inv.used_by = user.id; inv.used_at = now;
     db.session = user.id;
+    setStoredSession(user.id);
     await persist();
     location.hash = '';
     toast('সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!', true);
@@ -1292,7 +1319,9 @@ function renderDash(u) {
     yesLabel: 'হ্যাঁ, লগ আউট',
     noLabel: 'বাতিল',
     onYes: async () => {
-      db.session = null; await persist();
+      db.session = null;
+      setStoredSession(null);
+      await persist();
       location.hash = '';
       state.modal = null;
       render();
@@ -2115,7 +2144,7 @@ function renderTeacher() {
   };
 
   $$('[data-act]').forEach(btn => {
-    btn.onclick = () => {
+    btn.onclick = async () => {
       if (btn.classList.contains('locked')) return toast(lockReason || 'এখন অর্ডার করা যাবে না');
       const act = btn.dataset.act;
       const me = currentUser();
