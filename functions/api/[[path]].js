@@ -1,3 +1,4 @@
+// DEPLOY-TEST-001
 export async function onRequest(context) {
   const { request, env } = context;
   const db = env.DB;
