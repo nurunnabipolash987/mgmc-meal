@@ -702,12 +702,12 @@ input[type=checkbox]{width:auto;padding:0}
 
 <script>
 /* ============================================================
-   MGMC Meal Management — v1.29.1 (session-safe)
+   MGMC Meal Management — v1.30.0 (token-authenticated)
    Developed by: Md. Nurunnabi | Assistant Professor, Dept. of Bangla.
    ============================================================ */
 
 const DEVELOPER = 'Md. Nurunnabi | Assistant Professor, Dept. of Bangla.';
-const APP_VERSION = '1.29.1';
+const APP_VERSION = '1.30.0';
 const MAX_ADVANCE_DAYS = 10;
 const ANNOUNCE_DEFAULT_DAYS = 7;
 const APP_LOGO = '🍽️';
@@ -831,6 +831,13 @@ function fallbackCopy(text) {
 
 const DB_KEY = 'mgmc_db_v18';
 const SESSION_KEY = 'mgmc_session_v1';   // device-local only — NEVER sent to server
+const APP_TOKEN = 'mgmc_7f4a2c9e1b8d6a3c5e0d2f8b4a9c7e1d';  // must match Cloudflare env API_TOKEN
+
+function apiFetch(url, opts = {}) {
+  const headers = new Headers(opts.headers || {});
+  headers.set('X-App-Token', APP_TOKEN);
+  return fetch(url, { ...opts, headers });
+}
 
 function getStoredSession() {
   try {
@@ -868,6 +875,7 @@ function blankDB() {
 /* ============================================================
    DATABASE LOADING & PERSISTING (Cloudflare D1 backend)
    Session is device-local only and NEVER sent to / read from server.
+   All requests carry X-App-Token; server rejects any without it.
    ============================================================ */
 let db = null;
 let isLoaded = false;
@@ -876,7 +884,7 @@ async function loadDatabase() {
   const storedSession = getStoredSession();
 
   try {
-    const response = await fetch('/api/db', { cache: 'no-store' });
+    const response = await apiFetch('/api/db', { cache: 'no-store' });
     if (response.ok) {
       const serverData = await response.json();
       if (serverData && serverData.users && serverData.users.length > 0) {
@@ -895,7 +903,18 @@ async function loadDatabase() {
         await persist();
       }
     } else {
-      throw new Error('Server returned ' + response.status);
+      console.error('Server returned ' + response.status);
+      toast('⚠️ সার্ভার লোড করা যায়নি (' + response.status + ') — অ্যাপ চালু হচ্ছে', false);
+      db = blankDB();
+      const now = Date.now();
+      db.users.push({
+        id: db.nextIds.users++, name: 'Super Admin',
+        email: DEFAULT_ADMIN.email, phone: DEFAULT_ADMIN.phone,
+        password: hashPassword(DEFAULT_ADMIN.password),
+        role: 'superadmin', active: 1, created_at: now,
+        created_by: null, created_by_name: null, created_by_role: null,
+        approved_at: now, approved_by: 'system', approval_note: 'System seed account'
+      });
     }
   } catch (error) {
     console.error('Load error:', error);
@@ -949,7 +968,7 @@ async function persist() {
   try { localStorage.setItem(DB_KEY, JSON.stringify(snapshot)); } catch(e){}
 
   try {
-    const response = await fetch('/api/db', {
+    const response = await apiFetch('/api/db', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(snapshot)
@@ -972,7 +991,7 @@ async function persist() {
 function resetAllData() {
   try { localStorage.removeItem(DB_KEY); } catch(e){}
   try { localStorage.removeItem(SESSION_KEY); } catch(e){}
-  fetch('/api/db', { method: 'DELETE' }).finally(() => {
+  apiFetch('/api/db', { method: 'DELETE' }).finally(() => {
     location.hash = '';
     location.reload();
   });
