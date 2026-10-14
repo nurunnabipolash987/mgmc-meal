@@ -6,8 +6,8 @@ export async function onRequest(context) {
 
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-App-Token',
     'Content-Type': 'application/json',
     'Cache-Control': 'no-store'
   };
@@ -15,6 +15,14 @@ export async function onRequest(context) {
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers });
   }
+
+  // === Access token check ===
+  const expectedToken = env.API_TOKEN;
+  const providedToken = request.headers.get('X-App-Token') || '';
+  if (!expectedToken || providedToken !== expectedToken) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers });
+  }
+  // ==========================
 
   try {
     if (request.method === 'GET' && path === '/db') {
