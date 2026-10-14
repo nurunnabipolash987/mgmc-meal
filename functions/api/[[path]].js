@@ -27,15 +27,23 @@ export async function onRequest(context) {
         db.prepare('SELECT * FROM day_settings').all(),
       ]);
 
+      // Rename password_hash -> password so the front-end can find it.
+      const userRows = users.results.map(row => {
+        const out = { ...row };
+        out.password = row.password_hash != null ? row.password_hash : '';
+        delete out.password_hash;
+        return out;
+      });
+
       const data = {
-        users: users.results,
+        users: userRows,
         meals: meals.results,
         announcements: announcements.results,
         settings: Object.fromEntries(settings.results.map(r => [r.key, r.value])),
         invites: invites.results,
         day_settings: Object.fromEntries(daySettings.results.map(r => [r.date, r])),
         nextIds: {
-          users: Math.max(0, ...users.results.map(u => u.id)) + 1,
+          users: Math.max(0, ...userRows.map(u => u.id)) + 1,
           meals: Math.max(0, ...meals.results.map(m => m.id)) + 1,
           announcements: Math.max(0, ...announcements.results.map(a => a.id)) + 1,
         }
@@ -66,12 +74,13 @@ export async function onRequest(context) {
 
         if (Array.isArray(body.users)) {
           for (const u of body.users) {
+            const pw = u.password != null ? u.password : (u.password_hash != null ? u.password_hash : '');
             await db.prepare(`INSERT INTO users (id, name, email, phone, password_hash, role, active, created_at, created_by, created_by_name, created_by_role, approved_at, approved_by, approval_note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
               u.id,
               String(u.name || ''),
               String(u.email || ''),
               String(u.phone || ''),
-              String(u.password || ''),
+              String(pw),
               String(u.role || 'teacher'),
               Number(u.active || 0),
               Number(u.created_at || Date.now()),
