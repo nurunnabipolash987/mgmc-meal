@@ -1,0 +1,3287 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
+<meta name="theme-color" content="#6366f1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Meal">
+<meta name="application-name" content="Meal">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3E%3Cstop%20offset='0%25'%20stop-color='%236366f1'/%3E%3Cstop%20offset='100%25'%20stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='100'%20height='100'%20rx='22'%20fill='url(%23g)'/%3E%3Ctext%20x='50'%20y='55'%20font-size='62'%20text-anchor='middle'%20dominant-baseline='middle'%20font-family='Apple%20Color%20Emoji,Segoe%20UI%20Emoji,sans-serif'%3E%F0%9F%8D%BD%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<title>Meal</title>
+<style>
+:root{--font-sans:'Plus Jakarta Sans','Noto Sans Bengali',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--font-num:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--text:#0f172a;--muted:#64748b;--border:rgba(226,232,240,0.92);--primary:#6366f1;--primary-2:#4f46e5;--success:#10b981;--warning:#f59e0b;--danger:#ef4444;--glass:rgba(255,255,255,0.82);--glass-border:rgba(255,255,255,0.88);--shadow-sm:0 10px 28px -12px rgba(15,23,42,0.14),inset 0 1px 0 rgba(255,255,255,0.9);--radius:20px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;scroll-behavior:smooth}
+body{font-family:var(--font-sans);color:var(--text);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.55;font-variant-numeric:tabular-nums;background:radial-gradient(circle at 0% 0%,#e0e7ff 0%,transparent 55%),radial-gradient(circle at 100% 0%,#fce7f3 0%,transparent 50%),radial-gradient(circle at 100% 100%,#dbeafe 0%,transparent 55%),radial-gradient(circle at 0% 100%,#fef3c7 0%,transparent 55%),linear-gradient(135deg,#f5f7fb 0%,#eef2ff 100%);background-attachment:fixed;min-height:100vh}
+button,input,select,textarea{font-family:inherit;font-size:15px}
+.num-font,.th-number,.stat-num,.usc-count,.dli-num,.rs-num,.r-num,.phone-num,.cdb-day,.notif-badge{font-family:var(--font-num);font-variant-numeric:tabular-nums}
+.app-shell{min-height:100vh;display:flex;flex-direction:column}
+.app-main{flex:1}
+.app-footer{text-align:center;padding:22px 16px;color:var(--muted);font-size:12.5px;line-height:1.7;border-top:1px solid rgba(226,232,240,.65);background:rgba(255,255,255,.48);backdrop-filter:blur(12px);margin-top:32px}
+.app-footer strong,.app-footer .dev-name{color:var(--primary);font-weight:700}
+.auth-screen{min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#ec4899 100%)}
+.auth-screen .app-footer{color:rgba(255,255,255,.88);border-top-color:rgba(255,255,255,.15);background:transparent;backdrop-filter:none;margin-top:0}
+.auth-screen .app-footer strong,.auth-screen .app-footer .dev-name{color:#fff}
+.auth-body{flex:1;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.auth-wrap{width:100%;max-width:430px}
+.brand{text-align:center;color:#fff;margin-bottom:18px}
+.brand .logo{width:66px;height:66px;margin:0 auto;border-radius:20px;background:rgba(255,255,255,.22);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;font-size:32px;border:1.5px solid rgba(255,255,255,.38)}
+.brand h1{font-size:22px;margin-top:14px;font-weight:800;letter-spacing:-0.3px}
+.brand p{opacity:.92;font-size:14px;margin-top:4px}
+.brand .version-tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.5px;color:rgba(255,255,255,.92);background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);font-family:var(--font-num)}
+.auth-bottom-note{text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,.82);font-weight:600}
+.card{background:rgba(255,255,255,.95);backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.9);border-radius:22px;padding:24px 22px;box-shadow:0 32px 72px -20px rgba(15,23,42,.5)}
+.tabs{display:flex;gap:6px;background:rgba(241,245,249,.9);padding:5px;border-radius:13px;margin-bottom:18px}
+.tab{flex:1;border:none;background:transparent;padding:11px;border-radius:9px;cursor:pointer;color:var(--muted);font-weight:700;transition:.15s}
+.tab.active{background:#fff;color:var(--primary-2);box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.view{display:none;flex-direction:column;gap:14px}
+.view.active{display:flex}
+label{display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:#334155;font-weight:600}
+.input-wrap{position:relative;display:flex;align-items:center}
+input,select,textarea{padding:13px 14px;border:1.5px solid var(--border);border-radius:13px;background:rgba(255,255,255,.97);outline:none;transition:.15s;color:var(--text);width:100%;font-size:15px}
+.input-wrap input{padding-right:44px}
+.pw-eye{position:absolute;right:8px;width:34px;height:34px;border:none;background:transparent;color:var(--muted);cursor:pointer;border-radius:8px;display:inline-flex;align-items:center;justify-content:center}
+textarea{resize:vertical;min-height:90px}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,.13);background:#fff}
+input[type=checkbox]{width:auto;padding:0}
+.btn{border:none;padding:12px 20px;border-radius:13px;cursor:pointer;font-weight:700;transition:.16s;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;user-select:none;min-height:46px}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;box-shadow:0 8px 18px -8px rgba(79,70,229,.65)}
+.btn-primary:hover{background:linear-gradient(135deg,#4f46e5,#4338ca)}
+.btn-success{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
+.btn-warning{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+.btn-ghost{background:rgba(255,255,255,.8);color:#334155;border:1.5px solid var(--border)}
+.btn-ghost:hover{color:var(--primary-2);border-color:#c7d2fe;background:#fff}
+.btn-ghost.danger{color:#dc2626;border-color:#fecaca;background:rgba(255,241,242,.85)}
+.btn-xl{padding:18px 24px;font-size:16.5px;border-radius:16px;width:100%;min-height:62px;font-weight:800}
+.btn-block{width:100%}
+.btn-sm{padding:8px 14px;min-height:36px;font-size:13.5px;border-radius:10px}
+/* Topbar: Left (Icon + Bold App Name on line 1, Account Holder Bold Name | Normal Level on line 2), Right (Bell + 3 Bars) */
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:rgba(255,255,255,0.94);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(226,232,240,0.85)}
+.brand-col{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.brand-bar{display:flex;align-items:center;gap:9px;min-width:0}
+.app-logo{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 6px 14px -6px rgba(99,102,241,.65);color:#fff;position:relative}
+.app-logo::after{content:'';position:absolute;inset:2px;border-radius:8px;border:1.5px solid rgba(255,255,255,.38);pointer-events:none}
+.app-title{font-family:var(--font-sans);font-size:16.5px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-subline{font-size:12.5px;line-height:1.3;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:2px}
+.user-subline b{font-weight:700;color:#0f172a}
+.user-subline .sep{color:#94a3b8;margin:0 6px;font-weight:400}
+.user-subline .role-txt{font-weight:400;color:#4f46e5}
+.top-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative}
+.icon-btn{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;color:#0f172a;position:relative}
+.icon-btn:hover{border-color:var(--primary);color:var(--primary);background:#f8faff}
+.icon-btn svg{width:21px;height:21px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.notif-badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 4px 10px rgba(239,68,68,.45)}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:265px;background:rgba(255,255,255,0.98);backdrop-filter:blur(24px);border:1.5px solid rgba(226,232,240,0.95);border-radius:18px;box-shadow:0 24px 48px -12px rgba(15,23,42,0.25);padding:10px;display:none;flex-direction:column;gap:4px;z-index:200;animation:fadeIn .15s ease-out}
+.nav-dropdown.open{display:flex}
+.nd-user-card{padding:11px 12px;border-radius:13px;background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1px solid #c7d2fe;margin-bottom:4px}
+.nd-user-name{font-weight:800;font-size:14.5px;color:#1e1b4b;display:flex;align-items:center;gap:6px}
+.nd-user-role{font-size:11.5px;font-weight:600;color:#4f46e5;margin-top:3px;display:flex;align-items:center;gap:6px}
+.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981}
+.sync-dot.local{background:#6366f1}
+.sync-dot.saving{background:#f59e0b;animation:pulse 1s infinite}
+.nd-item{width:100%;border:none;background:transparent;padding:11px 12px;border-radius:11px;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:#1e293b;text-align:left;transition:.14s}
+.nd-item:hover{background:#f1f5f9;color:var(--primary-2)}
+.nd-item.danger{color:#dc2626;margin-top:4px;border-top:1px solid #f1f5f9;padding-top:12px}
+.nd-item.danger:hover{background:#fef2f2}
+.cal-svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.1;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;vertical-align:-3px}
+.cal-dynamic-badge{width:40px;height:40px;border-radius:11px;overflow:hidden;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border:1.5px solid #c7d2fe;flex-shrink:0}
+.cal-dynamic-badge .cdb-top{width:100%;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:9px;font-weight:800;text-align:center;line-height:1.35;text-transform:uppercase;font-family:var(--font-num)}
+.cal-dynamic-badge .cdb-day{font-size:14.5px;font-weight:800;color:#312e81;line-height:1.35}
+.dash{max-width:960px;margin:0 auto;padding:20px 14px 56px;display:flex;flex-direction:column;gap:20px}
+.section-group{display:flex;flex-direction:column;gap:14px;padding:15px;border-radius:22px;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.6)}
+.section-group.tint-blue{background:linear-gradient(135deg,rgba(238,242,255,.65),rgba(224,231,254,.5));border-color:rgba(199,210,254,.65)}
+.section-group.tint-green{background:linear-gradient(135deg,rgba(240,253,244,.65),rgba(220,252,231,.5));border-color:rgba(187,247,208,.65)}
+.section-group.tint-amber{background:linear-gradient(135deg,rgba(255,251,235,.7),rgba(254,243,199,.55));border-color:rgba(253,230,138,.65)}
+.section-group.tint-pink{background:linear-gradient(135deg,rgba(252,231,243,.58),rgba(251,207,232,.45));border-color:rgba(251,207,232,.65)}
+.section-group.tint-slate{background:linear-gradient(135deg,rgba(248,250,252,.72),rgba(241,245,249,.6));border-color:rgba(226,232,240,.8)}
+.section-label{display:flex;align-items:center;gap:8px;padding:0 4px;margin-bottom:-2px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#475569}
+.section-label::before{content:'';width:4px;height:15px;border-radius:3px;background:linear-gradient(180deg,#6366f1,#8b5cf6)}
+.section-label .sl-count{margin-left:auto;background:rgba(99,102,241,.14);color:#4338ca;padding:2px 10px;border-radius:999px;font-size:11.5px;font-weight:800;font-family:var(--font-num)}
+.card-block{background:var(--glass);backdrop-filter:blur(18px) saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px}
+.card-head{display:flex;align-items:center;gap:10px;font-size:15.5px;font-weight:800;color:var(--text)}
+.card-head .ic{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);color:#4f46e5;flex-shrink:0}
+.card-head .ic.green{background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#059669}
+.card-head .ic.blue{background:linear-gradient(135deg,#dbeafe,#bfdbfe);color:#1e40af}
+.card-head .ic.pink{background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d}
+.today-highlight{background:linear-gradient(135deg,rgba(99,102,241,.93) 0%,rgba(139,92,246,.93) 48%,rgba(236,72,153,.88) 100%);border:1px solid rgba(255,255,255,.42);border-radius:22px;padding:22px 20px 18px;color:#fff;position:relative;overflow:hidden;cursor:pointer;transition:.2s;text-align:center;box-shadow:0 20px 46px -16px rgba(99,102,241,.58),inset 0 1px 0 rgba(255,255,255,.4)}
+.th-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.th-label{font-size:12.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;opacity:.95;display:flex;align-items:center;gap:6px}
+.th-num-wrap{display:flex;align-items:baseline;justify-content:center;gap:6px;margin:2px 0 4px}
+.th-number{font-size:56px;font-weight:800;line-height:1.1;letter-spacing:-1.5px;text-shadow:0 6px 24px rgba(0,0,0,.18)}
+.th-number.bn-hero-text{font-family:var(--font-sans);font-size:34px;font-weight:800;letter-spacing:0.4px;word-spacing:8px;line-height:1.3}
+.th-unit{font-size:16px;font-weight:800;opacity:.92}
+.th-sub{font-size:12.5px;font-weight:600;background:rgba(255,255,255,.22);display:inline-block;padding:5px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.32)}
+.th-cta{font-size:11.5px;opacity:.9;margin-top:6px;font-weight:700}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat-card{background:var(--glass);backdrop-filter:blur(18px);border:1px solid var(--glass-border);border-radius:17px;padding:16px 12px;text-align:center;box-shadow:var(--shadow-sm);min-height:98px;display:flex;flex-direction:column;justify-content:center;gap:4px;transition:.2s;position:relative}
+.stat-card .stat-ic{font-size:18px;margin-bottom:2px;display:flex;justify-content:center}
+.stat-card.primary{background:linear-gradient(135deg,rgba(99,102,241,.94),rgba(139,92,246,.94));color:#fff}
+.stat-card.green{background:linear-gradient(135deg,rgba(16,185,129,.94),rgba(5,150,105,.94));color:#fff}
+.stat-card.red{background:linear-gradient(135deg,rgba(239,68,68,.94),rgba(220,38,38,.94));color:#fff}
+.stat-num{font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.05}
+.stat-label{font-size:11.5px;opacity:.92;font-weight:700;margin-top:2px}
+.stat-card.clickable{cursor:pointer}
+.stat-card.clickable:hover{transform:translateY(-2px)}
+.upcoming-single-card{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(224,231,255,.92),rgba(199,210,254,.84));border:1.5px solid rgba(165,180,252,.92);border-radius:20px;padding:18px 20px;cursor:pointer;transition:.2s}
+.usc-icon{width:52px;height:52px;border-radius:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.usc-text{flex:1;min-width:0}
+.usc-title{font-size:15.5px;font-weight:800;color:#312e81}
+.usc-sub{font-size:12.5px;color:#4338ca;margin-top:3px;font-weight:600}
+.usc-right{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.usc-count{font-size:36px;font-weight:800;letter-spacing:-1.5px;line-height:1;color:#4f46e5}
+.usc-unit{font-size:11px;font-weight:800;color:#6366f1;margin-top:2px}
+.list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.list li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--border);border-radius:13px;background:rgba(255,255,255,.75);flex-wrap:wrap}
+.list li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.list li.empty{color:var(--muted);justify-content:center;font-style:italic;border-style:dashed}
+.pill{background:var(--success);color:#fff;border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.pill.blue{background:#4f46e5}
+.pill.amber{background:#f59e0b}
+.pill.red{background:var(--danger)}
+.grid-2{display:grid;grid-template-columns:1fr;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.link-box{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.link-box input{flex:1;font-size:12.5px;min-width:0;background:#fff;font-family:ui-monospace,monospace}
+.phone-wrap{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.phone-num{font-weight:600}
+.phone-action{width:27px;height:27px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;text-decoration:none;border:none;cursor:pointer;background:#eef2ff;color:#4f46e5}
+.phone-action.call-btn{background:#dcfce7;color:#059669}
+.phone-action.copy-btn{background:#dbeafe;color:#1e40af}
+.user-admin-list{display:flex;flex-direction:column;gap:12px}
+.user-admin-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--border);border-radius:15px;background:rgba(255,255,255,.75);flex-wrap:wrap}
+.ua-left{display:flex;gap:12px;align-items:flex-start;flex:1;min-width:0}
+.ua-avatar{width:46px;height:46px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;color:#fff;background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+.ua-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ua-name{font-weight:800;font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ua-self{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}
+.ua-role{font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase}
+.ua-phone{font-size:12.5px;color:var(--text);margin-top:2px}
+.ua-email{font-size:12px;color:var(--muted);word-break:break-all}
+.ua-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.ua-toggle-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 10px;border-radius:12px;background:rgba(248,250,252,.85);border:1px solid var(--border)}
+.ua-toggle-label{font-size:10.5px;font-weight:800}
+.ua-toggle-label.on{color:var(--success)}
+.ua-toggle-label.off{color:var(--danger)}
+.creator-badge{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:5px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);color:#166534;border:1px solid #86efac;border-radius:8px;padding:3px 9px;font-size:11px;font-weight:600}
+.creator-badge.admin{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;border-color:#fcd34d}
+.creator-badge.matron{background:linear-gradient(135deg,#eef2ff,#e0e7ff);color:#3730a3;border-color:#c7d2fe}
+.checklist-hero{background:linear-gradient(135deg,rgba(99,102,241,.92),rgba(139,92,246,.92),rgba(236,72,153,.88));border-radius:18px;padding:16px 18px;color:#fff;display:flex;align-items:center;gap:14px}
+.checklist-hero-icon{width:50px;height:50px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:25px;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.35)}
+.progress-mini{height:9px;background:#eef2ff;border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#10b981,#059669);transition:width .35s ease}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.checklist-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid #fecaca;border-radius:14px;background:linear-gradient(135deg,rgba(254,242,242,.92),rgba(254,226,226,.75));cursor:pointer;transition:.18s;user-select:none;min-height:62px}
+.checklist-item.readonly{cursor:default}
+.check-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
+.checkbox{width:28px;height:28px;border-radius:9px;border:2px solid #fca5a5;display:flex;align-items:center;justify-content:center;font-weight:800;background:#fff;color:#b91c1c;flex-shrink:0}
+.check-info{min-width:0;flex:1}
+.check-info b{font-size:14.5px;display:block;color:#991b1b}
+.check-info small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.check-tag{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.checklist-item.served{background:linear-gradient(135deg,rgba(240,253,244,.94),rgba(220,252,231,.8));border-color:#86efac}
+.checklist-item.served .checkbox{background:linear-gradient(135deg,#10b981,#059669);border-color:#059669;color:#fff}
+.checklist-item.served .check-info b{text-decoration:line-through;color:#065f46}
+.checklist-item.served .check-tag{background:#d1fae5;color:#065f46;border-color:#86efac}
+.my-order-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.my-order-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 15px;border:1.5px solid var(--border);border-radius:14px;background:rgba(255,255,255,.75)}
+.my-order-row.today{background:linear-gradient(135deg,rgba(236,253,245,.92),rgba(209,250,229,.85));border-color:#86efac}
+.my-order-row .mo-info{min-width:0;flex:1}
+.my-order-row .mo-info b{font-size:14.5px;display:block;color:var(--text)}
+.my-order-row .mo-info small{display:block;color:#059669;font-weight:600;font-size:12px;margin-top:2px}
+.mo-actions{display:flex;gap:7px;align-items:center}
+.btn-del-order{width:36px;height:36px;border-radius:10px;border:1.5px solid #fecaca;background:#fef2f2;color:#b91c1c;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.btn-del-order.locked{background:#f1f5f9;color:#94a3b8;border-color:var(--border);cursor:not-allowed}
+.unconfirmed-card{background:linear-gradient(135deg,rgba(255,251,235,.94),rgba(254,243,199,.88));border:2px solid #fbbf24;border-radius:20px;padding:20px 18px;text-align:center}
+.uc-icon{width:56px;height:56px;border-radius:17px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff}
+.uc-title{font-size:16.5px;font-weight:800;color:#92400e}
+.uc-date{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#78350f;font-weight:800;font-size:14px;padding:7px 16px;border-radius:999px;border:1.5px solid #fcd34d;margin-top:8px}
+.uc-actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.toggle-switch{position:relative;display:inline-block;width:50px;height:28px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:999px;transition:.28s}
+.toggle-slider:before{content:"";position:absolute;height:22px;width:22px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.28s}
+.toggle-switch input:checked + .toggle-slider{background:linear-gradient(135deg,#10b981,#059669)}
+.toggle-switch input:checked + .toggle-slider:before{transform:translateX(22px)}
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.58);backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .15s ease-out}
+.modal-card{background:rgba(255,255,255,.98);border:1px solid rgba(255,255,255,.9);border-radius:22px;width:100%;max-width:540px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 80px -20px rgba(15,23,42,.55)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 20px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(238,242,255,.92),rgba(224,231,255,.92))}
+.modal-head h3{font-size:16px;font-weight:800;color:#312e81;display:flex;align-items:center;gap:8px}
+.modal-head .close-btn{width:34px;height:34px;border-radius:10px;border:none;background:rgba(255,255,255,.8);color:#4338ca;font-size:16px;font-weight:800;cursor:pointer}
+.modal-body{padding:16px 18px;overflow-y:auto;flex:1}
+.modal-body .person{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.8);margin-bottom:8px}
+.modal-foot{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:10px;background:rgba(248,250,252,.92)}
+.notif-item{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-radius:14px;border:1.5px solid var(--border);background:#fff;margin-bottom:9px}
+.notif-item.unread{background:linear-gradient(135deg,#eef2ff,#f5f3ff);border-color:#a5b4fc}
+.notif-ic{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;background:#d1fae5;color:#059669}
+.notif-body{flex:1;min-width:0}
+.notif-title{font-weight:800;font-size:14px;color:var(--text)}
+.notif-text{font-size:13px;color:#334155;margin-top:2px}
+.notif-time{font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:600;font-family:var(--font-num)}
+.report-range-btns,.filter-pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.range-btn,.filter-pill{border:1.5px solid #c7d2fe;background:rgba(255,255,255,.85);color:#4338ca;padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s;min-height:38px}
+.range-btn.active,.filter-pill.active{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-color:#4f46e5}
+.report-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:14px}
+.rs-item{background:rgba(248,250,252,.95);border:1px solid var(--border);border-radius:13px;padding:11px 8px;text-align:center}
+.rs-num{font-size:22px;font-weight:800;color:var(--primary)}
+.rs-num.green{color:var(--success)}
+.rs-num.red{color:var(--danger)}
+.rs-label{font-size:11px;font-weight:700;color:var(--muted);margin-top:2px}
+.report-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.report-table th,.report-table td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--border)}
+.report-table th{font-weight:800;color:var(--muted);font-size:11.5px;background:rgba(249,250,251,.85)}
+.day-list-item{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:13px 15px;border:1.5px solid var(--border);border-radius:14px;background:rgba(255,255,255,.88);margin-bottom:9px;cursor:pointer}
+.day-list-item.today{background:rgba(236,253,245,.92);border-color:#86efac}
+.dli-date{font-size:14.5px;font-weight:800;color:var(--text)}
+.dli-sub{font-size:11.5px;color:var(--muted);margin-top:2px;font-weight:600}
+.dli-right{display:flex;flex-direction:column;align-items:center;min-width:64px;padding:7px 12px;border-radius:12px;background:#eef2ff;border:1px solid #c7d2fe}
+.dli-num{font-size:24px;font-weight:800;color:#4f46e5;line-height:1}
+.dli-unit{font-size:10.5px;font-weight:800;color:#6366f1;margin-top:2px}
+.confirm-popup{text-align:center;padding:24px 16px}
+.confirm-icon{width:72px;height:72px;border-radius:22px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#059669}
+.confirm-icon.danger{background:linear-gradient(135deg,#fee2e2,#fecaca);color:#b91c1c}
+.confirm-icon.warning{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#b45309}
+.confirm-title{font-size:19px;font-weight:800;color:var(--text);margin-bottom:6px}
+.confirm-msg{font-size:13.5px;color:var(--muted)}
+.confirm-date{display:inline-flex;align-items:center;gap:6px;background:#eef2ff;color:#4338ca;padding:7px 15px;border-radius:999px;font-weight:700;font-size:13.5px;margin-top:12px;border:1px solid #c7d2fe}
+.confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.btn-yes{background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:14px;border-radius:13px;font-size:15px;font-weight:800;border:none;cursor:pointer}
+.btn-no{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:14px;border-radius:13px;font-size:15px;font-weight:800;border:none;cursor:pointer}
+.announce-section{background:linear-gradient(135deg,rgba(255,247,237,.92),rgba(255,237,213,.88));border:1.5px solid rgba(254,215,170,.95);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px}
+.announce-head{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;color:#9a3412}
+.announce-head .icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#fb923c,#ea580c);display:flex;align-items:center;justify-content:center;color:#fff}
+.announce-item{background:rgba(255,255,255,.92);border-radius:13px;padding:13px 15px;border:1px solid #fed7aa;position:relative}
+.announce-item .title{font-weight:800;font-size:14.5px;color:#7c2d12;padding-right:30px}
+.announce-item .body{font-size:14px;color:#422006;white-space:pre-wrap;margin-top:4px}
+.announce-item .meta{font-size:11.5px;color:#a16207;margin-top:6px;display:flex;flex-wrap:wrap;gap:10px}
+.announce-item .del-btn{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:8px;background:#fee2e2;color:#b91c1c;border:none;cursor:pointer;font-weight:800}
+.hero-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:22px 18px;text-align:center;box-shadow:var(--shadow-sm)}
+.hero-date{color:#4338ca;font-size:13.5px;font-weight:700;margin-bottom:4px;display:inline-flex;align-items:center;gap:6px}
+.hero-title{font-size:20px;margin:4px 0 10px;font-weight:800}
+.hero-status{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--danger)}
+.hero-status.on{color:var(--success)}
+.cutoff{font-size:13px;color:#4338ca;background:#eef2ff;border:1px solid #c7d2fe;padding:9px 14px;border-radius:12px;margin-bottom:14px;font-weight:700}
+.confirmed-banner{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:14px;padding:13px 15px;font-weight:700;margin-bottom:8px;font-size:14px}
+.cutoff-banner{background:linear-gradient(135deg,#fee2e2,#fecaca);color:#991b1b;border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;font-weight:700;font-size:13.5px;margin-bottom:14px;display:flex;flex-direction:column;gap:3px}
+.btn.locked{filter:grayscale(.35);opacity:.65;cursor:not-allowed}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 20px;border-radius:13px;font-size:13.5px;opacity:0;transition:.28s;z-index:9999;max-width:calc(100vw - 32px);text-align:center;font-weight:600;box-shadow:0 20px 40px -12px rgba(0,0,0,.45)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:#059669}
+.toast.err{background:#dc2626}
+.msg{font-size:13.5px;min-height:18px;font-weight:600}
+.msg.ok{color:var(--success)}
+.msg.err{color:var(--danger)}
+.hint{font-size:12.5px;color:var(--muted);line-height:1.5}
+.date-inputs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.date-inputs input[type=date]{flex:1;min-width:140px;font-weight:700;color:#312e81;font-family:var(--font-num)}
+.nav-arrow{width:44px;min-width:44px;padding:8px 0;font-weight:800}
+.time-meta{font-size:11.5px;color:#475569;margin-top:4px;display:flex;flex-wrap:wrap;gap:8px;font-weight:600}
+.time-meta span{background:#f1f5f9;padding:2px 8px;border-radius:6px;border:1px solid #e2e8f0}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@media (min-width:560px){.stat-grid{grid-template-columns:repeat(4,1fr)}.grid-2{grid-template-columns:1fr 1fr}.uc-actions{grid-template-columns:1fr 1fr}.report-summary{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:480px){.topbar{padding:10px 12px}.app-title{font-size:15.5px}.user-subline{font-size:11.5px}.user-admin-row{flex-direction:column;align-items:stretch}.ua-actions{justify-content:space-between}.th-number{font-size:48px}.th-number.bn-hero-text{font-size:30px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+/* ============================================================
+   MGMC Meal Management — v2.2.0 Pro
+   Developed by: Md. Nurunnabi | Assistant Professor, Dept. of Bangla.
+   ============================================================ */
+const DEVELOPER = 'Md. Nurunnabi | Assistant Professor, Dept. of Bangla.';
+const APP_VERSION = '2.2.0';
+const ANNOUNCE_DEFAULT_DAYS = 7;
+const APP_LOGO = '🍽️';
+const APP_TOKEN = 'mgmc_7f4a2c9e1b8d6a3c5e0d2f8b4a9c7e1d';
+
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const pad = n => String(n).padStart(2, '0');
+const bnNum = n => String(n == null ? '' : n);
+
+/* PWA Install Support ("Meal" app with main logo in standalone Chrome window) */
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  const installBtn = $('#menuInstallBtn');
+  if (installBtn) installBtn.style.display = 'flex';
+});
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
+const todayStr = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+const addDays = (dateStr, n) => {
+  const d = new Date(dateStr + 'T00:00:00');
+  d.setDate(d.getDate() + Number(n || 0));
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+const startOfSaturdayWeek = (baseDateStr = todayStr()) => {
+  const d = new Date(baseDateStr + 'T00:00:00');
+  const day = d.getDay();
+  const diffSinceSat = (day + 1) % 7;
+  return addDays(baseDateStr, -diffSinceSat);
+};
+/* Full day and month name everywhere (e.g. মঙ্গলবার, 10 নভেম্বর 2026) */
+const fmtDate = d => {
+  const dt = new Date(d + 'T00:00:00');
+  const wk = dt.toLocaleDateString('bn-BD', { weekday: 'long' });
+  const mon = dt.toLocaleDateString('bn-BD', { month: 'long' });
+  return `${wk}, ${dt.getDate()} ${mon} ${dt.getFullYear()}`;
+};
+const fmtDateLong = d => fmtDate(d);
+const fmtShort = d => {
+  const dt = new Date(d + 'T00:00:00');
+  const mon = dt.toLocaleDateString('bn-BD', { month: 'long' });
+  const wk = dt.toLocaleDateString('bn-BD', { weekday: 'long' });
+  return `${dt.getDate()} ${mon} (${wk})`;
+};
+/* Shortest English date without year for teacher main card pill: e.g. 10 Nov. */
+const fmtShortEnNoYear = d => {
+  const dt = new Date(d + 'T00:00:00');
+  const months = ['Jan.','Feb.','Mar.','Apr.','May','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+  return `${dt.getDate()} ${months[dt.getMonth()]}`;
+};
+const fmtDateTime = ts => {
+  if (!ts) return '—';
+  const dt = new Date(ts);
+  const mon = dt.toLocaleDateString('bn-BD', { month: 'long' });
+  const hr = dt.getHours();
+  const min = pad(dt.getMinutes());
+  const ampm = hr >= 12 ? 'PM' : 'AM';
+  const hr12 = hr % 12 || 12;
+  return `${dt.getDate()} ${mon} ${dt.getFullYear()}, ${hr12}:${min} ${ampm}`;
+};
+const fmtTime12 = time24 => {
+  if (!time24 || !time24.includes(':')) return time24 || '';
+  const [hStr, mStr] = time24.split(':');
+  const h = Number(hStr), m = Number(mStr);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${pad(h12)}:${pad(m)} ${ampm}`;
+};
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+function calIconSVG(size = 18) {
+  return `<svg class="cal-svg" style="width:${size}px;height:${size}px" viewBox="0 0 24 24">
+    <rect x="3" y="4" width="18" height="18" rx="3"></rect>
+    <line x1="16" y1="2" x2="16" y2="6"></line>
+    <line x1="8" y1="2" x2="8" y2="6"></line>
+    <line x1="3" y1="10" x2="21" y2="10"></line>
+    <circle cx="8" cy="14" r="1" fill="currentColor"></circle>
+    <circle cx="12" cy="14" r="1" fill="currentColor"></circle>
+    <circle cx="16" cy="14" r="1" fill="currentColor"></circle>
+  </svg>`;
+}
+function dynamicCalBadge(dateStr) {
+  const d = new Date((dateStr || todayStr()) + 'T00:00:00');
+  const mon = d.toLocaleDateString('en-US', { month: 'short' });
+  const day = d.getDate();
+  return `<span class="cal-dynamic-badge" title="${esc(fmtDate(dateStr || todayStr()))}">
+    <span class="cdb-top">${esc(mon)}</span>
+    <span class="cdb-day">${day}</span>
+  </span>`;
+}
+function bellIconSVG() {
+  return `<svg viewBox="0 0 24 24">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+  </svg>`;
+}
+function menuBarsSVG() {
+  return `<svg viewBox="0 0 24 24">
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>`;
+}
+
+function roleIcon(r) {
+  return { superadmin: '👑', matron: '🏠', teacher: '📚', mess_manager: '🍽️' }[r] || '👤';
+}
+function isValidPhone(p) { return /^01[0-9]{9}$/.test(String(p || '').trim()); }
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e || '').trim()); }
+function normalizePhone(p) {
+  const digits = String(p || '').replace(/\D/g, '');
+  if (digits.length === 13 && digits.startsWith('8801')) return digits.slice(2);
+  return digits;
+}
+function fmtPhone(p) {
+  if (!p) return '—';
+  const s = String(p).trim();
+  if (s.length === 11 && /^\d{11}$/.test(s)) return `${s.slice(0,4)}-${s.slice(4,7)}-${s.slice(7)}`;
+  return s;
+}
+function phoneHTML(phone) {
+  if (!phone) return '<span class="phone-empty">—</span>';
+  const p = String(phone).trim();
+  const f = fmtPhone(p);
+  return `<span class="phone-wrap">
+    <span class="phone-num">📱 ${esc(f)}</span>
+    <a href="tel:${esc(p)}" class="phone-action call-btn" title="কল করুন">📞</a>
+    <button type="button" class="phone-action copy-btn" data-copy-phone="${esc(p)}" title="নম্বর কপি করুন">📋</button>
+  </span>`;
+}
+function creatorBadgeHTML(x) {
+  if (!x) return '';
+  const when = x.approved_at ? fmtDate(new Date(x.approved_at).toISOString().slice(0,10)) : '';
+  let label = '', icon = '📄', cls = 'creator-badge';
+  if (x.approved_by === 'superadmin') { icon = '👑'; cls += ' admin'; label = 'সুপার এডমিন কর্তৃক অনুমোদিত'; }
+  else if (x.approved_by === 'matron') { icon = '📋'; cls += ' matron'; label = `মেট্রন ${x.created_by_name || '—'} কর্তৃক অনুমোদিত`; }
+  else if (x.approved_by === 'matron-invite') { icon = '🔗'; cls += ' matron'; label = `মেট্রন ${x.created_by_name || '—'} এর Invite থেকে`; }
+  else if (x.approved_by === 'system') { icon = '⚙️'; label = 'System seed account'; }
+  else if (x.created_by_name) { label = `${x.created_by_name} কর্তৃক তৈরি`; }
+  else return '';
+  return `<div class="${cls}" title="${esc(x.approval_note || '')}">
+      <span>${icon}</span><span>${esc(label)}</span>${when ? `<span>· ${when}</span>` : ''}
+    </div>`;
+}
+
+/* ============================================================
+   SECURITY: Salted Hashing + Signed Session Tokens + API Token
+   ============================================================ */
+function legacyHashPassword(pw) {
+  let h = 5381;
+  for (let i = 0; i < pw.length; i++) h = ((h << 5) + h + pw.charCodeAt(i)) | 0;
+  return 'h' + (h >>> 0).toString(36);
+}
+function hashPassword(pw) {
+  const s = String(pw || '');
+  let h1 = 0x811c9dc5, h2 = 0x1000193;
+  const salted = `MGMC_v2_SALT::${s}::${s.length * 97}`;
+  for (let round = 0; round < 64; round++) {
+    for (let i = 0; i < salted.length; i++) {
+      const c = salted.charCodeAt(i) ^ (round * 31);
+      h1 ^= c; h1 = Math.imul(h1, 0x01000193);
+      h2 ^= (c + round); h2 = Math.imul(h2, 0x85ebca6b);
+    }
+  }
+  return 'v2$' + (h1 >>> 0).toString(36) + '$' + (h2 >>> 0).toString(36) + '$' + legacyHashPassword(s).slice(1);
+}
+function verifyPassword(inputPw, storedHash) {
+  if (!storedHash) return false;
+  if (storedHash.startsWith('v2$')) return hashPassword(inputPw) === storedHash;
+  return legacyHashPassword(inputPw) === storedHash || hashPassword(inputPw) === storedHash;
+}
+
+const DB_KEY = 'mgmc_db_v22';
+const SESSION_KEY = 'mgmc_session_token_v22';
+const RATE_LIMIT_KEY = 'mgmc_login_attempts_v22';
+
+function apiFetch(url, opts = {}) {
+  const headers = new Headers(opts.headers || {});
+  headers.set('X-App-Token', APP_TOKEN);
+  return fetch(url, { ...opts, headers });
+}
+
+function signSessionToken(user) {
+  if (!user || !user.id) return '';
+  const payload = `${user.id}|${user.password}|${user.role}|${user.active}`;
+  const sig = hashPassword(payload).replace(/\$/g, '.');
+  return `${user.id}.${sig}`;
+}
+function setStoredSession(user) {
+  try {
+    if (!user || !user.id) localStorage.removeItem(SESSION_KEY);
+    else localStorage.setItem(SESSION_KEY, signSessionToken(user));
+  } catch (e) {}
+}
+function verifyAndResolveSession(usersList) {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw || !raw.includes('.')) return null;
+    const [idStr] = raw.split('.');
+    const uid = Number(idStr);
+    if (!uid || !Array.isArray(usersList)) return null;
+    const user = usersList.find(u => u.id === uid);
+    if (!user || !user.active) return null;
+    if (raw !== signSessionToken(user)) {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    return user.id;
+  } catch (e) { return null; }
+}
+
+function checkLoginLockout() {
+  try {
+    const data = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '{}');
+    if (data.lockedUntil && Date.now() < data.lockedUntil) {
+      return Math.ceil((data.lockedUntil - Date.now()) / 1000);
+    }
+    return 0;
+  } catch { return 0; }
+}
+function recordLoginAttempt(success) {
+  try {
+    if (success) { localStorage.removeItem(RATE_LIMIT_KEY); return; }
+    const data = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '{"count":0}');
+    data.count = (data.count || 0) + 1;
+    if (data.count >= 5) { data.lockedUntil = Date.now() + 30000; data.count = 0; }
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
+  } catch {}
+}
+
+function toast(text, ok = false) {
+  const t = document.createElement('div');
+  t.className = 'toast ' + (ok ? 'ok' : 'err');
+  t.textContent = text;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3200);
+}
+function footerHTML() {
+  return `<footer class="app-footer">Developed by: <strong class="dev-name">${esc(DEVELOPER)}</strong></footer>`;
+}
+
+document.addEventListener('click', e => {
+  const dropdown = $('#topMenuDropdown');
+  const menuBtn = e.target.closest('#topMenuBtn');
+  if (menuBtn && dropdown) {
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+    return;
+  }
+  if (dropdown && !e.target.closest('#topMenuDropdown')) {
+    dropdown.classList.remove('open');
+  }
+
+  const pwBtn = e.target.closest('[data-pw-toggle]');
+  if (pwBtn) {
+    e.preventDefault();
+    const input = document.getElementById(pwBtn.dataset.pwToggle);
+    if (input) {
+      input.type = input.type === 'password' ? 'text' : 'password';
+      pwBtn.textContent = input.type === 'password' ? '👁️' : '🙈';
+    }
+    return;
+  }
+  const btn = e.target.closest('[data-copy-phone]');
+  if (btn) {
+    e.preventDefault(); e.stopPropagation();
+    copyToClipboard(btn.dataset.copyPhone, 'নম্বর কপি হয়েছে ✅');
+    return;
+  }
+  const tbtn = e.target.closest('[data-copy-text]');
+  if (tbtn) {
+    e.preventDefault(); e.stopPropagation();
+    copyToClipboard(tbtn.dataset.copyText, '✅ কপি হয়েছে');
+  }
+});
+
+function copyToClipboard(text, msg) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => toast(msg, true), () => fallbackCopy(text, msg));
+  } else fallbackCopy(text, msg);
+}
+function fallbackCopy(text, msg) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast(msg, true);
+  } catch { toast('কপি করা যায়নি'); }
+}
+
+const DEFAULT_SETTINGS = {
+  app_name: 'MGMC Meal Management',
+  mess_name: 'MGMC Central Mess',
+  cutoff_time: '10:00',
+  cutoff_days_before: '0',
+  max_advance_days: '10',
+  meal_capacity: '200',
+  meal_price: '60',
+  lunch_enabled: '1',
+  last_backup_at: ''
+};
+const DEFAULT_ADMIN = { email: 'admin@mgmc.local', password: 'admin1234', phone: '01700000000' };
+
+function getMaxAdvanceDays() {
+  const n = Number(db?.settings?.max_advance_days);
+  return (!isNaN(n) && n >= 1 && n <= 90) ? n : 10;
+}
+
+function blankDB() {
+  return {
+    users: [], meals: [], announcements: [], notifications: [], tombstones: {},
+    settings: { ...DEFAULT_SETTINGS }, day_settings: {}, invites: [], session: null,
+    nextIds: { users: 1, meals: 1, announcements: 1, notifications: 1 }
+  };
+}
+
+/* ============================================================
+   DATABASE ENGINE (Compatible with D1 schema.sql + Local)
+   ============================================================ */
+let db = null;
+let isLoaded = false;
+let syncMode = 'local';
+
+function ensureSeedAdminExists(targetDb) {
+  const hasActiveAdmin = (targetDb.users || []).some(u => u.role === 'superadmin' && u.active === 1);
+  if (!hasActiveAdmin) {
+    const existingSeed = (targetDb.users || []).find(
+      u => u.email === DEFAULT_ADMIN.email || normalizePhone(u.phone) === DEFAULT_ADMIN.phone
+    );
+    const now = Date.now();
+    if (existingSeed) {
+      existingSeed.role = 'superadmin';
+      existingSeed.active = 1;
+      if (!existingSeed.password) existingSeed.password = hashPassword(DEFAULT_ADMIN.password);
+      existingSeed.updated_at = now;
+    } else {
+      const maxUid = (targetDb.users || []).reduce((m, u) => Math.max(m, u.id || 0), 0);
+      targetDb.nextIds = targetDb.nextIds || { users: 1, meals: 1, announcements: 1, notifications: 1 };
+      targetDb.nextIds.users = Math.max(targetDb.nextIds.users || 1, maxUid + 1);
+      targetDb.users.push({
+        id: targetDb.nextIds.users++,
+        name: 'Super Admin',
+        email: DEFAULT_ADMIN.email,
+        phone: DEFAULT_ADMIN.phone,
+        password: hashPassword(DEFAULT_ADMIN.password),
+        role: 'superadmin',
+        active: 1,
+        created_at: now,
+        updated_at: now,
+        created_by: null, created_by_name: null, created_by_role: null,
+        approved_at: now, approved_by: 'system', approval_note: 'System seed account'
+      });
+    }
+    return true;
+  }
+  return false;
+}
+
+function unpackSettingsMeta(target) {
+  target.settings = (target.settings && typeof target.settings === 'object') ? target.settings : {};
+  if ((!target.notifications || !target.notifications.length) && target.settings.__notifications_json) {
+    try { target.notifications = JSON.parse(target.settings.__notifications_json); } catch {}
+  }
+  if ((!target.tombstones || !Object.keys(target.tombstones).length) && target.settings.__tombstones_json) {
+    try { target.tombstones = JSON.parse(target.settings.__tombstones_json); } catch {}
+  }
+  if (target.settings.__day_meta_json) {
+    try {
+      const meta = JSON.parse(target.settings.__day_meta_json);
+      target.day_settings = target.day_settings || {};
+      for (const [d, m] of Object.entries(meta)) {
+        target.day_settings[d] = { ...(target.day_settings[d] || {}), ...m };
+      }
+    } catch {}
+  }
+}
+
+function packSettingsMeta(target) {
+  target.settings = target.settings || {};
+  target.settings.__notifications_json = JSON.stringify((target.notifications || []).slice(-250));
+  target.settings.__tombstones_json = JSON.stringify(target.tombstones || {});
+  const dayMeta = {};
+  for (const [d, r] of Object.entries(target.day_settings || {})) {
+    dayMeta[d] = {
+      cutoff_days_before: r.cutoff_days_before ?? null,
+      cutoff_date: r.cutoff_date ?? null
+    };
+  }
+  target.settings.__day_meta_json = JSON.stringify(dayMeta);
+}
+
+function normalizeDB(target) {
+  if (!target || typeof target !== 'object') target = blankDB();
+  unpackSettingsMeta(target);
+  target.users = Array.isArray(target.users) ? target.users : [];
+  target.meals = Array.isArray(target.meals) ? target.meals : [];
+  target.announcements = Array.isArray(target.announcements) ? target.announcements : [];
+  target.notifications = Array.isArray(target.notifications) ? target.notifications : [];
+  target.tombstones = (target.tombstones && typeof target.tombstones === 'object') ? target.tombstones : {};
+  for (const [k, v] of Object.entries(DEFAULT_SETTINGS)) {
+    if (target.settings[k] == null || target.settings[k] === '') target.settings[k] = v;
+  }
+  target.day_settings = (target.day_settings && typeof target.day_settings === 'object') ? target.day_settings : {};
+  target.invites = Array.isArray(target.invites) ? target.invites : [];
+  target.nextIds = target.nextIds || { users: 1, meals: 1, announcements: 1, notifications: 1 };
+
+  const maxU = target.users.reduce((m, x) => Math.max(m, x.id || 0), 0);
+  const maxM = target.meals.reduce((m, x) => Math.max(m, x.id || 0), 0);
+  const maxA = target.announcements.reduce((m, x) => Math.max(m, x.id || 0), 0);
+  const maxN = target.notifications.reduce((m, x) => Math.max(m, x.id || 0), 0);
+  target.nextIds.users = Math.max(target.nextIds.users || 1, maxU + 1);
+  target.nextIds.meals = Math.max(target.nextIds.meals || 1, maxM + 1);
+  target.nextIds.announcements = Math.max(target.nextIds.announcements || 1, maxA + 1);
+  target.nextIds.notifications = Math.max(target.nextIds.notifications || 1, maxN + 1);
+
+  target.users.forEach(u => {
+    if (!('phone' in u)) u.phone = '';
+    if (!('updated_at' in u)) u.updated_at = u.created_at || 1;
+    if (!('approved_at' in u)) u.approved_at = u.active ? (u.created_at || Date.now()) : null;
+    if (!('approved_by' in u)) u.approved_by = u.role === 'superadmin' ? 'system' : null;
+    if (!('approval_note' in u)) u.approval_note = u.role === 'superadmin' ? 'System seed account' : null;
+  });
+  target.meals.forEach(m => {
+    if (!('updated_at' in m)) m.updated_at = m.served_at || m.created_at || 1;
+  });
+  ensureSeedAdminExists(target);
+  return target;
+}
+
+function mergeDatabases(serverRaw, localRaw, actorRole, actorId) {
+  const s = normalizeDB(serverRaw);
+  const l = normalizeDB(localRaw);
+  const mergedTombstones = { ...s.tombstones, ...l.tombstones };
+
+  const mealKey = m => `${m.user_id}_${m.date}_${m.meal_type || 'lunch'}`;
+  const mealMap = new Map();
+  s.meals.forEach(m => mealMap.set(mealKey(m), { ...m }));
+  l.meals.forEach(m => {
+    if (actorRole === 'teacher' && m.user_id !== actorId) return;
+    const k = mealKey(m);
+    const tDel = mergedTombstones['meal_' + k] || 0;
+    if (tDel > (m.updated_at || m.created_at || 0)) return;
+    const existing = mealMap.get(k);
+    if (!existing || (m.updated_at || m.created_at || 0) >= (existing.updated_at || existing.created_at || 0)) {
+      mealMap.set(k, { ...m });
+    }
+  });
+  const finalMeals = [];
+  for (const [k, m] of mealMap.entries()) {
+    const tDel = mergedTombstones['meal_' + k] || 0;
+    if (tDel <= (m.updated_at || m.created_at || 0)) finalMeals.push(m);
+  }
+
+  const userMap = new Map();
+  s.users.forEach(u => userMap.set(u.id, { ...u }));
+  l.users.forEach(u => {
+    if (mergedTombstones['user_' + u.id]) return;
+    if (actorRole === 'teacher' && u.id !== actorId) return;
+    const ex = userMap.get(u.id);
+    if (!ex || (u.updated_at || 0) >= (ex.updated_at || 0)) {
+      if (ex && actorRole && actorRole !== 'superadmin' && u.role !== ex.role) u.role = ex.role;
+      userMap.set(u.id, { ...u });
+    }
+  });
+  const finalUsers = [];
+  for (const [id, u] of userMap.entries()) {
+    if (!mergedTombstones['user_' + id]) finalUsers.push(u);
+  }
+
+  const notifMap = new Map();
+  s.notifications.forEach(n => notifMap.set(n.id, { ...n }));
+  l.notifications.forEach(n => {
+    const ex = notifMap.get(n.id);
+    if (!ex || (n.read && !ex.read) || (n.created_at || 0) >= (ex.created_at || 0)) {
+      notifMap.set(n.id, { ...n });
+    }
+  });
+
+  const annMap = new Map();
+  s.announcements.forEach(a => annMap.set(a.id, { ...a }));
+  l.announcements.forEach(a => {
+    if (!mergedTombstones['ann_' + a.id]) annMap.set(a.id, { ...a });
+  });
+
+  const useLocalAdminSettings = (!actorRole || actorRole === 'superadmin');
+  const finalSettings = useLocalAdminSettings ? { ...s.settings, ...l.settings } : { ...s.settings };
+  const finalDaySettings = useLocalAdminSettings ? { ...l.day_settings } : { ...s.day_settings };
+
+  const invMap = new Map();
+  s.invites.forEach(i => invMap.set(i.token, { ...i }));
+  l.invites.forEach(i => invMap.set(i.token, { ...invMap.get(i.token), ...i }));
+
+  return normalizeDB({
+    users: finalUsers,
+    meals: finalMeals,
+    announcements: Array.from(annMap.values()).filter(a => !mergedTombstones['ann_' + a.id]),
+    notifications: Array.from(notifMap.values()).slice(-250),
+    tombstones: mergedTombstones,
+    settings: finalSettings,
+    day_settings: finalDaySettings,
+    invites: Array.from(invMap.values()),
+    session: null,
+    nextIds: {
+      users: Math.max(s.nextIds.users, l.nextIds.users),
+      meals: Math.max(s.nextIds.meals, l.nextIds.meals),
+      announcements: Math.max(s.nextIds.announcements, l.nextIds.announcements),
+      notifications: Math.max(s.nextIds.notifications, l.nextIds.notifications)
+    }
+  });
+}
+
+async function loadDatabase() {
+  let localCopy = null;
+  try {
+    const raw = localStorage.getItem(DB_KEY) || localStorage.getItem('mgmc_db_v21') || localStorage.getItem('mgmc_db_v20') || localStorage.getItem('mgmc_db_v18');
+    if (raw) localCopy = JSON.parse(raw);
+  } catch (e) {}
+
+  try {
+    const response = await apiFetch('/api/db', { cache: 'no-store' });
+    if (response.ok) {
+      const serverData = await response.json();
+      syncMode = 'cloud';
+      if (serverData && serverData.users && serverData.users.length > 0) {
+        const hadAdmin = serverData.users.some(u => u.role === 'superadmin' && u.active === 1);
+        db = normalizeDB(serverData);
+        if (!hadAdmin) await persist();
+      } else {
+        db = normalizeDB(localCopy || blankDB());
+        await persist();
+      }
+    } else {
+      throw new Error('HTTP ' + response.status);
+    }
+  } catch (error) {
+    syncMode = location.protocol.startsWith('http') ? 'cloud' : 'local';
+    db = normalizeDB(localCopy || blankDB());
+    packSettingsMeta(db);
+    try { localStorage.setItem(DB_KEY, JSON.stringify({ ...db, session: null })); } catch (e) {}
+  }
+
+  db.session = verifyAndResolveSession(db.users);
+  isLoaded = true;
+  render();
+}
+
+async function persist() {
+  const actor = currentUser();
+  const prevSync = syncMode;
+  syncMode = 'saving';
+  updateSyncIndicator();
+
+  try {
+    const getRes = await apiFetch('/api/db', { cache: 'no-store' });
+    if (getRes.ok) {
+      const latestServer = await getRes.json();
+      if (latestServer && typeof latestServer === 'object') {
+        const activeSessionId = db.session;
+        db = mergeDatabases(latestServer, db, actor?.role || null, actor?.id || null);
+        db.session = activeSessionId;
+      }
+    }
+    packSettingsMeta(db);
+    const snapshot = { ...db, session: null };
+    try { localStorage.setItem(DB_KEY, JSON.stringify(snapshot)); } catch (e) {}
+
+    const postRes = await apiFetch('/api/db', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(snapshot)
+    });
+    syncMode = postRes.ok ? 'cloud' : (prevSync === 'cloud' ? 'cloud' : 'local');
+  } catch (err) {
+    syncMode = location.protocol.startsWith('http') ? 'cloud' : 'local';
+    packSettingsMeta(db);
+    const snapshot = { ...db, session: null };
+    try { localStorage.setItem(DB_KEY, JSON.stringify(snapshot)); } catch (e) {}
+  }
+  updateSyncIndicator();
+}
+
+function updateSyncIndicator() {
+  const el = $('#syncStatusPill');
+  if (!el) return;
+  if (syncMode === 'saving') el.innerHTML = `<span class="sync-dot saving"></span> সেভ হচ্ছে…`;
+  else if (syncMode === 'cloud') el.innerHTML = `<span class="sync-dot"></span> অনলাইন`;
+  else el.innerHTML = `<span class="sync-dot local"></span> লোকাল প্রিভিউ`;
+}
+
+function resetAllData() {
+  try { localStorage.removeItem(DB_KEY); localStorage.removeItem('mgmc_db_v21'); localStorage.removeItem('mgmc_db_v20'); localStorage.removeItem('mgmc_db_v18'); } catch (e) {}
+  try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+  apiFetch('/api/db', { method: 'DELETE' }).catch(() => {}).finally(() => {
+    location.hash = '';
+    location.reload();
+  });
+}
+
+/* ============================================================
+   SMART CUTOFF & DYNAMIC ADVANCE DAYS ENGINE
+   ============================================================ */
+function getDaySettings(date) {
+  const defCutoff = db.settings.cutoff_time || '10:00';
+  const defDaysBefore = Number(db.settings.cutoff_days_before || 0);
+  const defEnabled = db.settings.lunch_enabled === '1';
+  const row = db.day_settings[date];
+
+  const cutoffTime = (row && row.cutoff_time) ? row.cutoff_time : defCutoff;
+  const daysBefore = (row && row.cutoff_days_before != null && row.cutoff_days_before !== '')
+    ? Number(row.cutoff_days_before)
+    : defDaysBefore;
+  const exactCutoffDate = (row && row.cutoff_date) ? row.cutoff_date : addDays(date, -daysBefore);
+  const enabled = (row && row.lunch_enabled != null) ? row.lunch_enabled === 1 : defEnabled;
+
+  return { date, cutoff: cutoffTime, cutoff_days_before: daysBefore, cutoff_date: exactCutoffDate, enabled };
+}
+
+function getCutoffTimestamp(date) {
+  const s = getDaySettings(date);
+  const [h, m] = (s.cutoff || '10:00').split(':').map(Number);
+  const dt = new Date(s.cutoff_date + 'T00:00:00');
+  dt.setHours(h || 0, m || 0, 0, 0);
+  return dt.getTime();
+}
+
+function isPastCutoffFor(date) {
+  const today = todayStr();
+  if (date < today) return true;
+  return Date.now() > getCutoffTimestamp(date);
+}
+
+function formatCutoffDeadlineBN(date) {
+  const s = getDaySettings(date);
+  const today = todayStr();
+  const tomorrow = addDays(today, 1);
+  let dayLabel = fmtShort(s.cutoff_date);
+  if (s.cutoff_date === today) dayLabel = 'আজ';
+  else if (s.cutoff_date === tomorrow) dayLabel = 'আগামীকাল';
+  return `${dayLabel} ${fmtTime12(s.cutoff)}`;
+}
+
+function maxAdvanceDate() { return addDays(todayStr(), getMaxAdvanceDays()); }
+
+function currentUser() {
+  if (!db || !db.session) return null;
+  const verifiedId = verifyAndResolveSession(db.users);
+  if (!verifiedId) { db.session = null; return null; }
+  return db.users.find(x => x.id === verifiedId) || null;
+}
+
+function rawMealFor(userId, date) {
+  const key = `${userId}_${date}_lunch`;
+  if (db.tombstones && db.tombstones['meal_' + key]) {
+    const m = db.meals.find(x => x.user_id === userId && x.date === date && x.meal_type === 'lunch');
+    if (m && (m.updated_at || m.created_at || 0) <= db.tombstones['meal_' + key]) return null;
+  }
+  return db.meals.find(m => m.user_id === userId && m.date === date && m.meal_type === 'lunch');
+}
+
+function deleteMealRecord(userId, date) {
+  const key = `${userId}_${date}_lunch`;
+  db.tombstones = db.tombstones || {};
+  db.tombstones['meal_' + key] = Date.now();
+  db.meals = db.meals.filter(m => !(m.user_id === userId && m.date === date && m.meal_type === 'lunch'));
+}
+
+function pushNotification(userId, title, message, kind = 'served') {
+  db.notifications = db.notifications || [];
+  db.notifications.push({
+    id: db.nextIds.notifications++,
+    user_id: userId, title, message, kind, read: 0, created_at: Date.now()
+  });
+}
+
+function userNotifications(userId) {
+  return (db.notifications || [])
+    .filter(n => n.user_id === userId || n.user_id === 'all')
+    .sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+}
+
+function statsFor(date) {
+  const list = db.meals.filter(m => m.date === date && m.meal_type === 'lunch' && m.confirmed === 1);
+  const enriched = list.map(m => {
+    const u = db.users.find(x => x.id === m.user_id) || {};
+    return {
+      user_id: m.user_id, name: u.name || '—', email: u.email || '—',
+      phone: u.phone || '', role: u.role || '—',
+      served: !!m.served, served_at: m.served_at || null, created_at: m.created_at || null
+    };
+  });
+  const total = enriched.length;
+  const served = enriched.filter(x => x.served).length;
+  return {
+    date, total, served, remaining: total - served, list: enriched,
+    capacity: Number(db.settings.meal_capacity || 0),
+    price: Number(db.settings.meal_price || 0)
+  };
+}
+
+function daySummary(date) {
+  const list = db.meals
+    .filter(m => m.date === date && m.meal_type === 'lunch' && m.confirmed === 1)
+    .map(m => {
+      const u = db.users.find(x => x.id === m.user_id) || {};
+      return {
+        name: u.name || '—', phone: u.phone || '', role: u.role || '—',
+        served: !!m.served, served_at: m.served_at || null, created_at: m.created_at || null
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, 'bn'));
+  return { date, count: list.length, list };
+}
+
+function upcomingDays(fromDate, days) {
+  const out = [];
+  for (let i = 0; i < days; i++) out.push(daySummary(addDays(fromDate, i)));
+  return out;
+}
+
+function visibleAnnouncements() {
+  const now = Date.now();
+  return (db.announcements || [])
+    .filter(a => now - (a.created_at || 0) < (a.visible_days || ANNOUNCE_DEFAULT_DAYS) * 86400000)
+    .sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+}
+
+function myOrdersFor(userId) {
+  const today = todayStr();
+  return db.meals
+    .filter(m => m.user_id === userId && m.meal_type === 'lunch' && m.date >= today && m.confirmed === 1)
+    .map(m => ({
+      id: m.id, date: m.date, served: !!m.served, served_at: m.served_at || null,
+      created_at: m.created_at || 0, canDelete: !isPastCutoffFor(m.date)
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function myUnconfirmedFor(userId) {
+  const today = todayStr();
+  return db.meals
+    .filter(m => m.user_id === userId && m.meal_type === 'lunch' && m.date >= today && (m.confirmed === 0 || m.confirmed == null))
+    .map(m => ({ date: m.date, created_at: m.created_at || 0 }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function rangeReport(from, to, onlyUserId = null) {
+  const out = [];
+  let cur = from, safety = 0;
+  while (cur <= to && safety < 400) {
+    safety++;
+    if (onlyUserId != null) {
+      const m = db.meals.find(x => x.user_id === onlyUserId && x.date === cur && x.meal_type === 'lunch' && x.confirmed === 1);
+      out.push({ date: cur, total: m ? 1 : 0, served: (m && m.served) ? 1 : 0, remaining: (m && !m.served) ? 1 : 0 });
+    } else {
+      const s = statsFor(cur);
+      out.push({ date: cur, total: s.total, served: s.served, remaining: s.remaining });
+    }
+    cur = addDays(cur, 1);
+  }
+  return out;
+}
+
+const state = {
+  authTab: 'login',
+  inviteToken: null,
+  teacherDate: todayStr(),
+  managerDate: todayStr(),
+  managerFilter: 'all',
+  showAnnounceForm: false,
+  modal: null
+};
+
+const roleLabel = r => ({
+  superadmin: 'সুপার এডমিন', matron: 'হোস্টেল মেট্রন',
+  teacher: 'শিক্ষক', mess_manager: 'Mess Manager'
+}[r] || r);
+
+function render() {
+  if (!isLoaded) return;
+  const u = currentUser();
+  if (!u) renderAuth();
+  else renderDash(u);
+  renderModal();
+}
+
+/* ============================================================
+   AUTH (Developer Footer Stays ONLY on Login Page)
+   ============================================================ */
+function renderAuth() {
+  const hash = location.hash.slice(1);
+  const params = new URLSearchParams(hash);
+  const invite = params.get('invite');
+  if (invite) state.inviteToken = invite;
+
+  const root = $('#root');
+  root.innerHTML = `
+    <div class="auth-screen">
+      <div class="auth-body">
+        <div class="auth-wrap">
+          <div class="brand">
+            <div class="logo">${APP_LOGO}</div>
+            <h1>${esc(db.settings.app_name)}</h1>
+            <p>সহজে খাবার বুক করুন</p>
+            <div class="version-tag">Version ${esc(APP_VERSION)}</div>
+          </div>
+          <div class="card">
+            ${state.inviteToken ? '' : `
+              <div class="tabs">
+                <button class="tab ${state.authTab === 'login' ? 'active' : ''}" data-tab="login">লগইন</button>
+                <button class="tab ${state.authTab === 'register' ? 'active' : ''}" data-tab="register">রেজিস্টার</button>
+              </div>`}
+
+            ${state.inviteToken ? `
+              <form id="inviteForm" class="view active">
+                <h3 style="font-size:16px;color:var(--primary)">🎫 Mess Manager হিসেবে যোগ দিন</h3>
+                <p class="hint">আপনাকে ইনভাইট করা হয়েছে — তথ্য দিয়ে অ্যাকাউন্ট খুলুন।</p>
+                <label>নাম<input id="ivName" required placeholder="আপনার পূর্ণ নাম"></label>
+                <label>মোবাইল নম্বর (11 ডিজিট) *<input id="ivPhone" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX" maxlength="11" required></label>
+                <label>ইমেইল *<input id="ivEmail" type="email" placeholder="example@mail.com" required></label>
+                <label>পাসওয়ার্ড
+                  <div class="input-wrap">
+                    <input id="ivPass" type="password" minlength="6" placeholder="কমপক্ষে 6 অক্ষর" required>
+                    <button type="button" class="pw-eye" data-pw-toggle="ivPass">👁️</button>
+                  </div>
+                </label>
+                <button class="btn btn-primary btn-block" type="submit">অ্যাকাউন্ট তৈরি করুন</button>
+                <div class="msg" id="invMsg"></div>
+              </form>` : ''}
+
+            ${!state.inviteToken && state.authTab === 'login' ? `
+              <form id="loginForm" class="view active">
+                <label>মোবাইল নম্বর (11 ডিজিট) অথবা ইমেইল
+                  <input id="lgIdentifier" type="text" placeholder="01XXXXXXXXX বা ইমেইল দিন" autocomplete="username" required>
+                </label>
+                <label>পাসওয়ার্ড
+                  <div class="input-wrap">
+                    <input id="lgPass" type="password" placeholder="আপনার পাসওয়ার্ড" autocomplete="current-password" required>
+                    <button type="button" class="pw-eye" data-pw-toggle="lgPass">👁️</button>
+                  </div>
+                </label>
+                <button class="btn btn-primary btn-block" type="submit">🔓 লগইন</button>
+                <div class="msg" id="loginMsg"></div>
+              </form>` : ''}
+
+            ${!state.inviteToken && state.authTab === 'register' ? `
+              <form id="registerForm" class="view active">
+                <label>নাম<input id="rgName" placeholder="আপনার পূর্ণ নাম" required></label>
+                <label>মোবাইল নম্বর (11 ডিজিট) *<input id="rgPhone" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX" maxlength="11" required></label>
+                <label>ইমেইল *<input id="rgEmail" type="email" placeholder="example@mail.com" required></label>
+                <label>পাসওয়ার্ড
+                  <div class="input-wrap">
+                    <input id="rgPass" type="password" minlength="6" placeholder="কমপক্ষে 6 অক্ষর" required>
+                    <button type="button" class="pw-eye" data-pw-toggle="rgPass">👁️</button>
+                  </div>
+                </label>
+                <label>ভূমিকা
+                  <select id="rgRole">
+                    <option value="teacher">শিক্ষক</option>
+                    <option value="matron">হোস্টেল মেট্রন</option>
+                  </select>
+                </label>
+                <button class="btn btn-primary btn-block" type="submit">✍️ রেজিস্টার</button>
+                <div class="hint" style="text-align:center">সুপার এডমিন অ্যাপ্রুভ করলে লগইন করতে পারবেন।</div>
+                <div class="msg" id="regMsg"></div>
+              </form>` : ''}
+          </div>
+          <div class="auth-bottom-note">🔒 For MGMC Employees only.</div>
+        </div>
+      </div>
+      ${footerHTML()}
+    </div>`;
+
+  $$('.tab').forEach(t => t.onclick = () => { state.authTab = t.dataset.tab; renderAuth(); });
+
+  const lgIdInput = $('#lgIdentifier');
+  if (lgIdInput) {
+    lgIdInput.addEventListener('input', () => {
+      const val = lgIdInput.value;
+      if (/^\d+$/.test(val) && val.length > 11) {
+        lgIdInput.value = val.slice(0, 11);
+      }
+    });
+  }
+  ['#rgPhone', '#ivPhone'].forEach(sel => {
+    const el = $(sel);
+    if (el) el.addEventListener('input', () => { el.value = el.value.replace(/\D/g, '').slice(0, 11); });
+  });
+
+  const lf = $('#loginForm');
+  if (lf) lf.onsubmit = async e => {
+    e.preventDefault();
+    const waitSec = checkLoginLockout();
+    if (waitSec > 0) return setMsg('loginMsg', `⏳ অতিরিক্ত ভুল চেষ্টা। ${waitSec} সেকেন্ড পর আবার চেষ্টা করুন।`);
+
+    const rawId = $('#lgIdentifier').value.trim();
+    const isNumericOnly = /^\d+$/.test(rawId);
+    if (isNumericOnly && !isValidPhone(rawId)) {
+      return setMsg('loginMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন (01XXXXXXXXX)');
+    }
+    if (!isNumericOnly && !isValidEmail(rawId)) {
+      return setMsg('loginMsg', 'সঠিক ইমেইল অ্যাড্রেস অথবা 11 ডিজিটের মোবাইল নম্বর দিন');
+    }
+
+    const identLower = rawId.toLowerCase();
+    const identPhone = normalizePhone(rawId);
+    const pass = $('#lgPass').value;
+
+    let user = db.users.find(u =>
+      (u.email && u.email.toLowerCase() === identLower) ||
+      (u.phone && identPhone.length === 11 && normalizePhone(u.phone) === identPhone)
+    );
+
+    if (!user && (identLower === DEFAULT_ADMIN.email || identPhone === DEFAULT_ADMIN.phone) && pass === DEFAULT_ADMIN.password) {
+      ensureSeedAdminExists(db);
+      user = db.users.find(u => u.email === DEFAULT_ADMIN.email);
+    }
+
+    if (!user || !verifyPassword(pass, user.password)) {
+      recordLoginAttempt(false);
+      return setMsg('loginMsg', 'ভুল ইমেইল/মোবাইল নম্বর বা পাসওয়ার্ড');
+    }
+    if (!user.active) return setMsg('loginMsg', '⛔ আপনার অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে।');
+
+    recordLoginAttempt(true);
+    if (!String(user.password).startsWith('v2$')) {
+      user.password = hashPassword(pass);
+      user.updated_at = Date.now();
+    }
+    db.session = user.id;
+    setStoredSession(user);
+    await persist();
+    state.teacherDate = todayStr();
+    state.managerDate = todayStr();
+    state.showAnnounceForm = false;
+    state.modal = null;
+    render();
+  };
+
+  const rf = $('#registerForm');
+  if (rf) rf.onsubmit = async e => {
+    e.preventDefault();
+    const name = $('#rgName').value.trim();
+    const phone = normalizePhone($('#rgPhone').value.trim());
+    const email = $('#rgEmail').value.toLowerCase().trim();
+    const pass = $('#rgPass').value;
+    const role = $('#rgRole').value;
+    if (!name || !email || !pass || !phone) return setMsg('regMsg', 'সব তথ্য দিন');
+    if (!isValidPhone(phone)) return setMsg('regMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন (01XXXXXXXXX)');
+    if (!isValidEmail(email)) return setMsg('regMsg', 'সঠিক ইমেইল অ্যাড্রেস দিন (যেমন: name@domain.com)');
+    if (pass.length < 6) return setMsg('regMsg', 'পাসওয়ার্ড কমপক্ষে 6 অক্ষর');
+    if (db.users.find(u => u.email.toLowerCase() === email)) return setMsg('regMsg', 'এই ইমেইল আগে থেকেই আছে');
+    if (db.users.find(u => normalizePhone(u.phone) === phone)) return setMsg('regMsg', 'এই মোবাইল নম্বর আগে থেকেই আছে');
+
+    const now = Date.now();
+    db.users.push({
+      id: db.nextIds.users++, name, email, phone,
+      password: hashPassword(pass), role, active: 0,
+      created_at: now, updated_at: now,
+      created_by: null, created_by_name: null, created_by_role: null,
+      approved_at: null, approved_by: null,
+      approval_note: 'স্ব-রেজিস্ট্রেশন — অনুমোদনের অপেক্ষায়'
+    });
+    await persist();
+    setMsg('regMsg', '✅ রেজিস্ট্রেশন সফল! সুপার এডমিন অ্যাপ্রুভ করার পর লগইন করতে পারেন।', true);
+    rf.reset();
+  };
+
+  const ivf = $('#inviteForm');
+  if (ivf) ivf.onsubmit = async e => {
+    e.preventDefault();
+    const inv = db.invites.find(i => i.token === state.inviteToken);
+    if (!inv) return setMsg('invMsg', 'লিংক ভুল');
+    if (inv.used_by) return setMsg('invMsg', 'এই লিংক আগে ব্যবহৃত হয়েছে');
+    if (Date.now() > inv.expires_at) return setMsg('invMsg', 'লিংকের সময় শেষ');
+    const name = $('#ivName').value.trim();
+    const phone = normalizePhone($('#ivPhone').value.trim());
+    const email = $('#ivEmail').value.toLowerCase().trim();
+    const pass = $('#ivPass').value;
+    if (!isValidPhone(phone)) return setMsg('invMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন');
+    if (!isValidEmail(email)) return setMsg('invMsg', 'সঠিক ইমেইল অ্যাড্রেস দিন');
+    if (db.users.find(u => u.email.toLowerCase() === email)) return setMsg('invMsg', 'এই ইমেইল আগে থেকেই আছে');
+    if (db.users.find(u => normalizePhone(u.phone) === phone)) return setMsg('invMsg', 'এই মোবাইল নম্বর আগে থেকেই আছে');
+    if (pass.length < 6) return setMsg('invMsg', 'পাসওয়ার্ড কমপক্ষে 6 অক্ষর');
+    const creator = db.users.find(x => x.id === inv.created_by);
+    const now = Date.now();
+    const user = {
+      id: db.nextIds.users++, name, email, phone,
+      password: hashPassword(pass), role: 'mess_manager',
+      active: 1, created_at: now, updated_at: now,
+      created_by: inv.created_by,
+      created_by_name: creator?.name || '—',
+      created_by_role: creator?.role || 'matron',
+      approved_at: now, approved_by: 'matron-invite',
+      approval_note: `${creator?.name || 'মেট্রন'} কর্তৃক Invite link দিয়ে অনুমোদিত`
+    };
+    db.users.push(user);
+    inv.used_by = user.id; inv.used_at = now;
+    db.session = user.id;
+    setStoredSession(user);
+    await persist();
+    location.hash = '';
+    toast('সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!', true);
+    render();
+  };
+}
+
+function setMsg(id, text, ok = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'msg ' + (ok ? 'ok' : 'err');
+}
+
+/* ============================================================
+   DASHBOARD SHELL
+   - Left: Logo + App Name on line 1; Bold User Name | Normal Role on line 2
+   - Right: Bell + 3-Bar Menu
+   - Report in 3-bar menu ONLY for Teacher; in main view for Matron/Manager/Admin
+   - No Developer Footer inside logged-in views
+   ============================================================ */
+function renderDash(u) {
+  const root = $('#root');
+  const notifs = userNotifications(u.id);
+  const unreadCount = notifs.filter(n => !n.read).length;
+
+  root.innerHTML = `
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-col">
+          <div class="brand-bar">
+            <div class="app-logo">${APP_LOGO}</div>
+            <div class="app-title">${esc(db.settings.app_name)}</div>
+          </div>
+          <div class="user-subline">
+            <b>${esc(u.name)}</b><span class="sep">|</span><span class="role-txt">${esc(roleLabel(u.role))}</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="notifBellBtn" title="নোটিফিকেশন">
+            ${bellIconSVG()}
+            ${unreadCount > 0 ? `<span class="notif-badge">${unreadCount}</span>` : ''}
+          </button>
+          <button class="icon-btn" id="topMenuBtn" title="মেনু">
+            ${menuBarsSVG()}
+          </button>
+          <div class="nav-dropdown" id="topMenuDropdown">
+            <div class="nd-user-card">
+              <div class="nd-user-name">
+                <span>${roleIcon(u.role)}</span>
+                <span>${esc(u.name)}</span>
+              </div>
+              <div class="nd-user-role">
+                <span>${esc(roleLabel(u.role))}</span>
+                <span>·</span>
+                <span id="syncStatusPill"></span>
+              </div>
+            </div>
+            ${u.role === 'teacher' ? `<button class="nd-item" id="menuReportBtn">📊 মিল ও বিল রিপোর্ট</button>` : ''}
+            <button class="nd-item" id="menuProfileBtn">⚙️ প্রোফাইল ও পাসওয়ার্ড</button>
+            <button class="nd-item" id="menuInstallBtn" style="display:${deferredInstallPrompt ? 'flex' : 'none'}">📲 Install Meal App</button>
+            <button class="nd-item danger" id="menuLogoutBtn">🚪 লগ আউট</button>
+          </div>
+        </div>
+      </header>
+      <main class="app-main">
+        <div class="dash">
+          <div id="announceWrap"></div>
+          <div id="view"></div>
+        </div>
+      </main>
+    </div>`;
+
+  updateSyncIndicator();
+  $('#notifBellBtn').onclick = () => openNotificationsModal();
+  if ($('#menuReportBtn')) {
+    $('#menuReportBtn').onclick = () => {
+      $('#topMenuDropdown').classList.remove('open');
+      openReportModal(u.id);
+    };
+  }
+  $('#menuProfileBtn').onclick = () => {
+    $('#topMenuDropdown').classList.remove('open');
+    openProfileModal();
+  };
+  if ($('#menuInstallBtn')) {
+    $('#menuInstallBtn').onclick = async () => {
+      $('#topMenuDropdown').classList.remove('open');
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      $('#menuInstallBtn').style.display = 'none';
+    };
+  }
+  $('#menuLogoutBtn').onclick = () => {
+    $('#topMenuDropdown').classList.remove('open');
+    openConfirmModal({
+      title: 'Logout?',
+      message: 'আপনি কি সত্যিই লগ আউট করতে চান?',
+      iconType: 'warning',
+      yesLabel: 'হ্যাঁ, লগ আউট',
+      noLabel: 'বাতিল',
+      onYes: async () => {
+        db.session = null;
+        setStoredSession(null);
+        location.hash = '';
+        state.modal = null;
+        render();
+      }
+    });
+  };
+
+  renderAnnouncements(u);
+  if (u.role === 'teacher') renderTeacher();
+  else if (u.role === 'matron') renderMatron();
+  else if (u.role === 'mess_manager') renderManager();
+  else if (u.role === 'superadmin') renderAdmin();
+}
+
+function renderAnnouncements(u) {
+  const wrap = $('#announceWrap');
+  if (!wrap) return;
+  const list = visibleAnnouncements();
+  const canPost = (u.role === 'matron' || u.role === 'superadmin');
+  if (!list.length && !canPost) { wrap.innerHTML = ''; return; }
+  const showingForm = state.showAnnounceForm;
+
+  wrap.innerHTML = `
+    <div class="announce-section">
+      <div class="announce-head">
+        <div class="icon">📢</div>
+        <div style="flex:1">মেট্রন অ্যানাউন্সমেন্ট</div>
+        ${canPost ? `<button class="btn btn-ghost btn-sm" id="toggleAnnForm">
+          ${showingForm ? '✕ বাতিল' : '➕ নতুন'}</button>` : ''}
+      </div>
+      ${canPost && showingForm ? `
+        <div class="card-block" style="padding:14px">
+          <label>শিরোনাম<input id="anTitle" placeholder="যেমন: আগামীকাল বিশেষ মেনু" maxlength="80"></label>
+          <label>বিস্তারিত<textarea id="anBody" placeholder="বিস্তারিত লিখুন…" maxlength="500"></textarea></label>
+          <label>কতদিন দেখাবে
+            <select id="anDays">
+              <option value="1">1 দিন</option>
+              <option value="3">3 দিন</option>
+              <option value="7" selected>7 দিন</option>
+              <option value="14">14 দিন</option>
+              <option value="30">30 দিন</option>
+            </select>
+          </label>
+          <button class="btn btn-primary btn-block" id="postAnn">📢 পোস্ট করুন</button>
+          <div class="msg" id="anMsg"></div>
+        </div>` : ''}
+      ${list.length ? list.map(a => {
+        const author = db.users.find(x => x.id === a.created_by);
+        const canDelete = u.role === 'matron' || u.role === 'superadmin';
+        const days = a.visible_days || ANNOUNCE_DEFAULT_DAYS;
+        const expiresAt = (a.created_at || 0) + days * 86400000;
+        const daysLeft = Math.max(0, Math.ceil((expiresAt - Date.now()) / 86400000));
+        return `
+          <div class="announce-item">
+            ${canDelete ? `<button class="del-btn" data-ann-del="${a.id}" title="মুছুন">✕</button>` : ''}
+            <div class="title">${esc(a.title)}</div>
+            <div class="body">${esc(a.body)}</div>
+            <div class="meta">
+              <span>👤 ${esc(author?.name || 'মেট্রন')}</span>
+              <span>🕒 ${fmtDateTime(a.created_at)}</span>
+              <span>⏳ আরও ${daysLeft} দিন</span>
+            </div>
+          </div>`;
+      }).join('') : `<div style="text-align:center;color:#9a3412;font-size:13px;padding:4px">এখনো কোনো অ্যানাউন্সমেন্ট নেই</div>`}
+    </div>`;
+
+  if (canPost) {
+    $('#toggleAnnForm')?.addEventListener('click', () => {
+      state.showAnnounceForm = !state.showAnnounceForm;
+      renderAnnouncements(u);
+    });
+    $('#postAnn')?.addEventListener('click', async () => {
+      const title = $('#anTitle').value.trim();
+      const body = $('#anBody').value.trim();
+      const days = Number($('#anDays').value) || ANNOUNCE_DEFAULT_DAYS;
+      if (!title || !body) return setMsg('anMsg', 'শিরোনাম ও বিস্তারিত দিন');
+      db.announcements.push({
+        id: db.nextIds.announcements++, title, body, visible_days: days,
+        created_by: u.id, created_at: Date.now()
+      });
+      await persist();
+      state.showAnnounceForm = false;
+      toast('✅ অ্যানাউন্সমেন্ট পোস্ট হয়েছে', true);
+      renderAnnouncements(u);
+    });
+  }
+  $$('[data-ann-del]').forEach(b => b.onclick = async () => {
+    const id = Number(b.dataset.annDel);
+    if (!confirm('এই অ্যানাউন্সমেন্ট মুছে ফেলবেন?')) return;
+    db.tombstones = db.tombstones || {};
+    db.tombstones['ann_' + id] = Date.now();
+    db.announcements = db.announcements.filter(x => x.id !== id);
+    await persist();
+    toast('মুছে ফেলা হয়েছে', true);
+    renderAnnouncements(u);
+  });
+}
+
+/* ============================================================
+   MODAL SYSTEM (Includes Order Posting Time & Meal Serving Time for Admin)
+   ============================================================ */
+function openNotificationsModal() { state.modal = { type: 'notifications' }; renderModal(); }
+function openDayModal(date, title) {
+  const info = daySummary(date);
+  state.modal = {
+    type: 'day',
+    title: title || `${fmtDateLong(date)} — বিস্তারিত`,
+    subtitle: `মোট ${info.count} জন খাবার নিচ্ছেন`,
+    people: info.list,
+    empty: 'এই দিনে এখনো কেউ খাবার রিকোয়েস্ট করেনি।'
+  };
+  renderModal();
+}
+function openListModal(title, subtitle, people, empty) {
+  state.modal = {
+    type: 'day', title, subtitle,
+    people: people.map(p => ({
+      name: p.name, phone: p.phone, served: !!p.served,
+      created_at: p.created_at || null, served_at: p.served_at || null
+    })),
+    empty: empty || 'কোনো তথ্য নেই।'
+  };
+  renderModal();
+}
+function openUpcomingDaysModal(title, days) { state.modal = { type: 'daysList', title, days }; renderModal(); }
+function openReportModal(onlyUserId = null) {
+  state.modal = {
+    type: 'report',
+    from: startOfSaturdayWeek(todayStr()),
+    to: todayStr(),
+    range: 'thisweek',
+    onlyUserId
+  };
+  renderModal();
+}
+function openProfileModal() { state.modal = { type: 'profile', showPw: false }; renderModal(); }
+function openConfirmModal({ title, message, dateLabel, danger, iconType, yesLabel, noLabel, onYes }) {
+  state.modal = { type: 'confirm', title, message, dateLabel, danger, iconType, yesLabel, noLabel, onYes };
+  renderModal();
+}
+function openAdminResetModal() { state.modal = { type: 'adminReset' }; renderModal(); }
+function openBackupModal(mode = 'backup') { state.modal = { type: 'backupRestore', mode }; renderModal(); }
+function openUserEditModal(userId) { state.modal = { type: 'userEdit', userId }; renderModal(); }
+function closeModal() { state.modal = null; renderModal(); }
+
+function renderModal() {
+  const existing = $('#modalOverlay');
+  if (existing) existing.remove();
+  if (!state.modal) return;
+
+  const me = currentUser();
+  const showTimestamps = me && me.role === 'superadmin';
+
+  const el = document.createElement('div');
+  el.id = 'modalOverlay';
+  el.className = 'modal-overlay';
+
+  if (state.modal.type === 'notifications') {
+    const list = me ? userNotifications(me.id) : [];
+    el.innerHTML = `
+      <div class="modal-card" role="dialog">
+        <div class="modal-head">
+          <div>
+            <h3>🔔 নোটিফিকেশন সমূহ</h3>
+            <div class="hint" style="margin-top:2px">খাবার পরিবেশন ও গুরুত্বপূর্ণ আপডেট</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          ${list.length ? list.map(n => `
+            <div class="notif-item ${n.read ? '' : 'unread'}">
+              <div class="notif-ic">${n.kind === 'served' ? '🍽️' : '🔔'}</div>
+              <div class="notif-body">
+                <div class="notif-title">${esc(n.title)}</div>
+                <div class="notif-text">${esc(n.message)}</div>
+                <div class="notif-time">🕒 ${fmtDateTime(n.created_at)}</div>
+              </div>
+              ${!n.read ? '<span class="pill blue">নতুন</span>' : ''}
+            </div>
+          `).join('') : `<p class="hint" style="text-align:center;padding:28px">এখনো কোনো নোটিফিকেশন নেই। যখন আপনার খাবার পরিবেশন (Served) করা হবে, এখানে সাথে সাথে দেখতে পাবেন।</p>`}
+        </div>
+        <div class="modal-foot">
+          ${list.some(n => !n.read) ? `<button class="btn btn-primary" id="markNotifReadBtn" style="flex:1">✓ সব পড়া হয়েছে</button>` : ''}
+          <button class="btn btn-ghost" id="closeModalBtn2" style="flex:1">বন্ধ করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'day') {
+    const { title, subtitle, people, empty } = state.modal;
+    el.innerHTML = `
+      <div class="modal-card" role="dialog">
+        <div class="modal-head">
+          <div><h3>📋 ${esc(title)}</h3>
+            <div class="hint" style="margin-top:2px">${esc(subtitle)}</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          ${people.length ? people.map(p => `
+            <div class="person">
+              <div style="min-width:0;flex:1">
+                <div style="font-weight:800;font-size:14.5px">${esc(p.name)}</div>
+                <div style="margin-top:3px">${phoneHTML(p.phone)}</div>
+                ${showTimestamps ? `
+                  <div class="time-meta">
+                    <span>📝 অর্ডার: ${p.created_at ? fmtDateTime(p.created_at) : '—'}</span>
+                    <span>🍽️ পরিবেশন: ${p.served ? (p.served_at ? fmtDateTime(p.served_at) : 'হ্যাঁ') : 'এখনো দেয়নি'}</span>
+                  </div>
+                ` : ''}
+              </div>
+              ${p.served ? '<span class="pill">✓ নেওয়া হয়েছে</span>' : '<span class="pill red">খাবার নেয়নি</span>'}
+            </div>`).join('') :
+            `<p class="hint" style="text-align:center;padding:20px">${esc(empty)}</p>`}
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost btn-block" id="closeModalBtn2">বন্ধ করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'daysList') {
+    const { title, days } = state.modal;
+    const totalAll = days.reduce((a, x) => a + x.count, 0);
+    const today = todayStr();
+    el.innerHTML = `
+      <div class="modal-card" role="dialog">
+        <div class="modal-head">
+          <div><h3>${calIconSVG(18)} ${esc(title)}</h3>
+            <div class="hint" style="margin-top:2px">সর্বমোট ${totalAll} জন খাবার নিচ্ছেন</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          ${days.map(d => {
+            const empty = d.count === 0;
+            const isToday = d.date === today;
+            const dt = new Date(d.date + 'T00:00:00');
+            const wk = dt.toLocaleDateString('bn-BD', { weekday: 'long' });
+            const mon = dt.toLocaleDateString('bn-BD', { month: 'long' });
+            return `
+              <div class="day-list-item ${isToday ? 'today' : ''} ${empty ? 'empty' : ''}" data-jump-day="${d.date}">
+                ${dynamicCalBadge(d.date)}
+                <div style="flex:1;min-width:0">
+                  <div class="dli-date">${wk}, ${dt.getDate()} ${mon}${isToday ? ' (আজ)' : ''}</div>
+                  <div class="dli-sub">${empty ? 'কোনো অর্ডার নেই' : 'বিস্তারিত দেখতে ক্লিক করুন'}</div>
+                </div>
+                <div class="dli-right">
+                  <div class="dli-num">${d.count}</div>
+                  <div class="dli-unit">জন</div>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost btn-block" id="closeModalBtn2">বন্ধ করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'report') {
+    const { from, to, range, onlyUserId } = state.modal;
+    const advDays = getMaxAdvanceDays();
+    const rows = rangeReport(from, to, onlyUserId);
+    const totalAll = rows.reduce((a, x) => a + x.total, 0);
+    const servedAll = rows.reduce((a, x) => a + x.served, 0);
+    const unservedAll = rows.reduce((a, x) => a + x.remaining, 0);
+    const mealPrice = Number(db.settings.meal_price || 60);
+    const totalCost = totalAll * mealPrice;
+    const isPersonal = onlyUserId != null;
+
+    el.innerHTML = `
+      <div class="modal-card" role="dialog" style="max-width:640px">
+        <div class="modal-head">
+          <div>
+            <h3>📊 ${isPersonal ? 'আমার মিল ও বিল রিপোর্ট' : 'সার্বিক মিল ও অগ্রিম অর্ডার রিপোর্ট'}</h3>
+            <div class="hint" style="margin-top:2px">${fmtDate(from)} থেকে ${fmtDate(to)} পর্যন্ত</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="report-range-btns">
+            <button class="range-btn ${range === 'today' ? 'active' : ''}" data-range="today">আজ</button>
+            <button class="range-btn ${range === 'thisweek' ? 'active' : ''}" data-range="thisweek">এই সপ্তাহ (শনিবার থেকে)</button>
+            <button class="range-btn ${range === 'month' ? 'active' : ''}" data-range="month">এই মাস</button>
+            <button class="range-btn ${range === '30days' ? 'active' : ''}" data-range="30days">গত 30 দিন</button>
+            <button class="range-btn ${range === 'advance' ? 'active' : ''}" data-range="advance">অগ্রিম অর্ডার (আগামী ${advDays} দিন)</button>
+            <button class="range-btn ${range === 'custom' ? 'active' : ''}" data-range="custom">কাস্টম তারিখ</button>
+          </div>
+          ${range === 'custom' ? `
+            <div class="grid-2" style="margin-bottom:12px">
+              <label>শুরু তারিখ<input type="date" id="rptFrom" value="${from}"></label>
+              <label>শেষ তারিখ<input type="date" id="rptTo" value="${to}"></label>
+            </div>
+            <button class="btn btn-primary btn-block" id="applyReport" style="margin-bottom:14px">🔍 রিপোর্ট দেখান</button>
+          ` : ''}
+          <div class="report-summary">
+            <div class="rs-item"><div class="rs-num">${totalAll}</div><div class="rs-label">মোট মিল</div></div>
+            <div class="rs-item"><div class="rs-num green">${servedAll}</div><div class="rs-label">Served (খাবার নিয়েছে)</div></div>
+            <div class="rs-item"><div class="rs-num red">${unservedAll}</div><div class="rs-label">বাকি (খাবার নেয়নি)</div></div>
+            <div class="rs-item"><div class="rs-num">৳${totalCost}</div><div class="rs-label">মোট বিল (৳${mealPrice}/মিল)</div></div>
+          </div>
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>তারিখ</th>
+                <th style="text-align:center">${isPersonal ? 'অর্ডার' : 'মোট মিল'}</th>
+                <th style="text-align:center">Served</th>
+                <th style="text-align:center">বাকি</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `
+                <tr ${!isPersonal ? `data-jump-day="${r.date}" style="cursor:pointer"` : ''}>
+                  <td><b>${fmtDate(r.date)}</b></td>
+                  <td style="text-align:center">
+                    ${isPersonal
+                      ? (r.total ? '<span class="pill blue">হ্যাঁ (1)</span>' : '<span class="hint">—</span>')
+                      : `<span class="r-num" style="font-weight:800;color:var(--primary)">${r.total}</span>`}
+                  </td>
+                  <td style="text-align:center">
+                    ${isPersonal
+                      ? (r.served ? '<span class="pill">✓ Served</span>' : '<span class="hint">—</span>')
+                      : `<span class="r-num green" style="font-weight:800;color:var(--success)">${r.served}</span>`}
+                  </td>
+                  <td style="text-align:center">
+                    ${isPersonal
+                      ? (r.remaining ? '<span class="pill amber">বাকি</span>' : '<span class="hint">—</span>')
+                      : `<span class="r-num" style="font-weight:800;color:var(--danger)">${r.remaining}</span>`}
+                  </td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost btn-block" id="closeModalBtn2">বন্ধ করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'backupRestore') {
+    const isRestore = state.modal.mode === 'restore';
+    el.innerHTML = `
+      <div class="modal-card" role="dialog" style="max-width:460px">
+        <div class="modal-head">
+          <div>
+            <h3>🔐 ${isRestore ? 'ব্যাকআপ ফাইল থেকে রিস্টোর' : 'সম্পূর্ণ ডেটাবেস ব্যাকআপ'}</h3>
+            <div class="hint" style="margin-top:2px">নিরাপত্তার জন্য সুপার এডমিন পাসওয়ার্ড প্রয়োজন</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body" style="display:flex;flex-direction:column;gap:14px">
+          <div style="background:rgba(238,242,255,.85);border:1px solid #c7d2fe;padding:12px;border-radius:12px;font-size:13px;color:#312e81">
+            ${isRestore
+              ? '📤 আপনার সংরক্ষিত <b>.json</b> ব্যাকআপ ফাইলটি নির্বাচন করুন এবং সুপার এডমিন পাসওয়ার্ড দিন।'
+              : '📥 বর্তমান টাইমস্ট্যাম্পসহ সব ইউজার, মিল, সেটিংস এবং নোটিফিকেশন একটি নিরাপদ <b>.json</b> ফাইলে ডাউনলোড হবে।'}
+          </div>
+          ${isRestore ? `
+            <label>ব্যাকআপ ফাইল নির্বাচন করুন (.json)
+              <input type="file" id="restoreFileInput" accept=".json,application/json">
+            </label>
+          ` : ''}
+          <label>সুপার এডমিন পাসওয়ার্ড নিশ্চিত করুন
+            <div class="input-wrap">
+              <input type="password" id="bkAdminPass" placeholder="আপনার পাসওয়ার্ড দিন" required>
+              <button type="button" class="pw-eye" data-pw-toggle="bkAdminPass">👁️</button>
+            </div>
+          </label>
+          <div class="msg" id="bkMsg"></div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" id="closeModalBtn2" style="flex:1">বাতিল</button>
+          <button class="btn ${isRestore ? 'btn-warning' : 'btn-primary'}" id="confirmBkBtn" style="flex:1">
+            ${isRestore ? '📤 রিস্টোর করুন' : '📥 ব্যাকআপ ডাউনলোড'}
+          </button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'profile') {
+    const u = currentUser();
+    if (!u) return;
+    const showPw = !!state.modal.showPw;
+    el.innerHTML = `
+      <div class="modal-card" role="dialog">
+        <div class="modal-head">
+          <div><h3>⚙️ Profile ও সেটিং</h3>
+            <div class="hint" style="margin-top:2px">নাম, মোবাইল, ইমেইল ও পাসওয়ার্ড পরিবর্তন করুন</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <form id="profileForm" style="display:flex;flex-direction:column;gap:14px">
+            <label>নাম<input id="pfName" value="${esc(u.name)}" required></label>
+            <label>মোবাইল নম্বর (11 ডিজিট)<input id="pfPhone" type="tel" inputmode="numeric" value="${esc(u.phone || '')}" maxlength="11" required></label>
+            <label>ইমেইল<input id="pfEmail" type="email" value="${esc(u.email)}" required></label>
+            <button type="button" class="btn btn-ghost btn-block" id="togglePwBtn">
+              ${showPw ? '▲ পাসওয়ার্ড সেকশন বন্ধ করুন' : '🔑 পাসওয়ার্ড পরিবর্তন করুন'}
+            </button>
+            ${showPw ? `
+              <div style="background:rgba(254,243,199,.6);border:1px solid #fcd34d;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px">
+                <label>পুরনো পাসওয়ার্ড
+                  <div class="input-wrap">
+                    <input type="password" id="pwOld" placeholder="বর্তমান পাসওয়ার্ড">
+                    <button type="button" class="pw-eye" data-pw-toggle="pwOld">👁️</button>
+                  </div>
+                </label>
+                <label>নতুন পাসওয়ার্ড
+                  <div class="input-wrap">
+                    <input type="password" id="pwNew" minlength="6" placeholder="কমপক্ষে 6 অক্ষর">
+                    <button type="button" class="pw-eye" data-pw-toggle="pwNew">👁️</button>
+                  </div>
+                </label>
+                <label>নতুন পাসওয়ার্ড আবার
+                  <div class="input-wrap">
+                    <input type="password" id="pwNew2" minlength="6" placeholder="আবার লিখুন">
+                    <button type="button" class="pw-eye" data-pw-toggle="pwNew2">👁️</button>
+                  </div>
+                </label>
+                <div class="msg" id="pwMsg"></div>
+              </div>
+            ` : ''}
+            <div class="msg" id="pfMsg"></div>
+          </form>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" id="closeModalBtn2" style="flex:1">বাতিল</button>
+          <button class="btn btn-primary" id="saveProfileBtn" style="flex:1">💾 সেভ করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'adminReset') {
+    el.innerHTML = `
+      <div class="modal-card" role="dialog" style="max-width:420px">
+        <div class="modal-head">
+          <div><h3>⚠️ ডেটা রিসেট</h3>
+            <div class="hint" style="margin-top:2px">এই কাজটি ফেরানো যাবে না</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="text-align:center;padding:8px 0">
+            <div class="confirm-icon warning" style="margin-bottom:14px">🔒</div>
+            <div class="confirm-title">নিশ্চিত করতে পাসওয়ার্ড দিন</div>
+            <div class="confirm-msg">সাবধান! সব ইউজার, মিল, সেটিংস মুছে যাবে।</div>
+          </div>
+          <div style="margin-top:16px">
+            <label>অ্যাডমিন পাসওয়ার্ড
+              <div class="input-wrap">
+                <input type="password" id="resetPw" placeholder="পাসওয়ার্ড">
+                <button type="button" class="pw-eye" data-pw-toggle="resetPw">👁️</button>
+              </div>
+            </label>
+            <div class="msg" id="resetMsg" style="margin-top:8px"></div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" id="closeModalBtn2" style="flex:1">বাতিল</button>
+          <button class="btn btn-danger" id="doResetBtn" style="flex:1">🗑️ রিসেট করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'userEdit') {
+    const usr = db.users.find(x => x.id === state.modal.userId);
+    if (!usr) { state.modal = null; return; }
+    el.innerHTML = `
+      <div class="modal-card" role="dialog">
+        <div class="modal-head">
+          <div><h3>✏️ ইউজার এডিট</h3>
+            <div class="hint" style="margin-top:2px">${esc(usr.name)} — ${esc(roleLabel(usr.role))}</div>
+          </div>
+          <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <form id="userEditForm" style="display:flex;flex-direction:column;gap:14px">
+            <label>নাম<input id="ueName" value="${esc(usr.name)}" required></label>
+            <label>মোবাইল নম্বর (11 ডিজিট)<input id="uePhone" type="tel" inputmode="numeric" value="${esc(usr.phone || '')}" maxlength="11" required></label>
+            <label>ইমেইল<input id="ueEmail" type="email" value="${esc(usr.email)}" required></label>
+            <label>ভূমিকা
+              <select id="ueRole">
+                ${['superadmin','matron','teacher','mess_manager']
+                  .map(r => `<option value="${r}" ${usr.role === r ? 'selected' : ''}>${roleLabel(r)}</option>`).join('')}
+              </select>
+            </label>
+            <label>নতুন পাসওয়ার্ড (ঐচ্ছিক)
+              <div class="input-wrap">
+                <input type="password" id="uePass" minlength="6" placeholder="খালি রাখলে অপরিবর্তিত থাকবে">
+                <button type="button" class="pw-eye" data-pw-toggle="uePass">👁️</button>
+              </div>
+            </label>
+            <div class="msg" id="ueMsg"></div>
+          </form>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" id="closeModalBtn2" style="flex:1">বাতিল</button>
+          <button class="btn btn-primary" id="saveUserBtn" style="flex:1">💾 সেভ করুন</button>
+        </div>
+      </div>`;
+  } else if (state.modal.type === 'confirm') {
+    const { title, message, dateLabel, danger, iconType, yesLabel, noLabel, onYes } = state.modal;
+    let iconCls = 'confirm-icon';
+    if (iconType === 'warning') iconCls += ' warning';
+    else if (danger) iconCls += ' danger';
+    const iconEmoji = danger ? '⚠️' : iconType === 'warning' ? '🚪' : '🍽️';
+    el.innerHTML = `
+      <div class="modal-card" role="dialog" style="max-width:400px">
+        <div class="modal-body" style="padding:0">
+          <div class="confirm-popup">
+            <div class="${iconCls}">${iconEmoji}</div>
+            <div class="confirm-title">${esc(title || 'Confirm Order?')}</div>
+            <div class="confirm-msg">${esc(message || '')}</div>
+            ${dateLabel ? `<div class="confirm-date">${calIconSVG(15)} ${esc(dateLabel)}</div>` : ''}
+            <div class="confirm-actions">
+              <button class="btn-no" id="confirmNoBtn">✖️ ${esc(noLabel || 'না')}</button>
+              <button class="btn-yes" id="confirmYesBtn">✅ ${esc(yesLabel || 'হ্যাঁ')}</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  document.body.appendChild(el);
+
+  if ($('#closeModalBtn')) $('#closeModalBtn').onclick = closeModal;
+  if ($('#closeModalBtn2')) $('#closeModalBtn2').onclick = closeModal;
+  el.onclick = e => { if (e.target === el) closeModal(); };
+
+  if (state.modal.type === 'confirm') {
+    $('#confirmNoBtn').onclick = closeModal;
+    $('#confirmYesBtn').onclick = () => {
+      const cb = state.modal.onYes;
+      closeModal();
+      if (typeof cb === 'function') cb();
+    };
+  }
+
+  if (state.modal.type === 'notifications') {
+    const markBtn = $('#markNotifReadBtn');
+    if (markBtn) markBtn.onclick = async () => {
+      const u = currentUser();
+      if (!u) return;
+      (db.notifications || []).forEach(n => {
+        if (n.user_id === u.id || n.user_id === 'all') n.read = 1;
+      });
+      await persist();
+      closeModal();
+      render();
+    };
+  }
+
+  el.querySelectorAll('[data-jump-day]').forEach(div => {
+    div.onclick = () => {
+      const date = div.dataset.jumpDay;
+      const isEmpty = div.classList.contains('empty');
+      if (isEmpty && state.modal.type === 'daysList') return;
+      closeModal();
+      setTimeout(() => openDayModal(date), 100);
+    };
+  });
+
+  if (state.modal.type === 'report') {
+    const onlyUserId = state.modal.onlyUserId;
+    el.querySelectorAll('[data-range]').forEach(b => {
+      b.onclick = () => {
+        const r = b.dataset.range;
+        const today = todayStr();
+        let from = today, to = today;
+        if (r === 'today') { from = today; to = today; }
+        else if (r === 'thisweek') { from = startOfSaturdayWeek(today); to = today; }
+        else if (r === '30days') { from = addDays(today, -29); to = today; }
+        else if (r === 'month') {
+          const d = new Date();
+          from = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-01`;
+          to = today;
+        } else if (r === 'advance') {
+          from = today;
+          to = maxAdvanceDate();
+        } else if (r === 'custom') {
+          state.modal = { type: 'report', from: state.modal.from, to: state.modal.to, range: 'custom', onlyUserId };
+          renderModal(); return;
+        }
+        state.modal = { type: 'report', from, to, range: r, onlyUserId };
+        renderModal();
+      };
+    });
+    const applyBtn = $('#applyReport');
+    if (applyBtn) applyBtn.onclick = () => {
+      const f = $('#rptFrom').value;
+      const t = $('#rptTo').value;
+      if (!f || !t || f > t) return toast('তারিখ ঠিকভাবে বাছাই করুন');
+      state.modal = { type: 'report', from: f, to: t, range: 'custom', onlyUserId };
+      renderModal();
+    };
+  }
+
+  if (state.modal.type === 'backupRestore') {
+    const isRestore = state.modal.mode === 'restore';
+    $('#confirmBkBtn').onclick = async () => {
+      const pw = $('#bkAdminPass').value;
+      if (!pw) return setMsg('bkMsg', 'পাসওয়ার্ড দিন');
+      if (!me || me.role !== 'superadmin' || !verifyPassword(pw, me.password)) {
+        return setMsg('bkMsg', '❌ ভুল অ্যাডমিন পাসওয়ার্ড!');
+      }
+      if (!isRestore) {
+        const now = Date.now();
+        db.settings.last_backup_at = String(now);
+        await persist();
+        const dt = new Date(now);
+        const stamp = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}_${pad(dt.getHours())}-${pad(dt.getMinutes())}-${pad(dt.getSeconds())}`;
+        const backupPayload = {
+          meta: {
+            app: 'MGMC Meal Management',
+            version: APP_VERSION,
+            exported_at: now,
+            exported_at_iso: dt.toISOString(),
+            exported_at_formatted: fmtDateTime(now),
+            exported_by: me.name
+          },
+          data: { ...db, session: null }
+        };
+        const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `mgmc-backup-${stamp}.json`;
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(url);
+        toast('✅ সম্পূর্ণ ব্যাকআপ ডাউনলোড সম্পন্ন হয়েছে!', true);
+        closeModal();
+        renderAdmin();
+      } else {
+        const fileInput = $('#restoreFileInput');
+        if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+          return setMsg('bkMsg', 'অনুগ্রহ করে একটি ব্যাকআপ (.json) ফাইল নির্বাচন করুন');
+        }
+        try {
+          const text = await fileInput.files[0].text();
+          const parsed = JSON.parse(text);
+          const restoredDB = parsed.data && parsed.data.users ? parsed.data : (parsed.users ? parsed : null);
+          if (!restoredDB || !Array.isArray(restoredDB.users)) {
+            return setMsg('bkMsg', '❌ ফাইলটি সঠিক MGMC ব্যাকআপ ফাইল নয়');
+          }
+          db = normalizeDB(restoredDB);
+          packSettingsMeta(db);
+          const currentAdmin = db.users.find(u => u.id === me.id) || db.users.find(u => u.role === 'superadmin' && u.active);
+          if (currentAdmin) { db.session = currentAdmin.id; setStoredSession(currentAdmin); }
+          const snapshot = { ...db, session: null };
+          try { localStorage.setItem(DB_KEY, JSON.stringify(snapshot)); } catch (e) {}
+          try {
+            await apiFetch('/api/db', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(snapshot)
+            });
+          } catch (e) {}
+          toast('✅ ব্যাকআপ ফাইল থেকে সফলভাবে ডেটা রিস্টোর হয়েছে!', true);
+          closeModal();
+          render();
+        } catch (err) {
+          setMsg('bkMsg', '❌ ফাইল পড়তে সমস্যা হয়েছে: সঠিক JSON ফাইল দিন');
+        }
+      }
+    };
+  }
+
+  if (state.modal.type === 'profile') {
+    const pfPhoneEl = $('#pfPhone');
+    if (pfPhoneEl) pfPhoneEl.addEventListener('input', () => { pfPhoneEl.value = pfPhoneEl.value.replace(/\D/g, '').slice(0, 11); });
+    const toggleBtn = $('#togglePwBtn');
+    if (toggleBtn) toggleBtn.onclick = () => { state.modal.showPw = !state.modal.showPw; renderModal(); };
+    $('#saveProfileBtn').onclick = async () => {
+      if (!me) return;
+      const name = $('#pfName').value.trim();
+      const phone = normalizePhone($('#pfPhone').value.trim());
+      const email = $('#pfEmail').value.toLowerCase().trim();
+      if (!name || !phone || !email) return setMsg('pfMsg', 'সব তথ্য দিন');
+      if (!isValidPhone(phone)) return setMsg('pfMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন');
+      if (!isValidEmail(email)) return setMsg('pfMsg', 'সঠিক ইমেইল অ্যাড্রেস দিন');
+      if (db.users.find(x => x.email.toLowerCase() === email && x.id !== me.id)) return setMsg('pfMsg', 'এই ইমেইল আগে থেকেই আছে');
+      if (db.users.find(x => normalizePhone(x.phone) === phone && x.id !== me.id)) return setMsg('pfMsg', 'এই মোবাইল নম্বর আগে থেকেই আছে');
+
+      const pwOld = $('#pwOld') ? $('#pwOld').value : '';
+      const pwNew = $('#pwNew') ? $('#pwNew').value : '';
+      const pwNew2 = $('#pwNew2') ? $('#pwNew2').value : '';
+      let changedPw = false;
+      if (pwOld || pwNew || pwNew2) {
+        if (!pwOld || !pwNew || !pwNew2) return setMsg('pwMsg', 'তিনটি ফিল্ড পূরণ করুন');
+        if (!verifyPassword(pwOld, me.password)) return setMsg('pwMsg', 'পুরনো পাসওয়ার্ড ভুল');
+        if (pwNew.length < 6) return setMsg('pwMsg', 'নতুন পাসওয়ার্ড কমপক্ষে 6 অক্ষর');
+        if (pwNew !== pwNew2) return setMsg('pwMsg', 'নতুন পাসওয়ার্ড দুইবার একই দিন');
+        me.password = hashPassword(pwNew);
+        changedPw = true;
+      }
+      me.name = name; me.phone = phone; me.email = email;
+      me.updated_at = Date.now();
+      setStoredSession(me);
+      await persist();
+      toast(changedPw ? '✅ Profile ও পাসওয়ার্ড আপডেট হয়েছে' : '✅ Profile আপডেট হয়েছে', true);
+      closeModal();
+      render();
+    };
+  }
+
+  if (state.modal.type === 'adminReset') {
+    $('#doResetBtn').onclick = () => {
+      const pw = $('#resetPw').value;
+      if (!pw) return setMsg('resetMsg', 'পাসওয়ার্ড দিন');
+      if (!me || !verifyPassword(pw, me.password)) return setMsg('resetMsg', 'ভুল পাসওয়ার্ড');
+      if (!confirm('শেষবারের মতো নিশ্চিত? এটা ফেরানো যাবে না।')) return;
+      resetAllData();
+    };
+  }
+
+  if (state.modal.type === 'userEdit') {
+    const uePhoneEl = $('#uePhone');
+    if (uePhoneEl) uePhoneEl.addEventListener('input', () => { uePhoneEl.value = uePhoneEl.value.replace(/\D/g, '').slice(0, 11); });
+    $('#saveUserBtn').onclick = async () => {
+      const usr = db.users.find(x => x.id === state.modal.userId);
+      if (!usr) return;
+      const name = $('#ueName').value.trim();
+      const phone = normalizePhone($('#uePhone').value.trim());
+      const email = $('#ueEmail').value.toLowerCase().trim();
+      const role = $('#ueRole').value;
+      const pass = $('#uePass').value;
+      if (!name || !phone || !email) return setMsg('ueMsg', 'সব তথ্য দিন');
+      if (!isValidPhone(phone)) return setMsg('ueMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন');
+      if (!isValidEmail(email)) return setMsg('ueMsg', 'সঠিক ইমেইল অ্যাড্রেস দিন');
+      if (db.users.find(x => x.email.toLowerCase() === email && x.id !== usr.id)) return setMsg('ueMsg', 'এই ইমেইল আগে থেকেই আছে');
+      if (db.users.find(x => normalizePhone(x.phone) === phone && x.id !== usr.id)) return setMsg('ueMsg', 'এই মোবাইল নম্বর আগে থেকেই আছে');
+      if (usr.role === 'superadmin' && role !== 'superadmin') {
+        const cnt = db.users.filter(x => x.role === 'superadmin' && x.active).length;
+        if (cnt <= 1) return setMsg('ueMsg', 'শেষ সুপার এডমিনের ভূমিকা পরিবর্তন করা যাবে না');
+      }
+      usr.name = name; usr.phone = phone; usr.email = email; usr.role = role;
+      if (pass) {
+        if (pass.length < 6) return setMsg('ueMsg', 'পাসওয়ার্ড কমপক্ষে 6 অক্ষর');
+        usr.password = hashPassword(pass);
+      }
+      usr.updated_at = Date.now();
+      if (usr.id === db.session) setStoredSession(usr);
+      await persist();
+      toast('✅ ইউজার আপডেট হয়েছে', true);
+      closeModal();
+      renderAdmin();
+    };
+  }
+}
+
+function todayHighlightHTML(count, served, opts = {}) {
+  const label = opts.label || 'আজকের মিল';
+  const icon = opts.icon || '🍽️';
+  const sub = opts.sub || '';
+  const cta = opts.cta || 'বিস্তারিত দেখতে ক্লিক করুন';
+  return `
+    <div class="today-highlight" data-highlight-click="1">
+      <div class="th-content">
+        <div class="th-label"><span>${icon}</span> ${esc(label)}</div>
+        <div class="th-num-wrap">
+          <span class="th-number">${count}</span>
+          <span class="th-unit">জন</span>
+        </div>
+        ${sub ? `<div class="th-sub">${esc(sub)}</div>` : ''}
+        <div class="th-cta">🔍 ${esc(cta)}</div>
+      </div>
+    </div>`;
+}
+
+function upcomingSingleCardHTML(upcoming) {
+  const advDays = getMaxAdvanceDays();
+  const totalAll = upcoming.reduce((a, x) => a + x.count, 0);
+  const activeDays = upcoming.filter(x => x.count > 0).length;
+  return `
+    <div class="section-group tint-blue">
+      <div class="section-label">
+        ${calIconSVG(16)} আগামী ${advDays} দিনের অর্ডার
+        <span class="sl-count">${totalAll} জন · ${activeDays} দিন</span>
+      </div>
+      <div class="upcoming-single-card" id="upcomingCard">
+        <div class="usc-icon">${calIconSVG(26)}</div>
+        <div class="usc-text">
+          <div class="usc-title">আগামী ${advDays} দিনের রিকোয়েস্ট</div>
+          <div class="usc-sub">${activeDays} দিনে অর্ডার আছে · বিস্তারিত দেখতে ক্লিক করুন</div>
+        </div>
+        <div class="usc-right">
+          <div class="usc-count">${totalAll}</div>
+          <div class="usc-unit">জন</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   TEACHER DASHBOARD
+   - Main card big text has clean word-spacing & letter-spacing
+   - Pill says: আজ (10 Nov.) এখনো অর্ডার করেননি
+   - No cancel button below order status; delete only from "আমার অর্ডার সমূহ"
+   - No report card in main view (kept only in 3-bar menu)
+   ============================================================ */
+function renderTeacher() {
+  const u = currentUser();
+  const v = $('#view');
+  const advDays = getMaxAdvanceDays();
+  const today = todayStr();
+  const maxDate = maxAdvanceDate();
+  if (state.teacherDate > maxDate) state.teacherDate = maxDate;
+  if (state.teacherDate < today) state.teacherDate = today;
+  const date = state.teacherDate;
+  const isFuture = date > today;
+  const meal = rawMealFor(u.id, date);
+  const confirmedMeal = meal && meal.confirmed === 1;
+  const unconfirmedMeal = meal && (meal.confirmed === 0 || meal.confirmed == null);
+  const day = getDaySettings(date);
+  const pastCutoff = isPastCutoffFor(date);
+  const deadlineText = formatCutoffDeadlineBN(date);
+  const cutoffText = `মিল দেওয়ার সময়সীমা (${deadlineText}) শেষ`;
+  const locked = pastCutoff || !day.enabled;
+  const lockReason = pastCutoff ? cutoffText : (!day.enabled ? 'এই দিনে দুপুরের খাবার বন্ধ' : '');
+  const shortDate = fmtShort(date);
+  const dateText = isFuture ? shortDate : 'আজ';
+
+  const statusBadge = confirmedMeal
+    ? `<div class="hero-status on">✅ আপনি এই দিনে খাবার নিচ্ছেন${meal.served ? ' · 🍽️ Served' : ''}</div>`
+    : `<div class="hero-status">❌ এখনো রিকোয়েস্ট করেননি</div>`;
+
+  const cutoffBanner = pastCutoff
+    ? `<div class="cutoff-banner">⏰ মিল দেওয়ার সময়সীমা শেষ<small>${esc(dateText)}-এর অর্ডারের শেষ সময় ছিল: <b>${esc(deadlineText)}</b></small></div>`
+    : (!day.enabled
+        ? `<div class="cutoff-banner">🚫 এই দিনে দুপুরের খাবার বন্ধ</div>`
+        : `<div class="cutoff">⏰ অর্ডার ও বাতিলের শেষ সময়: <b>${esc(deadlineText)}</b> পর্যন্ত</div>`);
+
+  /* Order cancellation button removed from here; cancellation is only in "আমার অর্ডার সমূহ" below */
+  let actions = '';
+  if (confirmedMeal) {
+    actions = `<div class="confirmed-banner">✅ <b>${esc(dateText)}</b> — কনফার্মড, আপনি এই দিনে খাবার পাবেন</div>`;
+  } else if (unconfirmedMeal) {
+    actions = `<button class="btn btn-xl btn-warning ${locked ? 'locked' : ''}" data-act="order">
+      🍽️ ${esc(dateText)} — কনফার্ম করুন</button>`;
+  } else {
+    actions = `<button class="btn btn-xl btn-success ${locked ? 'locked' : ''}" data-act="order">
+      🍽️ ${esc(dateText)} — খাবার খেতে চাই</button>`;
+  }
+
+  const myOrders = myOrdersFor(u.id);
+  const unconfirmed = myUnconfirmedFor(u.id);
+  const todayConfirmed = myOrders.find(o => o.date === today);
+  const shortTodayBracket = fmtShortEnNoYear(today);
+
+  const heroFinalHTML = todayConfirmed
+    ? `<div class="today-highlight" style="cursor:default">
+        <div class="th-content">
+          <div class="th-label"><span>${todayConfirmed.served ? '🍽️' : '✅'}</span> আজ আপনার খাবার</div>
+          <div class="th-num-wrap" style="margin:6px 0 8px">
+            <span class="th-number bn-hero-text">${todayConfirmed.served ? 'পরিবেশিত' : 'কনফার্মড'}</span>
+          </div>
+          <div class="th-sub">আপনি আজ খাবার নিচ্ছেন</div>
+        </div>
+      </div>`
+    : `<div class="today-highlight" style="cursor:default">
+        <div class="th-content">
+          <div class="th-label"><span>🍽️</span> আজ আপনার খাবার</div>
+          <div class="th-num-wrap" style="margin:6px 0 8px">
+            <span class="th-number bn-hero-text">অর্ডার হয়নি</span>
+          </div>
+          <div class="th-sub">আজ (${esc(shortTodayBracket)}) এখনো অর্ডার করেননি</div>
+        </div>
+      </div>`;
+
+  const unconfirmedHTML = unconfirmed.length ? `
+    <div class="section-group tint-amber">
+      <div class="section-label">⚠️ সম্পূর্ণ হয়নি এমন অর্ডার <span class="sl-count">${unconfirmed.length}টি</span></div>
+      <div class="card-block">
+        ${unconfirmed.map(x => `
+          <button class="btn btn-warning btn-block" data-jump="${x.date}" style="justify-content:space-between">
+            <span>⚠️ ${esc(fmtShort(x.date))}</span>
+            <span>সম্পূর্ণ করুন →</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>` : '';
+
+  const dateUnconfirmedHTML = unconfirmedMeal ? `
+    <div class="section-group tint-amber">
+      <div class="section-label">⚠️ সম্পূর্ণ হয়নি</div>
+      <div class="unconfirmed-card">
+        <div class="uc-icon">⚠️</div>
+        <div class="uc-title">এই তারিখের অর্ডার সম্পূর্ণ হয়নি</div>
+        <div class="uc-date">${calIconSVG(15)} ${esc(fmtShort(date))}</div>
+        <div class="uc-actions">
+          <button class="btn btn-success btn-block" id="ucConfirmBtn">✅ হ্যাঁ, খাবার চাই</button>
+          <button class="btn btn-ghost danger btn-block" id="ucCancelBtn">✖️ না, বাতিল করুন</button>
+        </div>
+      </div>
+    </div>` : '';
+
+  v.innerHTML = `
+    ${heroFinalHTML}
+    ${unconfirmedHTML}
+    ${dateUnconfirmedHTML}
+
+    <div class="section-group tint-slate">
+      <div class="section-label">${calIconSVG(15)} অর্ডার তারিখ বাছাই</div>
+      <div class="card-block">
+        <div class="card-head">
+          ${dynamicCalBadge(date)}
+          <div style="flex:1">
+            <div>তারিখ নির্বাচন করুন</div>
+            <div class="hint">সর্বোচ্চ ${advDays} দিন আগাম অর্ডার করা যাবে।</div>
+          </div>
+        </div>
+        <div class="date-inputs">
+          <button class="btn btn-ghost nav-arrow" id="tPrevDay">←</button>
+          <input type="date" id="datePick" value="${date}" min="${today}" max="${maxDate}">
+          <button class="btn btn-ghost nav-arrow" id="tNextDay">→</button>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-date">${calIconSVG(15)} ${fmtDate(date)}${date === today ? ' · আজ' : ''}</div>
+        <div class="hero-title">🍽️ দুপুরের খাবার</div>
+        ${statusBadge}
+        ${cutoffBanner}
+        <div class="hero-actions">${actions}</div>
+      </div>
+    </div>
+
+    <div class="section-group tint-green">
+      <div class="section-label">📋 আমার অর্ডার সমূহ <span class="sl-count">${myOrders.length}টি</span></div>
+      <div class="card-block">
+        ${myOrders.length ? `
+          <p class="hint">🗑️ অর্ডার বাতিল করতে চাইলে পাশের ডিলিট বাটনে ক্লিক করুন। Cutoff সময়ের ভিতরেই কেবল ডিলিট করা যাবে।</p>
+          <ul class="my-order-list">
+            ${myOrders.map(o => {
+              const isToday = o.date === today;
+              const dt = new Date(o.date + 'T00:00:00');
+              const wk = dt.toLocaleDateString('bn-BD', { weekday: 'long' });
+              const mon = dt.toLocaleDateString('bn-BD', { month: 'long' });
+              return `
+                <li class="my-order-row ${isToday ? 'today' : ''}">
+                  ${dynamicCalBadge(o.date)}
+                  <div class="mo-info">
+                    <b>${wk}, ${dt.getDate()} ${mon} ${dt.getFullYear()}${isToday ? ' (আজ)' : ''}</b>
+                    <small>${o.served ? '✅ খাবার নেওয়া হয়েছে' : `⏰ শেষ সময়: ${formatCutoffDeadlineBN(o.date)}`}</small>
+                  </div>
+                  <div class="mo-actions">
+                    <span class="pill">${o.served ? '✓ Served' : '✓'}</span>
+                    <button class="btn-del-order ${o.canDelete ? '' : 'locked'}"
+                            data-del-order="${o.date}"
+                            title="${o.canDelete ? 'অর্ডার ডিলিট করুন' : 'cutoff সময় শেষ'}">
+                      ${o.canDelete ? '🗑️' : '🔒'}
+                    </button>
+                  </div>
+                </li>`;
+            }).join('')}
+          </ul>
+        ` : `<div class="hint" style="padding:16px;text-align:center;border:1px dashed var(--border);border-radius:12px">এখনো কোনো অর্ডার নেই</div>`}
+      </div>
+    </div>`;
+
+  $('#tPrevDay').onclick = () => {
+    const prev = addDays(state.teacherDate, -1);
+    if (prev < today) return toast('আগের তারিখে অর্ডার করা যাবে না');
+    state.teacherDate = prev; renderTeacher();
+  };
+  $('#tNextDay').onclick = () => {
+    const next = addDays(state.teacherDate, 1);
+    if (next > maxDate) return toast(`সর্বোচ্চ ${advDays} দিন আগাম`);
+    state.teacherDate = next; renderTeacher();
+  };
+
+  $$('[data-del-order]').forEach(btn => {
+    btn.onclick = e => {
+      e.stopPropagation();
+      const targetDate = btn.dataset.delOrder;
+      if (btn.classList.contains('locked') || isPastCutoffFor(targetDate)) {
+        return toast('⏰ মিল দেওয়ার সময়সীমা শেষ — এই অর্ডার ডিলিট করা যাবে না', false);
+      }
+      openConfirmModal({
+        title: 'Delete Order?',
+        message: 'আপনি কি এই অর্ডারটি ডিলিট করতে চান?',
+        dateLabel: fmtShort(targetDate),
+        danger: true,
+        yesLabel: 'হ্যাঁ, ডিলিট',
+        noLabel: 'বাতিল',
+        onYes: async () => {
+          deleteMealRecord(u.id, targetDate);
+          await persist();
+          toast('✅ অর্ডারটি ডিলিট করা হয়েছে', true);
+          renderTeacher();
+        }
+      });
+    };
+  });
+
+  $$('[data-jump]').forEach(b => b.onclick = () => { state.teacherDate = b.dataset.jump; renderTeacher(); });
+
+  const ucConfirm = $('#ucConfirmBtn');
+  if (ucConfirm) ucConfirm.onclick = () => {
+    if (isPastCutoffFor(date)) return toast(cutoffText);
+    openConfirmModal({
+      title: 'Confirm Order?',
+      message: 'আপনি কি এই তারিখের জন্য খাবার চূড়ান্ত করতে চান?',
+      dateLabel: dateText,
+      onYes: async () => {
+        const m = rawMealFor(u.id, date);
+        if (m) { m.confirmed = 1; m.updated_at = Date.now(); }
+        await persist();
+        toast(`✅ ${dateText} — খাবার কনফার্ম হয়েছে`, true);
+        renderTeacher();
+      }
+    });
+  };
+
+  const ucCancel = $('#ucCancelBtn');
+  if (ucCancel) ucCancel.onclick = () => {
+    if (isPastCutoffFor(date)) return toast(cutoffText);
+    openConfirmModal({
+      title: 'Cancel Order?',
+      message: 'আপনি কি এই তারিখের অর্ডারটি বাতিল করতে চান?',
+      dateLabel: dateText, danger: true,
+      onYes: async () => {
+        deleteMealRecord(u.id, date);
+        await persist();
+        toast(`${dateText} — বাতিল হয়েছে`, true);
+        renderTeacher();
+      }
+    });
+  };
+
+  $('#datePick').onchange = e => {
+    const val = e.target.value;
+    if (val > maxDate) {
+      toast(`সর্বোচ্চ ${advDays} দিন আগাম`);
+      e.target.value = state.teacherDate; return;
+    }
+    state.teacherDate = val; renderTeacher();
+  };
+
+  $$('[data-act]').forEach(btn => {
+    btn.onclick = async () => {
+      if (btn.classList.contains('locked')) return toast(lockReason || 'এখন অর্ডার করা যাবে না');
+      const act = btn.dataset.act;
+      const me = currentUser();
+      const d = state.teacherDate;
+      const label = d > todayStr() ? fmtShort(d) : 'আজ';
+      if (act === 'order') {
+        if (!getDaySettings(d).enabled) return toast('এই দিনে দুপুরের খাবার বন্ধ');
+        if (isPastCutoffFor(d)) return toast(cutoffText);
+        if (d > maxAdvanceDate()) return toast(`সর্বোচ্চ ${advDays} দিন`);
+        const now = Date.now();
+        let m = rawMealFor(me.id, d);
+        if (!m) {
+          delete db.tombstones['meal_' + `${me.id}_${d}_lunch`];
+          db.meals.push({
+            id: db.nextIds.meals++, user_id: me.id, date: d, meal_type: 'lunch',
+            confirmed: 0, served: 0, served_at: null, created_at: now, updated_at: now
+          });
+          await persist();
+          renderTeacher();
+        }
+        openConfirmModal({
+          title: 'Confirm Order?',
+          message: 'আপনি কি এই দিনের জন্য খাবার অর্ডার করতে চান?',
+          dateLabel: label,
+          onYes: async () => {
+            const existing = rawMealFor(me.id, d);
+            if (existing) { existing.confirmed = 1; existing.updated_at = Date.now(); }
+            await persist();
+            toast(`✅ ${label} — খাবার কনফার্ম হয়েছে`, true);
+            renderTeacher();
+          }
+        });
+      }
+    };
+  });
+}
+
+/* ============================================================
+   MATRON DASHBOARD
+   ============================================================ */
+function renderMatron() {
+  const u = currentUser();
+  const v = $('#view');
+  const today = todayStr();
+  const advDays = getMaxAdvanceDays();
+  const s = statsFor(today);
+  const upcoming = upcomingDays(today, advDays);
+  const totalUpcoming = upcoming.reduce((a, x) => a + x.count, 0);
+  const myManagers = db.users.filter(x => x.role === 'mess_manager')
+    .slice().sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+
+  v.innerHTML = `
+    ${todayHighlightHTML(s.total, s.served, {
+      label: 'আজকের মিল', icon: '🍽️',
+      sub: `আজ মোট ${s.total} জন খাবার নিচ্ছেন`,
+      cta: 'বিস্তারিত দেখতে ক্লিক করুন'
+    })}
+    <div class="stat-grid">
+      <div class="stat-card primary clickable" data-stat="today">
+        <div class="stat-ic">🍽️</div>
+        <div class="stat-num">${s.total}</div>
+        <div class="stat-label">আজকের মিল</div>
+      </div>
+      <div class="stat-card green clickable" data-stat="served">
+        <div class="stat-ic">✅</div>
+        <div class="stat-num">${s.served}</div>
+        <div class="stat-label">খাবার নিয়েছে</div>
+      </div>
+      <div class="stat-card red clickable" data-stat="unserved">
+        <div class="stat-ic">❌</div>
+        <div class="stat-num">${s.remaining}</div>
+        <div class="stat-label">খাবার নেয়নি</div>
+      </div>
+      <div class="stat-card clickable" data-stat="upcoming">
+        <div class="stat-ic">${calIconSVG(20)}</div>
+        <div class="stat-num" style="color:var(--primary)">${totalUpcoming}</div>
+        <div class="stat-label">আগামী ${advDays} দিনের</div>
+      </div>
+    </div>
+
+    ${upcomingSingleCardHTML(upcoming)}
+
+    <div class="section-group tint-blue">
+      <div class="section-label">📊 রিপোর্ট</div>
+      <div class="card-block">
+        <div class="card-head"><div class="ic blue">📊</div><div style="flex:1">মিল রিপোর্ট দেখুন</div></div>
+        <button class="btn btn-primary btn-block" id="viewReport">📊 রিপোর্ট দেখুন</button>
+      </div>
+    </div>
+
+    <div class="section-group tint-pink">
+      <div class="section-label">➕ Mess Manager অ্যাকাউন্ট</div>
+      <div class="card-block">
+        <div class="card-head"><div class="ic pink">➕</div><div>নতুন Mess Manager তৈরি করুন</div></div>
+        <div class="grid-2">
+          <label>নাম<input id="mmName" placeholder="পূর্ণ নাম"></label>
+          <label>মোবাইল নম্বর (11 ডিজিট) *<input id="mmPhone" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX" maxlength="11"></label>
+          <label>ইমেইল *<input id="mmEmail" type="email" placeholder="user@example.com"></label>
+          <label>পাসওয়ার্ড
+            <div class="input-wrap">
+              <input id="mmPass" type="password" minlength="6" placeholder="কমপক্ষে 6 অক্ষর">
+              <button type="button" class="pw-eye" data-pw-toggle="mmPass">👁️</button>
+            </div>
+          </label>
+        </div>
+        <button class="btn btn-primary btn-block" id="createManager">➕ Mess Manager তৈরি করুন</button>
+        <div class="msg" id="mmMsg"></div>
+      </div>
+
+      <div class="card-block">
+        <div class="card-head"><div class="ic pink">🔗</div><div>Invite লিংক তৈরি করুন</div></div>
+        <button class="btn btn-primary btn-block" id="genInvite">🔗 নতুন ইনভাইট লিংক তৈরি করুন</button>
+        <div id="linkBox" class="link-box" style="display:none">
+          <input id="linkInput" readonly>
+          <button class="btn btn-success" id="copyBtn" data-copy-text="">📋 কপি করুন</button>
+        </div>
+        <div class="msg" id="invMsg"></div>
+      </div>
+
+      <div class="card-block">
+        <div class="card-head"><div class="ic">👥</div><div>Mess Manager তালিকা (${myManagers.length})</div></div>
+        <div class="user-admin-list">
+          ${myManagers.length ? myManagers.map(x => `
+            <div class="user-admin-row">
+              <div class="ua-left">
+                <div class="ua-avatar">${roleIcon(x.role)}</div>
+                <div class="ua-info">
+                  <div class="ua-name">${esc(x.name)}</div>
+                  <div class="ua-role">${esc(roleLabel(x.role))}</div>
+                  <div class="ua-phone">${phoneHTML(x.phone)}</div>
+                  <div class="ua-email">📧 ${esc(x.email)}</div>
+                  ${creatorBadgeHTML(x)}
+                </div>
+              </div>
+              <div class="ua-actions">
+                <div class="ua-toggle-wrap">
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="mm-toggle" data-id="${x.id}" ${x.active ? 'checked' : ''}>
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="ua-toggle-label ${x.active ? 'on' : 'off'}">${x.active ? 'চালু' : 'বন্ধ'}</span>
+                </div>
+              </div>
+            </div>`).join('') : '<div class="hint" style="text-align:center;padding:16px">এখনো কোনো Mess Manager তৈরি হয়নি</div>'}
+        </div>
+      </div>
+    </div>`;
+
+  const mmPhoneEl = $('#mmPhone');
+  if (mmPhoneEl) mmPhoneEl.addEventListener('input', () => { mmPhoneEl.value = mmPhoneEl.value.replace(/\D/g, '').slice(0, 11); });
+
+  const showForMatron = kind => {
+    if (kind === 'today') openListModal('আজকের মিলের তালিকা', `${s.total} জন খাবার নিচ্ছেন`, s.list, 'আজ কেউ খাবার নেয়নি।');
+    else if (kind === 'served') openListModal('খাবার নিয়েছেন', `${s.served} জন খাবার নিয়েছেন`, s.list.filter(x => x.served), 'এখনো কেউ খাবার নেয়নি।');
+    else if (kind === 'unserved') openListModal('খাবার নেয়নি', `${s.remaining} জন এখনো খাবার নেয়নি`, s.list.filter(x => !x.served), 'সবাই খাবার নিয়েছেন।');
+    else if (kind === 'upcoming') openUpcomingDaysModal(`আগামী ${advDays} দিনের রিকোয়েস্ট`, upcoming);
+  };
+  $('[data-highlight-click]').onclick = () => showForMatron('today');
+  $$('[data-stat]').forEach(c => c.onclick = () => showForMatron(c.dataset.stat));
+  $('#viewReport').onclick = () => openReportModal();
+  $('#upcomingCard').onclick = () => openUpcomingDaysModal(`আগামী ${advDays} দিনের রিকোয়েস্ট`, upcoming);
+
+  $$('.mm-toggle').forEach(t => {
+    t.onchange = async () => {
+      const mgr = db.users.find(x => x.id === Number(t.dataset.id));
+      if (!mgr) return;
+      mgr.active = t.checked ? 1 : 0;
+      mgr.updated_at = Date.now();
+      await persist();
+      renderMatron();
+      toast(mgr.active ? `${mgr.name} — অ্যাক্সেস চালু` : `${mgr.name} — অ্যাক্সেস বন্ধ`, !!mgr.active);
+    };
+  });
+
+  $('#createManager').onclick = async () => {
+    const name = $('#mmName').value.trim();
+    const phone = normalizePhone($('#mmPhone').value.trim());
+    const email = $('#mmEmail').value.toLowerCase().trim();
+    const pass = $('#mmPass').value;
+    if (!name || !phone || !email || !pass) return setMsg('mmMsg', 'সব তথ্য দিন');
+    if (!isValidPhone(phone)) return setMsg('mmMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন');
+    if (!isValidEmail(email)) return setMsg('mmMsg', 'সঠিক ইমেইল অ্যাড্রেস দিন');
+    if (pass.length < 6) return setMsg('mmMsg', 'পাসওয়ার্ড কমপক্ষে 6 অক্ষর');
+    if (db.users.find(x => x.email.toLowerCase() === email)) return setMsg('mmMsg', 'এই ইমেইল আগে থেকেই আছে');
+    if (db.users.find(x => normalizePhone(x.phone) === phone)) return setMsg('mmMsg', 'এই মোবাইল নম্বর আগে থেকেই আছে');
+    const now = Date.now();
+    db.users.push({
+      id: db.nextIds.users++, name, email, phone,
+      password: hashPassword(pass), role: 'mess_manager',
+      active: 1, created_at: now, updated_at: now,
+      created_by: u.id, created_by_name: u.name, created_by_role: u.role,
+      approved_at: now, approved_by: 'matron',
+      approval_note: `মেট্রন ${u.name} কর্তৃক অনুমোদিত`
+    });
+    await persist();
+    toast('✅ Mess Manager তৈরি হয়েছে!', true);
+    renderMatron();
+  };
+
+  $('#genInvite').onclick = async () => {
+    const token = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+    db.invites.push({
+      token, created_by: u.id,
+      expires_at: Date.now() + 7 * 24 * 3600 * 1000,
+      used_by: null, used_at: null, created_at: Date.now()
+    });
+    await persist();
+    const url = location.href.split('#')[0] + '#invite=' + token;
+    $('#linkInput').value = url;
+    $('#copyBtn').dataset.copyText = url;
+    $('#linkBox').style.display = 'flex';
+    setMsg('invMsg', '✅ লিংক তৈরি হয়েছে — কপি করুন', true);
+  };
+}
+
+/* ============================================================
+   MESS MANAGER
+   ============================================================ */
+function renderManager() {
+  const v = $('#view');
+  const today = todayStr();
+  const advDays = getMaxAdvanceDays();
+  const maxDate = maxAdvanceDate();
+  if (state.managerDate > maxDate) state.managerDate = maxDate;
+  const date = state.managerDate;
+  const isToday = date === today;
+  const s = statsFor(date);
+
+  let filtered = s.list;
+  if (state.managerFilter === 'served') filtered = filtered.filter(x => x.served);
+  if (state.managerFilter === 'unserved') filtered = filtered.filter(x => !x.served);
+  const notServed = filtered.filter(x => !x.served);
+  const served = filtered.filter(x => x.served);
+  const upcoming = upcomingDays(today, advDays);
+  const totalFuture = upcoming.reduce((a, x) => a + x.count, 0);
+
+  v.innerHTML = `
+    ${todayHighlightHTML(s.total, s.served, {
+      label: isToday ? 'আজকের মিল' : `${fmtShort(date)} — মোট মিল`,
+      icon: '🍽️',
+      sub: `${s.total} জন খাবার নিচ্ছেন · ${s.served} জন নিয়েছেন`,
+      cta: 'বিস্তারিত দেখতে ক্লিক করুন'
+    })}
+    <div class="stat-grid">
+      <div class="stat-card primary clickable" data-stat="total">
+        <div class="stat-ic">🍽️</div>
+        <div class="stat-num">${s.total}</div>
+        <div class="stat-label">${isToday ? 'আজকের মিল' : 'নির্বাচিত মিল'}</div>
+      </div>
+      <div class="stat-card green clickable" data-stat="served">
+        <div class="stat-ic">✅</div>
+        <div class="stat-num">${s.served}</div>
+        <div class="stat-label">খাবার নিয়েছে</div>
+      </div>
+      <div class="stat-card red clickable" data-stat="unserved">
+        <div class="stat-ic">❌</div>
+        <div class="stat-num">${s.remaining}</div>
+        <div class="stat-label">খাবার নেয়নি</div>
+      </div>
+      <div class="stat-card clickable" data-stat="upcoming">
+        <div class="stat-ic">${calIconSVG(20)}</div>
+        <div class="stat-num" style="color:var(--primary)">${totalFuture}</div>
+        <div class="stat-label">আগামী ${advDays} দিনের</div>
+      </div>
+    </div>
+
+    ${upcomingSingleCardHTML(upcoming)}
+
+    <div class="section-group tint-blue">
+      <div class="section-label">📊 রিপোর্ট</div>
+      <div class="card-block">
+        <button class="btn btn-primary btn-block" id="viewReport">📊 মিল রিপোর্ট দেখুন</button>
+      </div>
+    </div>
+
+    <div class="section-group tint-slate">
+      <div class="section-label">${calIconSVG(15)} তারিখ বাছাই</div>
+      <div class="card-block">
+        <p class="hint">আজ, আগের বা আগামী যেকোনো দিন — ${advDays} দিন পর্যন্ত।</p>
+        <div class="date-inputs">
+          <button class="btn btn-ghost nav-arrow" id="prevDay">←</button>
+          <input type="date" id="mgrDate" value="${date}" max="${maxDate}">
+          <button class="btn btn-ghost nav-arrow" id="nextDay">→</button>
+        </div>
+        ${!isToday ? `<button class="btn btn-ghost btn-block" id="backToday">🏠 আজকে ফিরুন</button>` : ''}
+        <div class="filter-pills" style="margin-top:6px;margin-bottom:0">
+          ${[['all', 'সব'], ['unserved', 'খাবার নেয়নি'], ['served', 'খাবার নিয়েছে']].map(([k, l]) => `
+            <button class="filter-pill ${state.managerFilter === k ? 'active' : ''}" data-filter="${k}">${l}</button>`).join('')}
+          <button class="filter-pill" id="exportCsv">📥 CSV ডাউনলোড</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-group tint-green">
+      <div class="section-label">
+        🍽️ Serving Checklist
+        <span class="sl-count">${s.served} / ${s.total}</span>
+      </div>
+      <div class="checklist-hero">
+        <div class="checklist-hero-icon">🍽️</div>
+        <div>
+          <h2>Serving Checklist</h2>
+          <p>${fmtDate(date)} · ${s.served} / ${s.total} জনকে খাবার দেওয়া হয়েছে</p>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="progress-mini">
+          <div class="progress-bar" style="width:${s.total ? (s.served * 100 / s.total) : 0}%"></div>
+        </div>
+        <ul class="checklist" id="checklist">
+          ${s.list.length === 0
+            ? '<li class="hint" style="padding:20px;text-align:center">এই দিনে কোনো মিল নেই</li>'
+            : (filtered.length === 0
+                ? '<li class="hint" style="padding:20px;text-align:center">ফিল্টারে কোনো ফলাফল নেই</li>'
+                : [...notServed.map(x => checklistItemHTML(x, false, !isToday)),
+                   ...served.map(x => checklistItemHTML(x, true, !isToday))].join(''))}
+        </ul>
+      </div>
+    </div>`;
+
+  const showForManager = kind => {
+    if (kind === 'total') openListModal('মোট মিল', `${s.total} জন খাবার নিচ্ছেন`, s.list, 'এই দিনে কোনো মিল নেই।');
+    else if (kind === 'served') openListModal('খাবার নিয়েছেন', `${s.served} জন খাবার নিয়েছেন`, s.list.filter(x => x.served), 'এখনো কেউ খাবার নেয়নি।');
+    else if (kind === 'unserved') openListModal('খাবার নেয়নি', `${s.remaining} জন এখনো খাবার নেয়নি`, s.list.filter(x => !x.served), 'সবাই খাবার নিয়েছেন।');
+    else if (kind === 'upcoming') openUpcomingDaysModal(`আগামী ${advDays} দিনের রিকোয়েস্ট`, upcoming);
+  };
+  $('[data-highlight-click]').onclick = () => showForManager('total');
+  $$('[data-stat]').forEach(c => c.onclick = () => showForManager(c.dataset.stat));
+  $('#viewReport').onclick = () => openReportModal();
+  $('#upcomingCard').onclick = () => openUpcomingDaysModal(`আগামী ${advDays} দিনের রিকোয়েস্ট`, upcoming);
+
+  $('#mgrDate').onchange = e => {
+    if (!e.target.value) return;
+    if (e.target.value > maxDate) { toast(`সর্বোচ্চ ${advDays} দিন`); e.target.value = state.managerDate; return; }
+    state.managerDate = e.target.value; renderManager();
+  };
+  $('#prevDay').onclick = () => { state.managerDate = addDays(state.managerDate, -1); renderManager(); };
+  $('#nextDay').onclick = () => {
+    const next = addDays(state.managerDate, 1);
+    if (next > maxDate) return toast(`সর্বোচ্চ ${advDays} দিন`);
+    state.managerDate = next; renderManager();
+  };
+  if ($('#backToday')) $('#backToday').onclick = () => { state.managerDate = todayStr(); renderManager(); };
+  $$('[data-filter]').forEach(b => b.onclick = () => { state.managerFilter = b.dataset.filter; renderManager(); });
+  $('#exportCsv').onclick = () => downloadCSV(date);
+
+  if (isToday) {
+    $$('[data-serve]').forEach(li => {
+      if (!li.dataset.serve) return;
+      li.onclick = async e => {
+        if (e.target.closest('.phone-action')) return;
+        const uid = Number(li.dataset.serve);
+        const m = db.meals.find(x => x.user_id === uid && x.date === date && x.meal_type === 'lunch' && x.confirmed === 1);
+        if (!m) return toast('এই ইউজারের কোনো মিল নেই');
+        const usr = db.users.find(u => u.id === uid);
+
+        if (m.served) {
+          openConfirmModal({
+            title: 'Unmark Served Meal?',
+            message: `আপনি কি নিশ্চিতভাবে "${usr?.name || 'এই ইউজার'}"-এর খাবার "নেয়নি (Unserved)" হিসেবে আনমার্ক করতে চান?`,
+            dateLabel: fmtShort(date),
+            danger: true,
+            yesLabel: 'হ্যাঁ, আনমার্ক করুন',
+            noLabel: 'না, থাকুক',
+            onYes: async () => {
+              m.served = 0;
+              m.served_at = null;
+              m.updated_at = Date.now();
+              await persist();
+              toast('আনমার্ক করা হয়েছে', true);
+              renderManager();
+            }
+          });
+          return;
+        }
+
+        const now = Date.now();
+        m.served = 1;
+        m.served_at = now;
+        m.updated_at = now;
+        pushNotification(
+          uid,
+          '✅ দুপুরের খাবার পরিবেশিত হয়েছে',
+          `${fmtDate(date)} তারিখের দুপুরের খাবার আপনাকে পরিবেশন (Served) করা হয়েছে।`,
+          'served'
+        );
+        await persist();
+        renderManager();
+      };
+    });
+  }
+}
+
+function checklistItemHTML(x, isServed, readonly) {
+  return `
+    <li class="checklist-item ${isServed ? 'served' : ''} ${readonly ? 'readonly' : ''}"
+        data-serve="${readonly ? '' : x.user_id}">
+      <div class="check-left">
+        <span class="checkbox">${isServed ? '✓' : '✕'}</span>
+        <div class="check-info">
+          <b>${esc(x.name)}</b>
+          <small>${x.phone ? phoneHTML(x.phone) : '—'}</small>
+        </div>
+      </div>
+      <span class="check-tag">${isServed ? 'খাবার নিয়েছে' : 'খাবার নেয়নি'}</span>
+    </li>`;
+}
+
+function downloadCSV(date) {
+  const s = statsFor(date);
+  const escape = v => {
+    const str = v == null ? '' : String(v);
+    return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+  };
+  const fmtTime = ts => ts ? fmtDateTime(ts) : '';
+  const lines = [['#', 'Name', 'Phone', 'Role', 'Served', 'Served At', 'Requested At'].join(',')];
+  s.list.forEach((r, i) => {
+    lines.push([i + 1, escape(r.name), escape(r.phone), r.role, r.served ? 'Yes' : 'No', escape(fmtTime(r.served_at)), escape(fmtTime(r.created_at))].join(','));
+  });
+  const blob = new Blob(['\uFEFF' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `mgmc-meals-${date}.csv`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  toast('CSV ডাউনলোড শুরু হয়েছে', true);
+}
+
+/* ============================================================
+   SUPER ADMIN
+   - Discarded duplicate Backup stat card from top stat-grid; kept below section
+   - Dynamic Advance Days input updates whole system immediately
+   - Full Report access (Today, Saturday Week, Month, Advance Orders, Custom)
+   ============================================================ */
+function renderAdmin() {
+  const u = currentUser();
+  const v = $('#view');
+  const advDays = getMaxAdvanceDays();
+  const users = db.users.slice().sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+  const pending = users.filter(x => !x.active);
+  const s = statsFor(todayStr());
+  const activeCount = users.filter(x => x.active).length;
+  const upcoming = upcomingDays(todayStr(), advDays);
+
+  v.innerHTML = `
+    ${todayHighlightHTML(s.total, s.served, {
+      label: 'আজকের মিল', icon: '🍽️',
+      sub: `আজ মোট ${s.total} জন খাবার নিচ্ছেন`,
+      cta: 'অর্ডার ও পরিবেশনের সময়সহ বিস্তারিত দেখতে ক্লিক করুন'
+    })}
+    <div class="stat-grid">
+      <div class="stat-card primary clickable" data-stat="users">
+        <div class="stat-ic">👥</div>
+        <div class="stat-num">${activeCount}</div>
+        <div class="stat-label">সক্রিয় ইউজার</div>
+      </div>
+      <div class="stat-card clickable" data-stat="today">
+        <div class="stat-ic">🍽️</div>
+        <div class="stat-num" style="color:var(--primary)">${s.total}</div>
+        <div class="stat-label">আজকের মিল</div>
+      </div>
+      <div class="stat-card green clickable" data-stat="served">
+        <div class="stat-ic">✅</div>
+        <div class="stat-num">${s.served}</div>
+        <div class="stat-label">খাবার নিয়েছে</div>
+      </div>
+      <div class="stat-card red clickable" data-stat="unserved">
+        <div class="stat-ic">❌</div>
+        <div class="stat-num">${s.remaining}</div>
+        <div class="stat-label">খাবার নেয়নি</div>
+      </div>
+    </div>
+
+    ${upcomingSingleCardHTML(upcoming)}
+
+    ${pending.length ? `
+      <div class="section-group tint-amber">
+        <div class="section-label">⏳ অপেক্ষমাণ রেজিস্ট্রেশন <span class="sl-count">${pending.length}টি</span></div>
+        <div class="card-block">
+          <ul class="list">
+            ${pending.map(x => `
+              <li>
+                <div style="min-width:0;flex:1">
+                  <b>${esc(x.name)}</b>
+                  <small>${phoneHTML(x.phone)}</small>
+                  <small>📧 ${esc(x.email)} · ${esc(roleLabel(x.role))}</small>
+                </div>
+                <div class="row">
+                  <button class="btn btn-success btn-sm" data-approve="${x.id}">✅ অ্যাপ্রুভ</button>
+                  <button class="btn btn-ghost danger btn-sm" data-reject="${x.id}">✕ বাতিল</button>
+                </div>
+              </li>`).join('')}
+          </ul>
+        </div>
+      </div>` : ''}
+
+    <div class="section-group tint-blue">
+      <div class="section-label">📊 রিপোর্ট, ব্যাকআপ ও রিস্টোর</div>
+      <div class="card-block">
+        <div class="card-head">
+          <div class="ic blue">📊</div>
+          <div style="flex:1">
+            <div>সার্বিক মিল, বিল ও অগ্রিম অর্ডার রিপোর্ট</div>
+            <div class="hint">সাপ্তাহিক, মাসিক, অগ্রিম অর্ডার (আগামী ${advDays} দিন), এবং খাবার পরিবেশনের সম্পূর্ণ হিসাব দেখুন।</div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" id="viewReport">📊 সকল রিপোর্ট দেখুন</button>
+      </div>
+
+      <div class="card-block">
+        <div class="card-head">
+          <div class="ic blue">💾</div>
+          <div style="flex:1">
+            <div>পাসওয়ার্ড সুরক্ষিত ব্যাকআপ ও রিস্টোর</div>
+            <div class="hint">
+              ${db.settings.last_backup_at
+                ? `সর্বশেষ ব্যাকআপ: ${fmtDateTime(Number(db.settings.last_backup_at))}`
+                : 'এখনো কোনো ব্যাকআপ ডাউনলোড করা হয়নি'}
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <button class="btn btn-primary" id="openBackupBtn">📥 সম্পূর্ণ ব্যাকআপ ডাউনলোড</button>
+          <button class="btn btn-warning" id="openRestoreBtn">📤 ব্যাকআপ থেকে রিস্টোর</button>
+        </div>
+        <button class="btn btn-ghost danger btn-block" id="openResetBtn">🗑️ সব ডেটা রিসেট</button>
+      </div>
+    </div>
+
+    <div class="section-group tint-slate">
+      <div class="section-label">⚙️ সিস্টেম ও Cutoff সেটিংস</div>
+      <div class="card-block">
+        <div class="card-head"><div class="ic">⚙️</div><div>ডিফল্ট সেটিংস (অগ্রিম অর্ডার দিন ও Cutoff নিয়ম)</div></div>
+        <div class="grid-2">
+          <label>অ্যাপের নাম<input id="s_app_name" value="${esc(db.settings.app_name)}"></label>
+          <label>মেসের নাম<input id="s_mess_name" value="${esc(db.settings.mess_name)}"></label>
+          <label>কত দিন আগাম অর্ডার দেওয়া যাবে (Advance Order Days)
+            <input id="s_max_advance_days" type="number" min="1" max="90" value="${esc(String(advDays))}">
+          </label>
+          <label>ডিফল্ট Cutoff দিন (কত দিন আগে অর্ডার বন্ধ হবে)
+            <select id="s_cutoff_days_before">
+              <option value="0" ${String(db.settings.cutoff_days_before||'0')==='0'?'selected':''}>একই দিন (খাবারের দিন)</option>
+              <option value="1" ${String(db.settings.cutoff_days_before||'0')==='1'?'selected':''}>1 দিন আগে (আগের দিন)</option>
+              <option value="2" ${String(db.settings.cutoff_days_before||'0')==='2'?'selected':''}>2 দিন আগে</option>
+              <option value="3" ${String(db.settings.cutoff_days_before||'0')==='3'?'selected':''}>3 দিন আগে</option>
+            </select>
+          </label>
+          <label>ডিফল্ট Cutoff সময় (যেমন: আগের দিন রাত 9:00 PM হলে 21:00)
+            <input id="s_cutoff_time" type="time" value="${esc(db.settings.cutoff_time || '10:00')}">
+          </label>
+          <label>সর্বোচ্চ মিল<input id="s_meal_capacity" type="number" value="${esc(db.settings.meal_capacity)}"></label>
+          <label>মিলের দাম (৳)<input id="s_meal_price" type="number" value="${esc(db.settings.meal_price)}"></label>
+          <label style="flex-direction:row;align-items:center;gap:10px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:#fff">
+            <input id="s_lunch_enabled" type="checkbox" ${db.settings.lunch_enabled === '1' ? 'checked' : ''} style="width:20px;height:20px">
+            <span style="color:var(--text);font-weight:700">দুপুরের খাবার চালু</span>
+          </label>
+        </div>
+        <button class="btn btn-primary btn-block" id="saveSettings">💾 সেভ করুন</button>
+        <div class="msg" id="sMsg"></div>
+      </div>
+
+      <div class="card-block">
+        <div class="card-head"><div class="ic blue">${calIconSVG(18)}</div><div>নির্দিষ্ট দিনের শেষ সময় (Cutoff Override)</div></div>
+        <p class="hint">নির্দিষ্ট দিনের খাবারের জন্য আগের দিন বা যেকোনো কাস্টম তারিখ ও সময় সেট করুন।</p>
+        <div class="grid-2">
+          <label>খাবারের তারিখ<input type="date" id="ds_date"></label>
+          <label>Cutoff নিয়ম
+            <select id="ds_rule_mode">
+              <option value="0">খাবারের দিন (Same Day)</option>
+              <option value="1">আগের দিন (1 Day Before)</option>
+              <option value="2">2 দিন আগে (2 Days Before)</option>
+              <option value="custom">কাস্টম তারিখ নির্বাচন করুন</option>
+            </select>
+          </label>
+          <label id="ds_custom_date_wrap" style="display:none">অর্ডারের শেষ তারিখ (Cutoff Date)
+            <input type="date" id="ds_cutoff_date">
+          </label>
+          <label>Cutoff সময়<input type="time" id="ds_cutoff"></label>
+        </div>
+        <label style="flex-direction:row;align-items:center;gap:10px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:#fff">
+          <input type="checkbox" id="ds_enabled" style="width:20px;height:20px">
+          <span style="color:var(--text);font-weight:700">এই দিনে খাবার চালু</span>
+        </label>
+        <div class="row">
+          <button class="btn btn-primary" id="ds_save" style="flex:1">💾 সেভ</button>
+          <button class="btn btn-ghost danger" id="ds_remove" style="flex:1">🗑️ Override মুছুন</button>
+        </div>
+        <div class="msg" id="dsMsg"></div>
+        <h4 style="margin-top:6px;font-size:13.5px">📌 বর্তমান Overrides</h4>
+        <ul class="list" id="dsList"></ul>
+      </div>
+
+      <div class="card-block">
+        <div class="card-head"><div class="ic green">➕</div><div>নতুন ইউজার যোগ করুন</div></div>
+        <div class="grid-2">
+          <label>নাম<input id="nName" placeholder="পূর্ণ নাম"></label>
+          <label>মোবাইল নম্বর (11 ডিজিট) *<input id="nPhone" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX" maxlength="11"></label>
+          <label>ইমেইল *<input id="nEmail" type="email" placeholder="user@example.com"></label>
+          <label>পাসওয়ার্ড
+            <div class="input-wrap">
+              <input id="nPass" type="password" minlength="6" placeholder="কমপক্ষে 6 অক্ষর">
+              <button type="button" class="pw-eye" data-pw-toggle="nPass">👁️</button>
+            </div>
+          </label>
+          <label>ভূমিকা
+            <select id="nRole">
+              <option value="teacher">শিক্ষক</option>
+              <option value="matron">হোস্টেল মেট্রন</option>
+              <option value="mess_manager">Mess Manager</option>
+              <option value="superadmin">সুপার এডমিন</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn btn-primary btn-block" id="addUser">➕ যোগ করুন</button>
+        <div class="msg" id="addMsg"></div>
+      </div>
+    </div>
+
+    <div class="section-group tint-pink">
+      <div class="section-label">👥 ইউজার ম্যানেজমেন্ট <span class="sl-count">${users.length} জন</span></div>
+      <div class="card-block">
+        <div class="user-admin-list">
+          ${users.map(x => `
+            <div class="user-admin-row">
+              <div class="ua-left">
+                <div class="ua-avatar">${roleIcon(x.role)}</div>
+                <div class="ua-info">
+                  <div class="ua-name">
+                    ${esc(x.name)}
+                    ${x.id === u.id ? '<span class="ua-self">আপনি</span>' : ''}
+                  </div>
+                  <div class="ua-role">${esc(roleLabel(x.role))}</div>
+                  <div class="ua-phone">${phoneHTML(x.phone)}</div>
+                  <div class="ua-email">📧 ${esc(x.email)}</div>
+                  ${creatorBadgeHTML(x)}
+                </div>
+              </div>
+              <div class="ua-actions">
+                <div class="ua-toggle-wrap">
+                  <label class="toggle-switch">
+                    <input type="checkbox" class="ua-toggle" data-id="${x.id}" ${x.active ? 'checked' : ''}>
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="ua-toggle-label ${x.active ? 'on' : 'off'}">${x.active ? 'চালু' : 'বন্ধ'}</span>
+                </div>
+                <button class="btn btn-ghost btn-sm" data-edit="${x.id}">✏️ এডিট</button>
+                <button class="btn btn-ghost danger btn-sm" data-del="${x.id}">🗑️</button>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  const nPhoneEl = $('#nPhone');
+  if (nPhoneEl) nPhoneEl.addEventListener('input', () => { nPhoneEl.value = nPhoneEl.value.replace(/\D/g, '').slice(0, 11); });
+
+  const showForAdmin = kind => {
+    if (kind === 'today') openListModal('আজকের মিল', `${s.total} জন খাবার নিচ্ছেন`, s.list, 'আজ কেউ খাবার নেয়নি।');
+    else if (kind === 'served') openListModal('খাবার নিয়েছেন', `${s.served} জন খাবার নিয়েছেন`, s.list.filter(x => x.served), 'এখনো কেউ খাবার নেয়নি।');
+    else if (kind === 'unserved') openListModal('খাবার নেয়নি', `${s.remaining} জন এখনো খাবার নেয়নি`, s.list.filter(x => !x.served), 'সবাই খাবার নিয়েছেন।');
+    else if (kind === 'users') document.querySelector('.user-admin-list')?.scrollIntoView({ behavior: 'smooth' });
+  };
+  $('[data-highlight-click]').onclick = () => showForAdmin('today');
+  $$('[data-stat]').forEach(c => c.onclick = () => showForAdmin(c.dataset.stat));
+  $('#viewReport').onclick = () => openReportModal();
+  $('#openBackupBtn').onclick = () => openBackupModal('backup');
+  $('#openRestoreBtn').onclick = () => openBackupModal('restore');
+  $('#openResetBtn').onclick = () => openAdminResetModal();
+  $('#upcomingCard').onclick = () => openUpcomingDaysModal(`আগামী ${getMaxAdvanceDays()} দিনের রিকোয়েস্ট`, upcoming);
+
+  /* Live update of Advance Days & Settings */
+  $('#saveSettings').onclick = async () => {
+    const newAdv = Math.max(1, Math.min(90, Number($('#s_max_advance_days').value || 10)));
+    db.settings.app_name = $('#s_app_name').value.trim() || DEFAULT_SETTINGS.app_name;
+    db.settings.mess_name = $('#s_mess_name').value.trim() || DEFAULT_SETTINGS.mess_name;
+    db.settings.max_advance_days = String(newAdv);
+    db.settings.cutoff_days_before = $('#s_cutoff_days_before').value;
+    db.settings.cutoff_time = $('#s_cutoff_time').value || '10:00';
+    db.settings.meal_capacity = $('#s_meal_capacity').value;
+    db.settings.meal_price = $('#s_meal_price').value;
+    db.settings.lunch_enabled = $('#s_lunch_enabled').checked ? '1' : '0';
+    await persist();
+    toast('সেটিংস সেভ হয়েছে ✅', true);
+    render();
+  };
+
+  $('#addUser').onclick = async () => {
+    const name = $('#nName').value.trim();
+    const phone = normalizePhone($('#nPhone').value.trim());
+    const email = $('#nEmail').value.toLowerCase().trim();
+    const pass = $('#nPass').value;
+    const role = $('#nRole').value;
+    if (!name || !email || !pass || !phone) return setMsg('addMsg', 'সব তথ্য দিন');
+    if (!isValidPhone(phone)) return setMsg('addMsg', 'সঠিক 11 ডিজিটের মোবাইল নম্বর দিন (01XXXXXXXXX)');
+    if (!isValidEmail(email)) return setMsg('addMsg', 'সঠিক ইমেইল অ্যাড্রেস দিন (যেমন: user@domain.com)');
+    if (pass.length < 6) return setMsg('addMsg', 'পাসওয়ার্ড কমপক্ষে 6 অক্ষর');
+    if (db.users.find(x => x.email.toLowerCase() === email)) return setMsg('addMsg', 'এই ইমেইল আগে থেকেই আছে');
+    if (db.users.find(x => normalizePhone(x.phone) === phone)) return setMsg('addMsg', 'এই মোবাইল নম্বর আগে থেকেই আছে');
+    const now = Date.now();
+    db.users.push({
+      id: db.nextIds.users++, name, email, phone,
+      password: hashPassword(pass), role, active: 1,
+      created_at: now, updated_at: now,
+      created_by: u.id, created_by_name: u.name, created_by_role: 'superadmin',
+      approved_at: now, approved_by: 'superadmin',
+      approval_note: 'সুপার এডমিন কর্তৃক সরাসরি তৈরি'
+    });
+    await persist();
+    toast('ইউজার যোগ হয়েছে ✅', true);
+    renderAdmin();
+  };
+
+  $$('[data-approve]').forEach(b => b.onclick = async () => {
+    const usr = db.users.find(x => x.id === Number(b.dataset.approve));
+    if (usr) {
+      usr.active = 1; usr.approved_at = Date.now(); usr.updated_at = Date.now();
+      usr.approved_by = 'superadmin';
+      usr.approval_note = `সুপার এডমিন ${u.name} কর্তৃক অনুমোদিত`;
+      await persist(); renderAdmin();
+    }
+  });
+
+  $$('[data-reject]').forEach(b => b.onclick = async () => {
+    if (!confirm('এই রেজিস্ট্রেশন বাতিল করবেন?')) return;
+    const id = Number(b.dataset.reject);
+    db.tombstones['user_' + id] = Date.now();
+    db.users = db.users.filter(x => x.id !== id);
+    await persist(); renderAdmin();
+  });
+
+  $$('.ua-toggle').forEach(t => {
+    t.onchange = async () => {
+      const id = Number(t.dataset.id);
+      const usr = db.users.find(x => x.id === id);
+      if (!usr) return;
+      if (usr.id === u.id && !t.checked) { t.checked = true; return toast('নিজের অ্যাকাউন্ট বন্ধ করা যাবে না'); }
+      if (usr.role === 'superadmin' && !t.checked) {
+        const cnt = db.users.filter(x => x.role === 'superadmin' && x.active).length;
+        if (cnt <= 1) { t.checked = true; return toast('শেষ সুপার এডমিন নিষ্ক্রিয় করা যাবে না'); }
+      }
+      usr.active = t.checked ? 1 : 0;
+      usr.updated_at = Date.now();
+      await persist();
+      renderAdmin();
+      toast(usr.active ? `${usr.name} — অ্যাক্সেস চালু` : `${usr.name} — অ্যাক্সেস বন্ধ`, !!usr.active);
+    };
+  });
+
+  $$('[data-edit]').forEach(b => b.onclick = () => openUserEditModal(Number(b.dataset.edit)));
+  $$('[data-del]').forEach(b => b.onclick = async () => {
+    const id = Number(b.dataset.del);
+    if (id === u.id) return toast('নিজেকে মুছবেন না');
+    const usr = db.users.find(x => x.id === id);
+    if (!usr) return;
+    if (usr.role === 'superadmin' && db.users.filter(x => x.role === 'superadmin').length <= 1)
+      return toast('শেষ সুপার এডমিন মুছবেন না');
+    if (!confirm(`"${usr.name}" কে মুছে ফেলবেন?`)) return;
+    db.tombstones['user_' + id] = Date.now();
+    db.users = db.users.filter(x => x.id !== id);
+    db.meals = db.meals.filter(m => m.user_id !== id);
+    await persist(); renderAdmin();
+  });
+
+  const dateEl = $('#ds_date');
+  const ruleEl = $('#ds_rule_mode');
+  const customDateWrap = $('#ds_custom_date_wrap');
+  const customDateEl = $('#ds_cutoff_date');
+  const cutEl = $('#ds_cutoff');
+  const enEl = $('#ds_enabled');
+  dateEl.value = addDays(todayStr(), 1);
+
+  function syncRuleUI() { customDateWrap.style.display = ruleEl.value === 'custom' ? 'flex' : 'none'; }
+  function loadOne() {
+    const d = dateEl.value;
+    const rawRow = db.day_settings[d];
+    const s = getDaySettings(d);
+    cutEl.value = s.cutoff;
+    enEl.checked = s.enabled;
+    if (rawRow && rawRow.cutoff_date) {
+      ruleEl.value = 'custom';
+      customDateEl.value = rawRow.cutoff_date;
+    } else {
+      ruleEl.value = String(s.cutoff_days_before || 0);
+      customDateEl.value = s.cutoff_date;
+    }
+    syncRuleUI();
+  }
+  function loadList() {
+    const listEl = $('#dsList');
+    const upcomingList = Object.entries(db.day_settings)
+      .filter(([d]) => d >= todayStr())
+      .sort(([a], [b]) => a.localeCompare(b));
+    listEl.innerHTML = upcomingList.length
+      ? upcomingList.map(([d, r]) => `
+          <li>
+            <div>
+              <b>${fmtDate(d)}</b>
+              <small>Cutoff: ${formatCutoffDeadlineBN(d)} · খাবার: ${r.lunch_enabled === 0 ? 'বন্ধ' : 'চালু'}</small>
+            </div>
+          </li>`).join('')
+      : '<li class="empty">কোনো override নেই</li>';
+  }
+  loadOne(); loadList();
+  dateEl.onchange = loadOne;
+  ruleEl.onchange = syncRuleUI;
+
+  $('#ds_save').onclick = async () => {
+    if (!dateEl.value) return setMsg('dsMsg', 'তারিখ দিন');
+    const mode = ruleEl.value;
+    const record = { cutoff_time: cutEl.value || '10:00', lunch_enabled: enEl.checked ? 1 : 0 };
+    if (mode === 'custom') {
+      if (!customDateEl.value) return setMsg('dsMsg', 'অর্ডারের শেষ তারিখ দিন');
+      record.cutoff_date = customDateEl.value;
+      record.cutoff_days_before = null;
+    } else {
+      record.cutoff_days_before = Number(mode);
+      record.cutoff_date = null;
+    }
+    db.day_settings[dateEl.value] = record;
+    await persist();
+    setMsg('dsMsg', 'সেভ হয়েছে ✅', true);
+    loadList();
+  };
+
+  $('#ds_remove').onclick = async () => {
+    if (!db.day_settings[dateEl.value]) return setMsg('dsMsg', 'এই দিনে কোনো override নেই');
+    delete db.day_settings[dateEl.value];
+    await persist();
+    setMsg('dsMsg', 'Override মুছে ফেলা হয়েছে', true);
+    loadOne(); loadList();
+  };
+}
+
+window.addEventListener('hashchange', () => {
+  if (!currentUser()) renderAuth();
+});
+
+loadDatabase();
+</script>
+</body>
+</html>
