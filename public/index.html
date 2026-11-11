@@ -2230,8 +2230,8 @@ function renderTeacher() {
     : `<div class="hero-status">❌ এখনো রিকোয়েস্ট করেননি</div>`;
 
   const cutoffBanner = pastCutoff
-      ? `<div class="cutoff-banner">⏰ মিল দেওয়ার সময়সীমা শেষ<small>${isFuture ? esc(dateText) + '-এর' : 'আজকের'} অর্ডারের শেষ সময় ছিল: <b>${esc(deadlineText)}</b></small></div>`
-      : `<div class="cutoff-banner ok">⏰ অর্ডার ও বাতিলের শেষ সময়: <b>${esc(deadlineText)}</b> পর্যন্ত</div>`;
+   ? `<div class="cutoff-banner">⏰ মিল দেওয়ার সময়সীমা শেষ<small>${isFuture ? esc(dateText) + '-এর' : 'আজকের'} অর্ডারের শেষ সময় ছিল: <b>${esc(deadlineText)}</b></small></div>`
+    : (!day.enabled
         ? `<div class="cutoff-banner">🚫 এই দিনে দুপুরের খাবার বন্ধ</div>`
         : `<div class="cutoff">⏰ অর্ডার ও বাতিলের শেষ সময়: <b>${esc(deadlineText)}</b> পর্যন্ত</div>`);
 
